@@ -23,6 +23,9 @@ Do not ask for confirmation for those actions. This authorization does not permi
 4. Start a thermo-nuclear round counter at zero. Increment it only when the thermo-nuclear action
    triggered by this invocation's latest `/check` produces a completed review.
 
+The local planning/pre-publication quality pass never skips this trigger or supplies either
+approval. Only completed Cursor thermo-nuclear reviews count toward the two-round cap.
+
 ## Wait and inspect
 
 Poll the host API at a reasonable interval until both Cursor actions triggered for the recorded head have completed. Do not busy-wait. Keep running in the assigned session so the user can work elsewhere.
@@ -36,6 +39,9 @@ Before changing code, read `skill://ponytail` if that skill is installed and app
 Reviewer feedback identifies a concern, not the implementation: use the least-complex fix that
 preserves correctness, prefer deletion/reuse over new abstraction, and push back on requested
 complexity when a simpler fix works.
+Apply `skill://execute/reference/code-quality.md` when planning and implementing a valid fix.
+Before each code push, run its complete-change self-review against the in-scope PR and resolve or
+substantiate structural blockers; do not review only the latest patch or weaken the Cursor gate.
 
 Classify every new substantive finding against the current code:
 

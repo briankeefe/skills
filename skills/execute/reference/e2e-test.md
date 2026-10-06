@@ -29,6 +29,10 @@ Capture screenshots when appearance or interaction state matters, using represen
 
 Extend an existing suitable test or add a file in the established test location. Reuse fixtures/helpers rather than creating a selector registry or parallel test framework.
 
+Apply `skill://execute/reference/code-quality.md` while planning/generating the test and review the
+complete test change before delivery. Prefer canonical fixtures and direct assertions over new
+frameworks, indirection or special-case growth; this does not authorize product refactoring.
+
 Cover all requested scenarios with assertions on observable outcomes, including persistence or rejection when part of the contract. For stateful flows, follow the same record through edit, save, reload and reopen or cancel as relevant; check affected totals and unchanged siblings. Include the boundary or negative case implied by the change, not every conceivable combination. Use condition-based waits and the runner's retrying assertions, not arbitrary sleeps. Keep tests independent and deterministic; do not include walkthrough transcripts, selector fallback tables, transient browser IDs, credentials, or boilerplate comments in generated code.
 
 ## 5. Run and report

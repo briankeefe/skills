@@ -8,6 +8,9 @@
 2. Resolve missing requirements from available evidence. Ask only if the intended outcome, scope or required dependency remains unclear; do not invent acceptance criteria or silently narrow the request.
 3. Confirm the assigned repository/worktree and intended PR base. Reuse the current environment and repository install/verification commands.
 4. Make a proportionate plan covering affected files, every acceptance criterion, risks and verification. **Proceed without another plan-approval round when implementation is authorized.** Pause only for real ambiguity, material scope/risk decisions or sensitive actions outside the existing authorization.
+   Apply **Plan before adding complexity** in `skill://execute/reference/code-quality.md`:
+   identify canonical ownership/reuse, a simpler framing, affected callers and contracts, file-size
+   crossings and structural risks before production edits.
 5. If materially different solutions satisfy the wording but not the same user outcome, resolve that distinction before building the larger one.
 
 ## Implement, verify and review
@@ -15,6 +18,8 @@
 - Follow the red/green TDD contract in `skill://execute`: capture the failing behavior before
   production edits, make the minimum fix, then prove the same check passes.
 - Make the smallest complete change following existing patterns; fix the root cause and migrate affected callers.
+- Apply **Implement against the same bar** in `skill://execute/reference/code-quality.md` as the
+  change develops; do not postpone design cleanup until external review.
 - For bugs, confirm the reported reproduction no longer fails after green. Keep a useful regression
   test when practical; otherwise remove the throwaway check and report the smoke check and its
   limitations. Do not repeat a user-reported failure manually merely to confirm it.
@@ -28,7 +33,10 @@
 - Record each criterion's observed result and environment (real API/database, local UI, staging,
   or unverified), run applicable repository CI checks after edits settle, and report exact commands
   and gaps. Do not label a criterion staged when only a bundle or deploy was observed.
-- Review correctness and scope against the request; fix blocking findings and repeat affected verification. Keep an environment needed for the user's visual review.
+- Review correctness and scope against the request and run **Review the complete change before
+  publication** in `skill://execute/reference/code-quality.md`. Fix or substantiate presumptive
+  quality blockers, record dispositions, and repeat affected acceptance verification after any
+  restructuring. Keep an environment needed for the user's visual review.
 
 ## Feature demo video (when requested)
 

@@ -31,7 +31,16 @@ Proceed with fixes covered by the user's request. Ask only about disputed findin
 
 ## Implement and verify
 
+Before editing, apply the planning and implementation sections of
+`skill://execute/reference/code-quality.md` to the proposed fix. Reviewer feedback names a concern,
+not a mandated abstraction: prefer the simpler root-cause fix and preserve unrelated work.
+
 Make only approved fixes in the confirmed worktree, following existing patterns. Record changed locations for replies. Derive targeted behavioral checks and relevant CI-equivalent commands from repository docs/configuration and the installed package manager; do not invent a formatter or run an unrelated full suite by habit. Exercise the changed path, including actual UI evidence when relevant, and report exactly what ran. Fix regressions caused by the change; report unrelated failures without broadening scope.
+
+Before publishing the revision, run **Review the complete change before publication** in
+`skill://execute/reference/code-quality.md` against the whole in-scope PR, not only the feedback
+patch. Fix or substantiate blocking structural findings, record dispositions, and recheck affected
+acceptance criteria after restructuring. This never substitutes for the post-push Cursor reviews.
 
 Draft a short reply for every triaged item, including declined items. Explain observable changes or answer directly, link exact code/tests where useful, and distinguish completed verification from assumptions. Do not mark threads resolved merely because a reply was drafted.
 

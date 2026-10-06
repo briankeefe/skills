@@ -19,6 +19,12 @@ Record the environment, commands/actions, expected and observed outcomes for eac
 
 Focus on correctness, security, data loss, concurrency, error handling and demonstrated performance/maintenance costs relevant to this change. Reuse repository conventions; do not impose framework, logging, timezone or abstraction rules unrelated to the code. Check requirements and observable behavior, not merely style.
 
+Apply `skill://execute/reference/code-quality.md` to the complete base-to-head change. Challenge
+structural regressions and obvious complexity-deleting alternatives even when behavior is correct;
+require concrete locations, consequences and remedies, not speculative redesigns. Presumptive
+quality blockers need a fix or substantiated justification before approval. Keep this review
+read-only and prioritize substantive quality findings over cosmetic nits.
+
 For each finding, verify the triggering case, consequence, exact `path:line` and short supporting excerpt against the pinned revision. Check callers and existing safeguards, whether the PR caused/exposes the issue, and whether the smallest proposed fix fits the codebase. Verify severity before labeling feedback blocking **or** non-blocking: exercise the case when feasible, compare with base or prior behavior, and check the requirements and user impact. A narrow-looking case is not automatically non-blocking; a plausible bug is not automatically blocking. If evidence is insufficient, say what remains unverified and withhold a definitive label or review event. Remove invalid, duplicate, speculative and low-value findings. State calibrated confidence for diagnoses. Distinguish measured verification from static reasoning; do not invent test results.
 
 ## Present

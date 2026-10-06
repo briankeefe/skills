@@ -32,6 +32,12 @@ Repository-specific accounts, environments, reviewer actions and tooling must be
 
 The optional feature-video workflow in `execute` requires a separately installed `playwright-demo-kit` checkout with its recording-lock wrapper; it is not bundled here. `ponytail`, when installed separately, supplements the review workflow's minimum-complexity guidance.
 
+`execute` applies a shared [thermo-nuclear quality standard](skills/execute/reference/code-quality.md)
+during planning, implementation, full-change pre-publication review, PR review and sanity checks.
+It prioritizes structural simplification, canonical ownership, explicit contracts and cohesive
+files over cosmetic cleanup or extra abstractions. These local passes never replace the post-PR
+`/check` cycle, either required Cursor approval, or the existing two-round cap.
+
 ## Check the installer
 
 ```sh

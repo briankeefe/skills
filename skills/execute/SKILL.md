@@ -57,6 +57,18 @@ Reference paths resolve as `skill://execute/reference/<doc>`.
 - Missing context: exhaust repo/tool evidence, then ask one focused question. Report unavailable
   credentials or services without guessing values or exposing secrets.
 
+## Proactive thermo-nuclear quality
+
+For ticket implementation, PR revisions/shepherding, E2E code generation, project planning,
+PR reviews and sanity checks, read `skill://execute/reference/code-quality.md` before planning
+or evaluating code. Apply its structural quality bar during design and implementation, then
+review the complete in-scope change before initial publication and each code revision.
+Record material design decisions and finding dispositions in the existing plan/review report,
+not a separate checklist for every trivial edit. Read-only workflows remain read-only.
+
+This proactive pass never replaces the post-PR `/check` cycle or either required Cursor approval
+in `reference/review-loop.md`. Keep its existing round cap, authorization and acceptance gates.
+
 ## Red/green TDD
 
 Every behavior-changing implementation workflow MUST use red/green TDD:

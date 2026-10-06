@@ -15,6 +15,9 @@ If requirements or the intended scope cannot be established from available conte
 - Compare with existing repository patterns and instructions, not universal preferences about languages, frameworks, mutation, component styles, or syntax. Separate genuine defects from stylistic suggestions.
 - Identify unnecessary features, abstractions, dependencies, refactors, or unrelated edits. Do not revert user work or silently expand the approved scope.
 - Separate in-scope defects from pre-existing issues. Ground findings in affected files and explain the observable impact; give calibrated confidence for diagnoses rather than presenting guesses as facts.
+- Apply `skill://execute/reference/code-quality.md` to the complete change; include structural
+  regressions and demonstrated complexity-deleting alternatives, not just behavioral defects.
+  Report blocking quality findings and any substantiated structural waivers.
 
 A checklist or reviewer opinion is not runtime evidence.
 
@@ -32,8 +35,10 @@ Do not force a browser, E2E test generation, or a new test suite for changes the
 
 Lead with **PASS**, **WARNING**, or **FAIL**, followed by only material findings:
 
-- **PASS:** all requirements have evidence, relevant checks passed, and no blocking correctness or scope issue was found within the inspected scope.
+- **PASS:** all requirements have evidence, relevant checks passed, and no blocking correctness,
+  structural quality or scope issue was found within the inspected scope.
 - **WARNING:** non-blocking concerns or explicit verification gaps remain; name what is not established.
-- **FAIL:** required behavior is missing, a blocking defect exists, or required verification failed or is blocked.
+- **FAIL:** required behavior is missing, a blocking correctness or structural quality defect
+  exists, or required verification failed or is blocked.
 
 List each finding with its location/evidence, impact and smallest recommended action. Include exact checks and unverified criteria. This command reports findings; apply fixes only when requested or already authorized.

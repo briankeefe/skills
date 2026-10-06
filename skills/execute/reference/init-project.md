@@ -15,6 +15,10 @@
 - Check for cycles, missing dependencies, external blockers and on-hold tasks. List the affected tasks and the decision needed to unblock them; do not force them into a runnable sequence.
 - Identify independent tasks that could proceed in parallel, accounting for shared files, data migrations and API contracts. This is a planning option, not authorization to launch workers.
 - Note material risks and the repository-appropriate verification each track needs. Reconsider the ordering and assumptions before saving.
+- Apply **Plan before adding complexity** in `skill://execute/reference/code-quality.md` to known
+  ownership, shared-contract and structural risks. Record evidenced simplification opportunities
+  and task-level quality/verification gates without inventing refactor tickets, foundation layers
+  or speculative implementation designs. This remains a planning-only command.
 
 ## Write the plan
 
