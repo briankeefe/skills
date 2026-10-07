@@ -21,6 +21,10 @@ The command authorizes test generation, not product changes or new infrastructur
 
 Observe the actual surface before interacting; transient browser element IDs are not persistent test selectors.
 
+For OMP web observation use `skill://execute/reference/tool-recipes.md`'s explicit managed,
+non-relay headless browser selection. Do not rediscover executable/cache paths or attach the
+user's signed-in browser when routine managed verification suffices.
+
 Walk the specified flow, checking expected outcomes and relevant failure states. Ask the user about genuinely unspecified choices, not for permission at every already-authorized click. Derive selectors from observed elements and confirm they uniquely identify the intended controls. Prefer accessible roles/names, labels, or existing stable test IDs using the runner's supported APIs. Avoid generated CSS chains, positional selectors, guessed text, and fallback selectors that conceal a changed UI.
 
 Capture screenshots when appearance or interaction state matters, using representative data and no secrets. For non-web E2E, use the project's actual surface and runner rather than forcing browser tooling. If the application contradicts the requirements, report the product defect instead of changing the expected result to match it.

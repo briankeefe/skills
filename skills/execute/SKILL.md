@@ -44,8 +44,10 @@ Reference paths resolve as `skill://execute/reference/<doc>`.
   Resolve repository/host from an explicit URL, assigned worktree, remotes and ticket links.
   Do not silently substitute the current repo for a different repo named by a URL.
 - Resolve the issue provider/workspace and ID format from the URL and local configuration.
-  Use available authenticated integrations or CLIs. Inspect installed `--help` before unfamiliar
-  commands; for example `linear issue view --help` only when Linear is the actual provider.
+  Reuse verified local recipes and `skill://execute/reference/tool-recipes.md` for structured
+  issue/PR reads, Linear 2.6.0 and managed OMP browsers. Check versions once; inspect targeted
+  `--help` only for an unfamiliar operation, version drift or a contradictory result.
+  Fresh authentication, issue/review state and deployment evidence still require fresh reads.
   Never assume authentication, flags, JSON fields or a database integration exists.
 - Reuse the assigned branch/worktree. Otherwise discover the default base from repository
   metadata and any documented project branch; never assume `master`, `main` or a release name.
