@@ -102,6 +102,17 @@ tests, builds, demos, code inspection and reviewer approvals supplement but neve
 If any criterion fails or cannot be exercised, do not publish the draft as complete: fix it or
 report the exact blocker and keep the work local until verification is possible.
 
+If evidence shows a criterion remains unmet within the authorized approach and the next credible
+remedy exceeds authorized architecture, scope, spend or a stated constraint, pause only that remedy
+and report a feasibility blocker: the criterion and source, failing evidence, attempted in-scope
+fixes and why further work is out of bounds. State what remains unproven; failed trials alone do
+not prove impossibility. Offer the owner concrete choices: authorize the remedy, explicitly revise
+the criterion or constraint, or split/defer the work. Keep unmet criteria FAIL/BLOCKED; do not
+silently narrow acceptance or mark partial work complete. Record an approved revision and its
+source as a requirements change, preserve the original requirement/decision history, update the
+applicable cases and scope boundaries, and invalidate/re-exercise affected evidence. A decision
+does not substitute for passing verification; ordinary authorized fixes remain actionable.
+
 After PR revisions, personally re-exercise affected criteria and any connected behavior the edits
 could change; reconcile the full criterion list against the current head before claiming feedback
 addressed or marking the PR ready. Do not accept a revision, post a fix reply, or transition a PR

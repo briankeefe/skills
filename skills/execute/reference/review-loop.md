@@ -43,7 +43,7 @@ Apply `skill://execute/reference/code-quality.md` when planning and implementing
 Before each code push, run its complete-change self-review against the in-scope PR and resolve or
 substantiate structural blockers; do not review only the latest patch or weaken the Cursor gate.
 
-Classify every new substantive finding against the current code:
+Before classifying any new substantive finding, apply the contradiction guard in `skill://execute/reference/update-pr.md` under **Triage**, using existing decisions and PR replies. This lookup does not change this invocation's authorization, two-round cap or current-head approval requirements. Then classify against the current code:
 
 - **Valid:** make the smallest root-cause fix, add or update only a valuable behavioral check, run targeted verification, commit and push without force.
 - **Invalid or already addressed:** reply at the finding with concise code or test evidence. Do not change code merely to appease a mistaken review.

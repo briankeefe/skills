@@ -25,6 +25,18 @@ Read the actual current code, callers and relevant tests for each concern. Recor
 - **REPLY:** a question or already-addressed concern needing an explanation, with code/commit evidence when claiming a fix.
 - **DECLINE:** not applicable or intentionally unchanged, with a concise reason. Do not silently discard disagreements.
 
+Before acting, compare the finding with approved behavior decisions in the existing task plan,
+acceptance record or prior PR replies. If it contradicts a decision without new source evidence,
+a reproduction or an explicit scope change, do not reverse the implementation or launch another
+review to arbitrate. First resolve it from requirements and current code; if a real product
+decision remains, report both positions, source links and the decision needed. Pause only the
+disputed change and continue independent authorized work.
+
+A prior decision is context, not proof of correctness. New security, clinical, data-integrity or
+other correctness evidence still requires verification and triage, even when it contradicts that
+decision. Record the resulting disposition in the same plan/record or authorized reply; historical
+decisions never transfer review approvals or expand authorization.
+
 Flag conflicting requests and missing evidence. Show the complete triage and proposed scope. If nothing needs attention, report that with any coverage limitations and stop.
 
 Proceed with fixes covered by the user's request. Ask only about disputed findings, material scope/risk changes or missing requirements. Authorization to edit does not by itself authorize publishing replies.
