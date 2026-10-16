@@ -115,6 +115,14 @@ PR revision, and when deployment evidence confirms the change has reached stagin
 for the review loop to finish or for the user to ask. This notification does not pause authorized
 work or replace the agent's own acceptance verification.
 
+For full ticket executions, use `skill://brew-test` after runtime verification to create or
+refresh a local Brew testing page for the initial draft-PR handoff and final completion or
+blocker handoff. Refresh the same page after published revisions and confirmed staging
+deployment during the active workflow. Follow its exact-action, local-only and rendered-page
+verification rules; this adds no publication/deployment authority or acceptance waiver.
+Other read-only execute commands create pages only when requested. Keep the required chat
+steps below; a localhost guide is not a substitute for a reviewer-accessible PR checklist.
+
 Each handoff MUST include:
 
 - The PR link and the actual preview/local URL for PR testing, or the staging URL for staging

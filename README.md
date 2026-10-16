@@ -25,6 +25,7 @@ Restart OMP or reload skills after installing or updating. Edit files in this ch
 - **execute:** Ticket implementation, PR review/revision, acceptance verification, testing handoffs, releases and operations. Includes [verified tool recipes](skills/execute/reference/tool-recipes.md) and a read-only, execution/revision-specific CodePipeline waiter.
 - **brian-voice:** Brian's writing style.
 - **brew-clear:** Clear Brew articles and diagrams; uses `brian-voice` and the content repository's `AUTHORING.md`.
+- **brew-test:** Local Brew testing guides with exact actions, expected results and optional screenshots. Runs automatically at full `execute` ticket handoffs and refreshes after published revisions; can also be requested directly.
 - **square-image:** Center-crop and resize square images.
 - **standup:** Evidence-based standup preparation with a bundled read-only Git/GitHub/Linear collector.
 

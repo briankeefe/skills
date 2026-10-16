@@ -52,6 +52,11 @@ Replace both placeholders with the actual work identifier and spec path. `DEMO_S
 
 Update existing documentation when the contract requires it. Follow the publication authorization in `skill://execute`; an existing instruction to commit/push/publish needs no repeat confirmation.
 
+Generate or refresh the local testing guide with `skill://brew-test` from the current acceptance
+evidence before the initial draft-PR handoff and again before final completion or a blocker
+handoff, even if no PR could be published. Include its working URL and the first concrete
+action in chat; a blocked guide must identify what can and cannot be tested.
+
 Include the ticket link, concise result, verification, relevant UI evidence and limitations in the
 draft PR, including the testing checklist from `skill://execute`'s **Testing handoffs** contract.
 After publishing the draft, immediately send that testing handoff to the user, then run
