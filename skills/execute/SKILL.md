@@ -93,6 +93,12 @@ multi-ticket sessions separate; cached reads and raw transcript size are not tok
 
 ## Acceptance gate for publishing and revisions
 
+For data-repair PRs, apply **PR readiness versus rollout completion** in
+`skill://execute/reference/sanity-check.md`. Demonstrate the complete repair against the A/C on
+representative isolated data, with reviewed selection and operator/recovery steps. Production
+execution or its approval is a separate rollout prerequisite, not a reason by itself to fail PR
+sanity or require live mutations before publication.
+
 Before creating a draft PR, enumerate every acceptance criterion from the ticket and later decisions.
 Personally exercise each feasible criterion on the running surface where its behavior is observable;
 include the named negative, scope and persistence cases rather than treating a happy-path video as
