@@ -89,6 +89,32 @@ On resume, reuse that agreement for the same scope; reopen only a material chang
 - Missing context: exhaust repo/tool evidence, then ask one focused question. Report unavailable
   credentials or services without guessing values or exposing secrets.
 
+## Evidence before edge-case escalation
+
+Before raising a speculative domain/edge-case question, adding defensive logic for it, or
+promoting it into a required acceptance case:
+
+- Check the requirements, reported incidents, relevant code/tests and applicable existing
+  evidence first. A user-reported failure is evidence; do not reproduce it merely to confirm
+  the report or demand a new database example for an already-established requirement.
+- If occurrence is still uncertain, look for a real example using existing project tools and
+  a narrowly scoped, authorized read-only data search when needed. Bound the environment,
+  tenant, date range, predicates and returned rows as appropriate; prefer counts and minimal
+  fields. Do not perform broad production scans, mutate data, generate fixtures or make paid
+  calls just to give a hypothetical substance. This rule grants no new data access.
+- If found, bring a sanitized example, the observed count/frequency with its search scope or
+  denominator, and the concrete impact. Do not expose credentials, patient/customer data or
+  private record details in chat, public PRs or documentation.
+- If not found, record **not observed in the searched scope**, not **impossible**. Without a
+  sourced requirement or concrete material correctness, security or data-integrity concern,
+  skip speculative defensive code and domain escalation; do not expand the acceptance baseline.
+- Missing access, incomplete searches and unavailable data mean **unverified**, not absent.
+  Name that limit and continue independent work; ask only the focused question or prerequisite
+  needed when an in-scope decision is genuinely blocked.
+- Explicit requirements and concrete correctness/security/data-integrity evidence remain
+  actionable without an observed production occurrence. Preserve required validation and
+  acceptance checks; never use an empty search to dismiss a reported bug or a material risk.
+
 ## Proactive thermo-nuclear quality
 
 For ticket implementation, PR revisions/shepherding, E2E code generation, project planning,
