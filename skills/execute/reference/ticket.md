@@ -7,11 +7,16 @@
 1. Read the ticket description, acceptance criteria, relevant comments, attachments and dependencies through the configured provider. Locate the affected behavior and existing repository patterns.
 2. Resolve missing requirements from available evidence. Ask only if the intended outcome, scope or required dependency remains unclear; do not invent acceptance criteria or silently narrow the request.
 3. Confirm the assigned repository/worktree and intended PR base. Reuse the current environment and repository install/verification commands.
-4. Make a proportionate plan covering affected files, every acceptance criterion, risks and verification. **Proceed without another plan-approval round when implementation is authorized.** Pause only for real ambiguity, material scope/risk decisions or sensitive actions outside the existing authorization.
+4. Prepare a proportionate proposed plan covering affected files, every acceptance criterion,
+   risks and verification. Complete `skill://execute`'s **Pre-work Socratic checkpoint** with
+   the user before implementation, setup, tests or delegated work. Use read-only discovery
+   for the current-state explanation; do not present an unexamined design as settled.
    Apply **Plan before adding complexity** in `skill://execute/reference/code-quality.md`:
    identify canonical ownership/reuse, a simpler framing, affected callers and contracts, file-size
    crossings and structural risks before production edits.
 5. If materially different solutions satisfy the wording but not the same user outcome, resolve that distinction before building the larger one.
+6. Record the agreed current state, target state and architecture in that plan. Then proceed
+   within the agreement without another generic plan-approval round.
 
 ## Implement, verify and review
 
@@ -51,6 +56,11 @@ Replace both placeholders with the actual work identifier and spec path. `DEMO_S
 ## Deliver
 
 Update existing documentation when the contract requires it. Follow the publication authorization in `skill://execute`; an existing instruction to commit/push/publish needs no repeat confirmation.
+
+Generate or refresh the local testing guide with `skill://brew-test` from the current acceptance
+evidence before the initial draft-PR handoff and again before final completion or a blocker
+handoff, even if no PR could be published. Include its working URL and the first concrete
+action in chat; a blocked guide must identify what can and cannot be tested.
 
 Include the ticket link, concise result, verification, relevant UI evidence and limitations in the
 draft PR, including the testing checklist from `skill://execute`'s **Testing handoffs** contract.

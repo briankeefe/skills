@@ -38,6 +38,36 @@ An explicit command wins: `local-repro <PR_URL>` reproduces, it does not post a 
 
 Reference paths resolve as `skill://execute/reference/<doc>`.
 
+## Pre-work Socratic checkpoint
+
+Before starting an implementation or other mutating execute workflow, run a short task-specific
+**socraticQuiz** in chat. This is a conversation, not a scored programming quiz or a new tool
+dependency. Read-only commands remain read-only and do not require this checkpoint.
+
+Only do the minimum read-only discovery needed to ground the discussion: read the request,
+ticket, relevant code and existing evidence. Do not edit files, delegate implementation, run
+tests or setup, start services, change data, or publish anything before the checkpoint closes.
+Do not ask the user to supply facts available in the repository.
+
+Explain each topic briefly, then ask one concrete question and wait for the user's answer
+before moving to the next:
+
+1. **Current state.** What happens today, where the behavior lives, and the evidenced problem
+   or limitation. Separate observed facts from assumptions. Ask whether this matches the
+   user's understanding and which part needs clarification.
+2. **New state.** The intended user-visible behavior, what stays unchanged, and how success
+   will be recognized. Ask whether this is the outcome they want; resolve corrections.
+3. **Architecture.** The proposed end-to-end flow, canonical components to reuse, affected
+   boundaries/callers, simplest viable alternative, material tradeoffs and verification.
+   Explain why this design fits. Ask whether to proceed with that approach or adjust it.
+
+Answer questions and incorporate corrections instead of treating silence, a preselected option,
+or the initial execute request as agreement. Proceed only after all three topics have been
+discussed and the user explicitly agrees to the approach. An explicit request to skip the quiz
+for this task waives only this checkpoint, not authorization or safety requirements.
+Record the agreed current state, target state and architecture in the existing task plan.
+On resume, reuse that agreement for the same scope; reopen only a material change to it.
+
 ## Discover once, reuse
 
 - Read applicable repository instructions and the relevant project docs before editing.
@@ -115,6 +145,18 @@ PR revision, and when deployment evidence confirms the change has reached stagin
 for the review loop to finish or for the user to ask. This notification does not pause authorized
 work or replace the agent's own acceptance verification.
 
+For full ticket executions, use `skill://brew-test` after runtime verification to create or
+refresh a local Brew testing page for the initial draft-PR handoff and final completion or
+blocker handoff. Refresh the same page after published revisions and confirmed staging
+deployment during the active workflow. The reader-facing page contains only browser UI actions
+paired with explicit visual checks, plus minimal access/status context. No code, commands,
+scripts, developer tools, environment setup or administrative mutation instructions. Ordinary
+authorized UI edits/saves remain testable within `brew-test`'s safety limits. The agent handles
+authorized setup separately; unavailable prerequisites stay blocked. Follow `brew-test`'s local-only and
+rendered-page verification rules; this adds no publication/deployment authority or acceptance waiver.
+Other read-only execute commands create pages only when requested. Keep the required chat
+steps below; a localhost guide is not a substitute for a reviewer-accessible PR checklist.
+
 Each handoff MUST include:
 
 - The PR link and the actual preview/local URL for PR testing, or the staging URL for staging
@@ -130,17 +172,20 @@ Each handoff MUST include:
 - What the agent actually verified in that environment and any remaining gaps or access/data
   blockers. Distinguish suggested user checks from checks already performed.
 
-Keep the current full checklist and environment prerequisites in the PR's testing section; refresh
-them after revisions and link them from chat. Include actionable steps in chat, not only a link
-to the PR body. Confirm staging deployment through project-local operational evidence, then repeat
-the acceptance gate and send the staging handoff; do not claim staging verification from a build.
+Keep concise verification results and reviewer testing steps in the PR's testing section. If the
+full checklist or environment setup is long, link a current reviewer-accessible record there rather
+than duplicating it; keep every acceptance criterion and prerequisite in that record. Refresh after
+revisions and link from chat. Include actionable steps in chat, not only a link to the PR body.
+Confirm staging deployment through project-local operational evidence, then repeat the acceptance
+gate and send the staging handoff; do not claim staging verification from a build.
 This rule adds no deployment authorization or indefinite background monitoring.
 
 ## Scope and authorization
 
-`execute <ticket>` requests implementation, not another mandatory plan-approval round.
-Plan proportionately and proceed when authorized. Ask only for unresolved requirements,
-material scope/risk decisions or sensitive actions not already authorized.
+`execute <ticket>` authorizes implementation after the **Pre-work Socratic checkpoint** closes.
+That checkpoint replaces the former proceed-without-plan-approval default. Once the approach
+is agreed, proceed without repeated approval rounds; ask again only for unresolved requirements,
+material changes to the agreement, or sensitive actions not already authorized.
 
 Use active harness tool/delegation rules, inline first. Native task subagents are not independent
 Foreman workers; retain an assigned worker's worktree/session rather than creating a replacement.
