@@ -39,6 +39,15 @@ decisions never transfer review approvals or expand authorization.
 
 Flag conflicting requests and missing evidence. Show the complete triage and proposed scope. If nothing needs attention, report that with any coverage limitations and stop.
 
+Apply **Bounded assessment and closeout** in `skill://execute/reference/sanity-check.md` before
+starting repairs. Recover the same ticket/PR's baseline and acceptance-round count; a fresh
+reviewer, invocation or head does not reset it. Increment before each grouped authorized material
+repair attempt and record the affected recheck even on failure. At the limit, finish only required
+verification for that final round, then report remaining blockers instead of starting another
+repair attempt or optional independent review.
+Optional suggestions stay outside required cases; new material defects and safety-critical
+verification gaps remain actionable for assessment and escalation.
+
 Proceed with fixes covered by the user's request. Ask only about disputed findings, material scope/risk changes or missing requirements. Authorization to edit does not by itself authorize publishing replies.
 
 ## Implement and verify
@@ -78,13 +87,15 @@ When publication is authorized:
 3. Do not automatically resolve threads. Do so only if explicitly authorized, supported by the host and justified by the approved disposition.
 4. Use repository-local reviewer conventions from `skill://execute`. Thread resolution and reviewer triggers require authorization; neither is implied by replying.
 
-After each published revision, refresh the PR's testing section and immediately send the revision
-testing handoff required by `skill://execute`, including the PR/test URL, changed behavior, affected
-testing steps with expected results, and connected regression checks. Do this before continuing
-the review loop; user testing does not replace the revision acceptance gate.
+After each published revision, refresh the whole description against the current diff and evidence
+using `skill://execute`'s **PR descriptions** rules, not just the testing section. Immediately send
+its revision testing handoff, including the PR/test URL, changed behavior, affected testing steps
+with expected results, and connected regression checks. Do this before continuing the review loop;
+user testing does not replace the revision acceptance gate.
 
-If the PR remains a draft and the repository supports the `/check` review trigger, continue with
-`skill://execute/reference/review-loop.md` instead of stopping after one feedback cycle. Otherwise,
-report the PR URL, fixes actually published, replies actually posted, exact verification and
-remaining unresolved items. Keep posted review requests, running checks and completed reviews
-distinct.
+If the PR remains a draft and the repository supports `/check`, continue with
+`skill://execute/reference/review-loop.md` within its separate Cursor cap. At the acceptance limit,
+finish only the final allowed round's required current-head verification; do not start another
+repair attempt. At a limit with unresolved blockers, or when no review cycle applies, report the
+PR URL, fixes actually published, replies actually posted, exact verification and remaining items.
+Keep posted review requests, running checks and completed reviews distinct.

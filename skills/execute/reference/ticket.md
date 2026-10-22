@@ -62,8 +62,8 @@ evidence before the initial draft-PR handoff and again before final completion o
 handoff, even if no PR could be published. Include its working URL and the first concrete
 action in chat; a blocked guide must identify what can and cannot be tested.
 
-Include the ticket link, concise result, verification, relevant UI evidence and limitations in the
-draft PR, including the testing checklist from `skill://execute`'s **Testing handoffs** contract.
+Write the draft PR using `skill://execute`'s **PR descriptions** rules, with the ticket link and
+compact testing section required by **Testing handoffs**.
 After publishing the draft, immediately send that testing handoff to the user, then run
 `skill://execute/reference/review-loop.md`; do not return merely because the PR exists or wait for
 reviews before providing the testing link and steps. Notify the user when the review gate completes

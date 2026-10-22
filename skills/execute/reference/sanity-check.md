@@ -2,6 +2,49 @@
 
 Use for `execute sanity check [scope]` to assess completed work against its requirements. Apply shared defaults from `skill://execute`. This is a review, not automatic authorization to edit or publish.
 
+## Bounded assessment and closeout
+
+This contract also applies to acceptance closeout in ticket implementation and PR revisions.
+Use the existing task plan, acceptance record or PR report; no separate budget artifact.
+
+- **Freeze the baseline.** Record the sourced A/C, approved decisions, named examples and material
+  affected-behavior checks at the start. Add a required check only for a new sourced requirement,
+  a concrete material defect, or a newly identified material correctness/safety verification gap
+  in the changed path. Record its evidence and impact once. Reviewer suggestions, cosmetic polish
+  and unrelated pre-existing debt stay nonblocking findings outside the required case table.
+  Existing required cases cannot be removed or downgraded without a sourced owner-approved revision.
+- **Keep prerequisites local to the criterion.** Name the exact missing input, oracle, access or
+  authorization each BLOCKED case actually needs. A missing clinical benchmark rubric does not
+  block deterministic selection, deduplication or quote checks. Finite named examples use their
+  declared source-backed expectations; a quantitative accuracy benchmark needs its own approved
+  corpus, denominator, rubric and threshold. Keep an unresolved benchmark visible and blocking
+  whole-scope readiness unless the owner explicitly revises or splits its scope.
+- **One evidence pass per relevant state.** Reuse applicable observations after checking relevant
+  code, requirements, fixtures/data, runtime/role and model/prompt/context identities. Exercise
+  missing feasible cases once; retry a transient infrastructure failure at most once. Do not
+  regenerate paid outputs or launch another independent reviewer merely to get green. Required
+  safety preflight and evidence integrity checks still apply; stale receipts stay unverified,
+  not PASS by explanation. Reassess only affected cases after a relevant change or new material
+  evidence. An unchanged invocation returns the applicable prior verdict and remaining gaps.
+- **Two acceptance repair rounds total.** After initial implementation, record `Closeout: 0/2`
+  alongside the baseline and findings. Each separately authorized grouped repair attempt consumes
+  one round: increment before editing, then record affected verification, even when it fails.
+  Persist the count across publication, revisions, new heads, reviewers, agents and invocations
+  for the same ticket/PR closeout; recover existing rounds from task history rather than assuming
+  zero. If that history is unavailable, report the missing count instead of silently resetting it.
+  The final allowed round may finish affected verification and required current-head reviews
+  within their existing authorization and Cursor cap; it may not start another repair attempt
+  or optional independent review. At two rounds, hand over remaining blockers and smallest next
+  actions. Only explicit owner approval for a stated number of additional rounds extends the limit.
+  New material safety/correctness evidence still requires safe assessment and escalation, not
+  automatic extra repair rounds. This limit neither consumes nor resets Cursor's separate
+  two-round cap and never substitutes for its current-head approvals or publication gates.
+
+A sanity-check invocation never starts a repair round or additional independent review, even
+when implementation was previously authorized. PASS, WARNING and FAIL all complete the check:
+report the finite findings and next actions, then stop. Repairs belong to a separately authorized
+implementation/revision workflow under the same persisted closeout limit.
+
 ## 1. Establish what is being checked
 
 Read the original request/ticket, approved plan and subsequent decisions, relevant repository instructions, the complete in-scope change, and available verification evidence. Derive the comparison base and files from the current assignment or PR; do not assume the last commit is the whole change.
@@ -43,7 +86,10 @@ A checklist or reviewer opinion is not runtime evidence.
 
 ## 3. Assess verification
 
-Reuse current, applicable results without repeating checks just to reconfirm reported observations. If evidence is missing or invalidated by later edits, run the smallest relevant check in a safe, isolated environment and report the exact outcome. Use documented project commands and installed CLI help, not assumed package managers or test runners.
+Reuse current, applicable results without repeating checks just to reconfirm reported observations.
+Apply the bounded evidence pass above. If evidence is missing or invalidated by later changes, run
+the smallest relevant check in a safe, isolated environment and report the exact outcome. Use
+documented project commands and installed CLI help, not assumed package managers or test runners.
 
 For bug fixes, check that the original failure is prevented. For UI changes, inspect the actual surface and relevant screenshots; passing logic tests alone do not prove appearance or interaction.
 
@@ -63,4 +109,8 @@ Lead with **PASS**, **WARNING**, or **FAIL**, followed by only material findings
 - **FAIL:** required behavior for the stated stage is missing, a blocking correctness or structural
   quality defect exists, or required verification failed or is blocked.
 
-List each finding with its location/evidence, impact and smallest recommended action. Include exact checks and unverified criteria. This command reports findings; apply fixes only when requested or already authorized.
+For each material finding, record its criterion/source, location, actual evidence, impact, kind
+(`defect`, `verification gap` or `suggestion`), blocking disposition with reason, and smallest next
+action. Include exact checks and unverified criteria. A failed evidence gate is a verification
+gap, not by itself proof of a product defect; it still prevents PASS/WARNING where required.
+FAIL completes this read-only check, not the ticket, and never authorizes fixes or publication.

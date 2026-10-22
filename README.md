@@ -23,11 +23,13 @@ Restart OMP or reload skills after installing or updating. Edit files in this ch
 ## Included skills
 
 - **execute:** Ticket implementation, PR review/revision, acceptance verification, testing handoffs, releases and operations. Mutating workflows begin with a Socratic checkpoint on current state, target state and architecture before work starts. Includes [verified tool recipes](skills/execute/reference/tool-recipes.md) and a read-only, execution/revision-specific CodePipeline waiter.
+- **provision-account:** Create and invite tenant-scoped accounts using project runbooks; verify identity membership and application roles without exposing temporary passwords.
 - **brian-voice:** Brian's writing style.
 - **brew-clear:** Clear Brew articles and diagrams; uses `brian-voice` and the content repository's `AUTHORING.md`.
 - **brew-test:** Local Brew testing guides with browser-only actions and explicit visual checks. No code, scripts or environment setup for the reader. Runs automatically at full `execute` ticket handoffs and refreshes after published revisions; can also be requested directly.
 - **square-image:** Center-crop and resize square images.
 - **standup:** Evidence-based standup preparation with a bundled read-only Git/GitHub/Linear collector.
+- **pointing:** Historically calibrated, agent-assisted ticket estimates; two-sentence summaries, independent guesses, one-at-a-time comparison and durable saved answers. Start with `/skill:pointing kubera <ticket IDs or URLs>`; Kubera's scale and examples live in local project guidance.
 
 Repository-specific accounts, environments, reviewer actions and tooling must be resolved from the target project's instructions. No credentials or private repository history are included here.
 

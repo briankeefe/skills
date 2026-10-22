@@ -123,11 +123,17 @@ multi-ticket sessions separate; cached reads and raw transcript size are not tok
 
 ## Acceptance gate for publishing and revisions
 
-For data-repair PRs, apply **PR readiness versus rollout completion** in
-`skill://execute/reference/sanity-check.md`. Demonstrate the complete repair against the A/C on
-representative isolated data, with reviewed selection and operator/recovery steps. Production
-execution or its approval is a separate rollout prerequisite, not a reason by itself to fail PR
-sanity or require live mutations before publication.
+Apply **Bounded assessment and closeout** in `skill://execute/reference/sanity-check.md` to
+implementation, revisions and readiness: criterion-local prerequisites, a frozen required-case
+baseline, applicable evidence reuse and two persisted acceptance repair rounds. Required
+verification still blocks publication/readiness; reaching the limit means an honest blocker
+handoff, not a waiver, another reviewer or an automatic restart. Keep optional findings outside
+the required case table; never silently remove existing required cases.
+
+For data-repair PRs, apply **PR readiness versus rollout completion** in that reference. Demonstrate
+the complete repair against the A/C on representative isolated data, with reviewed selection and
+operator/recovery steps. Production execution or its approval is a separate rollout prerequisite,
+not a reason by itself to fail PR sanity or require live mutations before publication.
 
 Before creating a draft PR, enumerate every acceptance criterion from the ticket and later decisions.
 Personally exercise each feasible criterion on the running surface where its behavior is observable;
@@ -147,13 +153,35 @@ the criterion or constraint, or split/defer the work. Keep unmet criteria FAIL/B
 silently narrow acceptance or mark partial work complete. Record an approved revision and its
 source as a requirements change, preserve the original requirement/decision history, update the
 applicable cases and scope boundaries, and invalidate/re-exercise affected evidence. A decision
-does not substitute for passing verification; ordinary authorized fixes remain actionable.
+does not substitute for passing verification; ordinary authorized fixes remain actionable within
+the persisted closeout limit. At exhaustion, report the blockers and request a bounded owner
+decision rather than starting another autonomous fix/review cycle.
 
 After PR revisions, personally re-exercise affected criteria and any connected behavior the edits
 could change; reconcile the full criterion list against the current head before claiming feedback
 addressed or marking the PR ready. Do not accept a revision, post a fix reply, or transition a PR
 based only on a green check or a previous head's evidence. Repeat on staging when the change reaches
 it; staging catches environment differences, not skipped pre-PR acceptance checks.
+
+## PR descriptions
+
+For every new or updated PR description, read `skill://brian-voice` and write in Brian's voice:
+plain, direct and conversational. Use short sentences and contractions, without corporate phrasing,
+forced slang or em dashes. Follow required repository templates, but omit optional empty sections.
+
+- Lead with what changed and why the reviewer should care. Default to a short paragraph or 1–3
+  bullets, then a compact testing section and the ticket link. Add detail only when it helps review
+  behavior, scope, a non-obvious decision or a material risk. Include UI evidence only when useful.
+- Check every claim against the current base-to-head diff and observed verification before initial
+  publication, after revisions and before marking ready. Remove stale claims when scope changes.
+  Distinguish checks actually run from suggested steps; never imply unverified behavior, staging
+  deployment or broader coverage. Keep review-relevant limitations even when shortening.
+- Exclude agent/process narration, review-round history, internal acceptance bookkeeping, raw logs,
+  exhaustive file lists, repeated ticket text and unrelated caveats. Link reviewer-accessible details
+  when needed rather than copying them into the body.
+
+Final pass: is it accurate for this head, does every sentence help the reviewer, and does it sound
+like Brian? Cut anything that fails those checks; brevity must not hide a risk or verification gap.
 
 ## Testing handoffs
 
