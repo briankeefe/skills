@@ -8,6 +8,26 @@ Read the original request/ticket, approved plan and subsequent decisions, releva
 
 If requirements or the intended scope cannot be established from available context, **STOP** and ask for the specific missing information. Do not invent acceptance criteria or report a pass based only on code style.
 
+### PR readiness versus rollout completion
+
+Default code/PR sanity checks to **implementation readiness**, not production rollout completion.
+A data-repair PR can **PASS** when the implemented repair is demonstrated to meet every in-scope
+A/C on representative isolated data, with reviewed target/record selection, preserved invariants,
+and an explicit operator procedure. Exercise applicable stale-input, repeat/resume and recovery
+behavior; require backup/rollback or another concrete recovery path appropriate to the operation.
+A script's existence, unit tests alone or an unexercised plan is not sufficient proof.
+
+Production deployment/execution and its approval are separate **pending rollout** items. Their
+absence alone must not turn a demonstrated PR implementation into WARNING, FAIL or BLOCKED.
+This does not authorize production writes or claim that live data has changed. Incomplete repair
+coverage, unreviewed mappings and unapproved scope exclusions still block PR readiness.
+
+State the stage in the verdict. If explicitly checking rollout or completion of an operational
+task, require actual results in the named target. Project case oracles/gates must reflect the same
+stage: record an owner-approved stage correction for an existing baseline, reconcile applicable
+evidence, and track rollout prerequisites outside the PR-required case table. Never merely flip a
+blocked row to PASS or ignore a failing gate.
+
 ## 2. Check requirements, correctness, and scope
 
 - Account for **every acceptance criterion** as satisfied, missing, or unverified, with a source location and evidence level: unit, real API/database, local UI, staging, or unverified. Distinguish implementation inspection and deployment status from runtime proof.
@@ -35,10 +55,12 @@ Do not force a browser, E2E test generation, or a new test suite for changes the
 
 Lead with **PASS**, **WARNING**, or **FAIL**, followed by only material findings:
 
-- **PASS:** all requirements have evidence, relevant checks passed, and no blocking correctness,
-  structural quality or scope issue was found within the inspected scope.
-- **WARNING:** non-blocking concerns or explicit verification gaps remain; name what is not established.
-- **FAIL:** required behavior is missing, a blocking correctness or structural quality defect
-  exists, or required verification failed or is blocked.
+- **PASS:** all requirements for the stated stage have evidence, relevant checks passed, and no
+  blocking correctness, structural quality or scope issue was found. PR implementation can PASS
+  while a demonstrated repair still awaits production rollout.
+- **WARNING:** only nonblocking concerns or optional verification gaps remain; name what is not
+  established. Required criteria must still pass the stage-appropriate project acceptance gate.
+- **FAIL:** required behavior for the stated stage is missing, a blocking correctness or structural
+  quality defect exists, or required verification failed or is blocked.
 
 List each finding with its location/evidence, impact and smallest recommended action. Include exact checks and unverified criteria. This command reports findings; apply fixes only when requested or already authorized.
