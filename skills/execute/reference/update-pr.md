@@ -25,6 +25,10 @@ Read the actual current code, callers and relevant tests for each concern. Recor
 - **REPLY:** a question or already-addressed concern needing an explanation, with code/commit evidence when claiming a fix.
 - **DECLINE:** not applicable or intentionally unchanged, with a concise reason. Do not silently discard disagreements.
 
+For speculative edge-case findings, apply **Evidence before edge-case escalation** in
+`skill://execute` before escalating to the owner, adding defensive code or expanding required
+cases. This does not defer triage of reported failures or concrete correctness/safety evidence.
+
 Before acting, compare the finding with approved behavior decisions in the existing task plan,
 acceptance record or prior PR replies. If it contradicts a decision without new source evidence,
 a reproduction or an explicit scope change, do not reverse the implementation or launch another

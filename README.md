@@ -22,7 +22,7 @@ Restart OMP or reload skills after installing or updating. Edit files in this ch
 
 ## Included skills
 
-- **execute:** Ticket implementation, PR review/revision, acceptance verification, testing handoffs, releases and operations. Mutating workflows begin with a Socratic checkpoint on current state, target state and architecture before work starts. Includes [verified tool recipes](skills/execute/reference/tool-recipes.md) and a read-only, execution/revision-specific CodePipeline waiter.
+- **execute:** Ticket implementation, PR review/revision, acceptance verification, testing handoffs, releases and operations. Mutating workflows begin with a Socratic checkpoint on current state, target state and architecture before work starts. Investigates real edge-case evidence before speculative escalation or defensive scope. Includes [verified tool recipes](skills/execute/reference/tool-recipes.md) and a read-only, execution/revision-specific CodePipeline waiter.
 - **provision-account:** Create and invite tenant-scoped accounts using project runbooks; verify identity membership and application roles without exposing temporary passwords.
 - **brian-voice:** Brian's writing style.
 - **brew-clear:** Clear Brew articles and diagrams; uses `brian-voice` and the content repository's `AUTHORING.md`.

@@ -6,6 +6,9 @@
 
 1. Read the ticket description, acceptance criteria, relevant comments, attachments and dependencies through the configured provider. Locate the affected behavior and existing repository patterns.
 2. Resolve missing requirements from available evidence. Ask only if the intended outcome, scope or required dependency remains unclear; do not invent acceptance criteria or silently narrow the request.
+   Apply **Evidence before edge-case escalation** in `skill://execute` before raising a
+   hypothetical domain question or adding defensive scope. Preserve explicit requirements
+   and reported failures; lack of a matching data example does not waive them.
 3. Confirm the assigned repository/worktree and intended PR base. Reuse the current environment and repository install/verification commands.
 4. Prepare a proportionate proposed plan covering affected files, every acceptance criterion,
    risks and verification. Complete `skill://execute`'s **Pre-work Socratic checkpoint** with
