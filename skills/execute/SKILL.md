@@ -62,6 +62,21 @@ and discuss the complete change:
    canonical components to reuse and affected boundaries/callers. Explain the simplest viable
    approach, material tradeoffs and verification, not an exhaustive code tour.
 
+Right-size this as an approach preview, not a testing handoff or engineering report. Default to
+about 200 words of prose (usually 150–250) plus one small flowchart (usually 4–6 nodes); simple
+tasks can be shorter. Use short bold-labeled paragraphs, not a heading for every field:
+problem/before, proposed after, decisive facts versus uncertainty, investigation/fix, what stays
+intact, key checks and the approval boundary. Combine related labels. Name code PR, data repair
+or both. Give each fact once; do not repeat safeguards in the prose, diagram and decision.
+Keep key checks and the approval boundary to one sentence each. Do not copy the implementation
+workflow's red/green recipe, operator procedure or reviewer checklist into this preview. Put the
+agreement question in chat; do not repeat the whole recommendation as a second conclusion.
+Before handing it over, trim repeated scope, generic process disclaimers, test inventories and
+implementation/file details; keep those in existing records or the separate UI testing guide.
+This is not a rigid cap: retain a material decision or risk even if it needs more space.
+Diagram the system's meaningful behavior and real branches, not the agent's work schedule.
+Do not invent a review queue or fallback branch.
+
 Ask about unresolved requirements or material tradeoffs, not for a confirmation after each
 topic. Answer questions and incorporate corrections. If there is no unresolved decision,
 ask once for agreement to the complete approach before implementation. Silence, a preselected
