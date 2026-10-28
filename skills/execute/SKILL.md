@@ -50,7 +50,8 @@ explanation page below, do not edit files, delegate implementation, run tests or
 services, change data, or publish anything before the checkpoint closes. Do not ask the user
 to supply facts available in the repository.
 
-Present these together so the user can understand and discuss the complete change:
+Present these together on a local Brew page, regardless of length, so the user can understand
+and discuss the complete change:
 
 1. **Before.** What happens today, where the behavior lives, and one concrete example of the
    evidenced problem. Separate observed facts from assumptions; define unfamiliar terms.
@@ -67,17 +68,25 @@ ask once for agreement to the complete approach before implementation. Silence, 
 option or the initial execute request is not agreement. Explicit agreement after the discussion
 closes the checkpoint; do not ask again for topics already agreed.
 
-Keep chat explanations to about five sentences. When more is needed, create or update a concise
-local Brew explanation page using `skill://brew-clear`, with the before/after and flowchart;
-send the takeaway, page link and any decision needed in chat. Creating and locally previewing
-this explanation is permitted during discovery, but does not authorize app setup, tests, data
-changes, implementation or publication. Keep it separate from the UI-only testing guide.
+Always create or update a concise local Brew explanation page using `skill://brew-clear` for
+this checkpoint, including the before/after, flowchart, recommendation and decision needed.
+Do not substitute an inline explanation even when it would fit in five sentences. Verify the
+rendered page, then send only the takeaway, page link and agreement question in chat. Update
+the same page as the discussion changes the approach. Creating and locally previewing this
+explanation is permitted during discovery, but does not authorize app setup, tests, data changes,
+implementation or publication. Keep it separate from the UI-only testing guide.
 
 Record the agreed before, after and architecture in the existing task plan. Reuse an existing
 agreement for the same scope, including on resume; reopen only a material change. An explicit
 request to skip the quiz waives only this checkpoint, not authorization or safety requirements.
 
 ## Working agreement and handoffs
+
+- Default substantive explanations, plans, decision writeups and reports to concise local Brew
+  pages, not chat, regardless of length. Chat carries only the takeaway, link and exact question
+  or blocker; brief acknowledgments and operational confirmations can stay in chat. Reuse the
+  task's relevant page and keep explanation pages separate from UI-only testing guides. Honor an
+  explicit request for inline content. A local explanatory page grants no publication authority.
 
 - Keep **Must deliver**, **Must preserve** and **Not included** in the existing task plan.
   Source them from the request, ticket/comments and later decisions. Carry the full original
