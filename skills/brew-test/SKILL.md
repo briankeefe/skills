@@ -120,10 +120,10 @@ another session can resume without reconstructing them. Leave the preview runnin
   **Visual check**, with no code, commands, engineering evidence or environment-mutation
   instructions, including inside collapsed sections. Remove or rewrite violations before
   returning the guide; do not merely label a mixed technical runbook "UI-only."
-- Follow the written journey on the real app from its stated starting point, not an agent's
-  prefilled tab. Reuse existing acceptance observations only when they cover those exact
-  actions and current inputs. Check required refresh/reopen behavior and restore test values.
-  If a prerequisite prevents execution, label that check blocked rather than asserting PASS.
+- Apply **Walk the testing guide** in `skill://execute/reference/sanity-check.md` to the rendered
+  page on the real app. Check required refresh/reopen behavior and restore test values. Its
+  recorded journey evidence is shared with ticket sanity checking, not a second walkthrough
+  or repair loop. This reference grants no authority to fix the guide/app or perform unsafe steps.
 - Close verification tabs, not the preview server. Return the local Brew URL plus the first
   action, essential browser access context and any blocker. Keep execute's chat handoff requirements;
   a localhost page isn't reviewer-accessible remotely, so don't use it as the PR's only checklist.

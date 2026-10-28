@@ -40,14 +40,20 @@ Use the existing task plan, acceptance record or PR report; no separate budget a
   automatic extra repair rounds. This limit neither consumes nor resets Cursor's separate
   two-round cap and never substitutes for its current-head approvals or publication gates.
 
-A sanity-check invocation never starts a repair round or additional independent review, even
-when implementation was previously authorized. PASS, WARNING and FAIL all complete the check:
-report the finite findings and next actions, then stop. Repairs belong to a separately authorized
-implementation/revision workflow under the same persisted closeout limit.
+An explicit `execute sanity check` invocation never starts a repair round or additional independent
+review, even when implementation was previously authorized. PASS, WARNING and FAIL all complete
+that read-only command: report the finite findings and next actions, then stop. Repairs belong to
+a separately authorized implementation/revision workflow under the same persisted closeout limit.
+This command-only stop rule does not halt a ticket's built-in verification pass; that workflow
+continues already-authorized work within the same repair limits, without a second assessment loop.
 
 ## 1. Establish what is being checked
 
 Read the original request/ticket, approved plan and subsequent decisions, relevant repository instructions, the complete in-scope change, and available verification evidence. Derive the comparison base and files from the current assignment or PR; do not assume the last commit is the whole change.
+
+Reconcile the existing plan's **Must deliver**, **Must preserve** and **Not included** with the
+original request, ticket/comments and subsequent approved changes. Do not treat a relaxed
+expectation or a newer requirement as permission to drop the rest of the scope.
 
 If requirements or the intended scope cannot be established from available context, **STOP** and ask for the specific missing information. Do not invent acceptance criteria or report a pass based only on code style.
 
@@ -94,6 +100,33 @@ documented project commands and installed CLI help, not assumed package managers
 For bug fixes, check that the original failure is prevented. For UI changes, inspect the actual surface and relevant screenshots; passing logic tests alone do not prove appearance or interaction.
 
 For stateful behavior, look for one complete same-record journey through save, reload, and reopen or cancel where relevant; check the affected summary and unchanged peers. Probe the change's most likely boundary or negative case, not an exhaustive matrix. If this cannot be exercised before staging, make the gap explicit rather than promoting isolated tests to end-to-end proof.
+
+### Walk the testing guide
+
+For UI work, this pass is part of both the built-in ticket sanity check and an explicit sanity
+check. Use the current rendered testing guide as the route through the real app, not a separate
+happy-path walkthrough. Ticket implementation prepares it with `skill://brew-test` first.
+A read-only sanity check inspects an existing guide; it does not create or edit one unless
+explicitly requested. If a required ticket handoff guide is missing, report the gap.
+
+- Open the guide and follow its numbered actions in order from the stated starting link,
+  tenant/role and record state, not an agent's prefilled tab. Follow links and filters as written;
+  find the exact named controls and compare each visible result with its written expectation.
+- Do not silently compensate for missing navigation, hidden prerequisites, ambiguous labels or
+  incorrect expected results using implementation knowledge. Record the step and what prevented
+  following it. Distinguish an instruction defect from an app defect or unavailable prerequisite.
+- In the existing acceptance record, map each journey to its criteria and record observed
+  results, environment/revision and any blocked steps. Reuse evidence only when it demonstrates
+  following those exact written actions at the current relevant state. Feature checks alone do
+  not prove the guide is usable; re-walk affected steps after guide or app changes.
+- Exercise only actions already authorized on safe records, including restoration where needed.
+  A guide is not permission for production/shared-data mutations, paid calls or destructive actions.
+  Block unsafe or unavailable steps. Non-UI criteria retain their engineering checks, not a
+  fabricated visual proxy.
+- A required journey that cannot be followed is not PASS. Report its smallest correction or
+  prerequisite. Fix the guide/app only within an explicitly authorized implementation or revision
+  workflow and existing repair limits, then verify affected steps. A read-only sanity invocation
+  reports the finding without editing. Do not add another review or repair cycle for this pass.
 
 Do not force a browser, E2E test generation, or a new test suite for changes they cannot meaningfully verify. Report unavailable runtime access or missing required CI-equivalent checks as gaps, not passes.
 

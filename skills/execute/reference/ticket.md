@@ -18,8 +18,9 @@
    identify canonical ownership/reuse, a simpler framing, affected callers and contracts, file-size
    crossings and structural risks before production edits.
 5. If materially different solutions satisfy the wording but not the same user outcome, resolve that distinction before building the larger one.
-6. Record the agreed current state, target state and architecture in that plan. Then proceed
-   within the agreement without another generic plan-approval round.
+6. Record the agreed before, after and architecture, plus **Must deliver**, **Must preserve**
+   and **Not included**, in that plan. Carry later additions forward without dropping existing
+   scope. Then proceed within the agreement without another generic plan-approval round.
 
 ## Implement, verify and review
 
@@ -45,6 +46,14 @@
   publication** in `skill://execute/reference/code-quality.md`. Fix or substantiate presumptive
   quality blockers, record dispositions, and repeat affected acceptance verification after any
   restructuring. Keep an environment needed for the user's visual review.
+- Prepare the rendered testing guide with `skill://brew-test`. Its verification plus the existing
+  acceptance/quality checks above form the built-in sanity check before initial publication and
+  final completion. Apply the scope reconciliation and **Walk the testing guide** sections of
+  `skill://execute/reference/sanity-check.md` within that same evidence pass, not a separate
+  read-only invocation. Prove the written UI steps can be followed, not just that the feature
+  works; reuse exact current observations and re-walk affected steps after guide/app changes.
+  Continue authorized work under the existing repair limits; report blocked journeys without
+  inventing instructions or starting unauthorized repairs.
 
 ## Feature demo video (when requested)
 
@@ -60,10 +69,10 @@ Replace both placeholders with the actual work identifier and spec path. `DEMO_S
 
 Update existing documentation when the contract requires it. Follow the publication authorization in `skill://execute`; an existing instruction to commit/push/publish needs no repeat confirmation.
 
-Generate or refresh the local testing guide with `skill://brew-test` from the current acceptance
-evidence before the initial draft-PR handoff and again before final completion or a blocker
-handoff, even if no PR could be published. Include its working URL and the first concrete
-action in chat; a blocked guide must identify what can and cannot be tested.
+Reuse the already verified local testing guide at the initial handoff. Refresh it from current
+acceptance evidence before final completion or a blocker handoff, even if no PR could be published;
+re-walk affected steps rather than repeating unchanged verification. Include its working URL
+and first concrete action in chat; identify what can and cannot be tested.
 
 Write the draft PR using `skill://execute`'s **PR descriptions** rules, with the ticket link and
 compact testing section required by **Testing handoffs**.

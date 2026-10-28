@@ -40,33 +40,62 @@ Reference paths resolve as `skill://execute/reference/<doc>`.
 
 ## Pre-work Socratic checkpoint
 
-Before starting an implementation or other mutating execute workflow, run a short task-specific
-**socraticQuiz** in chat. This is a conversation, not a scored programming quiz or a new tool
-dependency. Read-only commands remain read-only and do not require this checkpoint.
+Before starting an implementation or other mutating execute workflow, explain the task-specific
+before, after and architecture. This **socraticQuiz** is a discussion to understand the work,
+not three rounds of "is this ok?" Read-only commands do not require this checkpoint.
 
 Only do the minimum read-only discovery needed to ground the discussion: read the request,
-ticket, relevant code and existing evidence. Do not edit files, delegate implementation, run
-tests or setup, start services, change data, or publish anything before the checkpoint closes.
-Do not ask the user to supply facts available in the repository.
+ticket, relevant code and existing evidence. Except for creating and locally previewing the
+explanation page below, do not edit files, delegate implementation, run tests or setup, start
+services, change data, or publish anything before the checkpoint closes. Do not ask the user
+to supply facts available in the repository.
 
-Explain each topic briefly, then ask one concrete question and wait for the user's answer
-before moving to the next:
+Present these together so the user can understand and discuss the complete change:
 
-1. **Current state.** What happens today, where the behavior lives, and the evidenced problem
-   or limitation. Separate observed facts from assumptions. Ask whether this matches the
-   user's understanding and which part needs clarification.
-2. **New state.** The intended user-visible behavior, what stays unchanged, and how success
-   will be recognized. Ask whether this is the outcome they want; resolve corrections.
-3. **Architecture.** The proposed end-to-end flow, canonical components to reuse, affected
-   boundaries/callers, simplest viable alternative, material tradeoffs and verification.
-   Explain why this design fits. Ask whether to proceed with that approach or adjust it.
+1. **Before.** What happens today, where the behavior lives, and one concrete example of the
+   evidenced problem. Separate observed facts from assumptions; define unfamiliar terms.
+2. **After.** The intended user-visible behavior, what stays unchanged, and how success will
+   be recognized. Use the same example to make the difference clear.
+3. **Flow.** Show a readable flowchart of the current and/or proposed end-to-end architecture,
+   labeled clearly as current or proposed. Include the important decision/failure branches,
+   canonical components to reuse and affected boundaries/callers. Explain the simplest viable
+   approach, material tradeoffs and verification, not an exhaustive code tour.
 
-Answer questions and incorporate corrections instead of treating silence, a preselected option,
-or the initial execute request as agreement. Proceed only after all three topics have been
-discussed and the user explicitly agrees to the approach. An explicit request to skip the quiz
-for this task waives only this checkpoint, not authorization or safety requirements.
-Record the agreed current state, target state and architecture in the existing task plan.
-On resume, reuse that agreement for the same scope; reopen only a material change to it.
+Ask about unresolved requirements or material tradeoffs, not for a confirmation after each
+topic. Answer questions and incorporate corrections. If there is no unresolved decision,
+ask once for agreement to the complete approach before implementation. Silence, a preselected
+option or the initial execute request is not agreement. Explicit agreement after the discussion
+closes the checkpoint; do not ask again for topics already agreed.
+
+Keep chat explanations to about five sentences. When more is needed, create or update a concise
+local Brew explanation page using `skill://brew-clear`, with the before/after and flowchart;
+send the takeaway, page link and any decision needed in chat. Creating and locally previewing
+this explanation is permitted during discovery, but does not authorize app setup, tests, data
+changes, implementation or publication. Keep it separate from the UI-only testing guide.
+
+Record the agreed before, after and architecture in the existing task plan. Reuse an existing
+agreement for the same scope, including on resume; reopen only a material change. An explicit
+request to skip the quiz waives only this checkpoint, not authorization or safety requirements.
+
+## Working agreement and handoffs
+
+- Keep **Must deliver**, **Must preserve** and **Not included** in the existing task plan.
+  Source them from the request, ticket/comments and later decisions. Carry the full original
+  and expanded scope through implementation and sanity checking. An approved change to one
+  expectation does not waive other requirements. Show agreement changes, not repeated copies.
+- If no user action is needed, continue authorized work. A progress update is not a request
+  for "continue", and an intermediate milestone is not a stopping point. Before yielding,
+  identify completion, the exact user decision needed, or the external prerequisite that
+  blocks all remaining authorized work. Continue independent work when only one part is blocked.
+- When a decision is needed, state the concrete question, recommendation and consequence.
+  Ask only after exhausting relevant available evidence. Do not return "nothing needed"
+  while actionable work remains. These rules do not authorize repairs in a read-only workflow;
+  completing the requested assessment is completion even when its verdict is FAIL.
+- When reporting applied changes, name where they happened: local worktree, isolated data
+  branch, staging or production. Do not say only "applied". This is clearer reporting, not
+  another approval gate or permission to cross an existing authorization boundary.
+- Do not add progress estimates, a progress dashboard or periodic status messages. Give
+  decision/completion handoffs and answer requested status questions using observed facts.
 
 ## Discover once, reuse
 
@@ -225,8 +254,14 @@ scripts, developer tools, environment setup or administrative mutation instructi
 authorized UI edits/saves remain testable within `brew-test`'s safety limits. The agent handles
 authorized setup separately; unavailable prerequisites stay blocked. Follow `brew-test`'s local-only and
 rendered-page verification rules; this adds no publication/deployment authority or acceptance waiver.
-Other read-only execute commands create pages only when requested. Keep the required chat
-steps below; a localhost guide is not a substitute for a reviewer-accessible PR checklist.
+The ticket's existing acceptance and quality checks, scope reconciliation and `brew-test`'s
+verification form its built-in sanity check before initial publication and final completion.
+Apply **Walk the testing guide** in `reference/sanity-check.md` as part of that same pass,
+not a separate read-only invocation or duplicate walkthrough. Refresh the guide and re-walk
+affected steps after revisions; do not defer checking instructions until the user tries them.
+Read-only commands do not create testing pages unless requested; they inspect an existing guide
+when applicable. Keep chat handoffs short: link the verified guide, give its first action and any
+decision/blocker. A localhost guide is not a substitute for a reviewer-accessible PR checklist.
 
 Each handoff MUST include:
 
@@ -235,18 +270,17 @@ Each handoff MUST include:
   imply branch membership proves deployment. If no test environment is reachable, name the blocker
   and the exact known startup/access steps instead of claiming it is ready for testing.
 - Required tenant/account role, test records, setup and feature gates, without exposing credentials.
-- Numbered, concrete actions with expected visible results covering every acceptance criterion at
-  initial PR and staging handoffs, including relevant negative, scope and save/reload/reopen cases.
-  For revisions, identify what changed and provide refreshed steps for affected criteria and
-  connected regression checks; link the still-applicable full checklist rather than silently
-  dropping unchanged criteria.
+- A verified guide/checklist covering every acceptance criterion with concrete numbered actions
+  and visible results, including relevant negative, scope and save/reload/reopen cases. In chat,
+  give its link and first action rather than pasting the whole checklist. For revisions, name
+  what changed and link the refreshed affected steps plus the still-applicable full checklist.
 - What the agent actually verified in that environment and any remaining gaps or access/data
   blockers. Distinguish suggested user checks from checks already performed.
 
 Keep concise verification results and reviewer testing steps in the PR's testing section. If the
 full checklist or environment setup is long, link a current reviewer-accessible record there rather
 than duplicating it; keep every acceptance criterion and prerequisite in that record. Refresh after
-revisions and link from chat. Include actionable steps in chat, not only a link to the PR body.
+revisions and link from chat. Give the first concrete action in chat, not only a PR-body link.
 Confirm staging deployment through project-local operational evidence, then repeat the acceptance
 gate and send the staging handoff; do not claim staging verification from a build.
 This rule adds no deployment authorization or indefinite background monitoring.
