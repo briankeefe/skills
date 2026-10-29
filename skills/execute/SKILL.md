@@ -168,6 +168,24 @@ promoting it into a required acceptance case:
   actionable without an observed production occurrence. Preserve required validation and
   acceptance checks; never use an empty search to dismiss a reported bug or a material risk.
 
+## Feasible live verification
+
+Before proposing live/paid verification limits or admitting the first case:
+
+- Use the smallest complete set of required cases, applicable existing evidence and existing
+  API/UI/database observations. Name the remaining checks and a clear stop condition in the
+  existing plan; do not add a separate verification framework or blanket time limit.
+- Check whole-path resource bounds, including retries and already-admitted asynchronous work,
+  against the proposed limits. Distinguish observed usage from a conservative bound, and
+  stopping new admissions from enforcing a ceiling inside a running job. Unknown or
+  unenforceable bounds are not guarantees.
+- Resolve material feasibility/spending tradeoffs together before requesting approval. If a
+  limit cannot be honored, pause new admissions and explain the concrete options; do not
+  silently exceed it, drop required cases or build bespoke accounting/telemetry infrastructure
+  to justify the trial. Such infrastructure is separate scope, not verification by default.
+  Feasibility or spending approval is not a behavioral PASS: keep unexercised cases unverified
+  and continue independent authorized work.
+
 ## Proactive thermo-nuclear quality
 
 For ticket implementation, PR revisions/shepherding, E2E code generation, project planning,
