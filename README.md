@@ -28,7 +28,7 @@ Restart OMP or reload skills after installing or updating. Edit files in this ch
 - **brew-clear:** Clear Brew articles and diagrams; uses `brian-voice` and the content repository's `AUTHORING.md`.
 - **brew-test:** Local Brew testing guides with browser-only actions and explicit visual checks. No code, scripts or environment setup for the reader. Runs automatically at full `execute` ticket handoffs and refreshes after published revisions. Verifies the written journeys themselves on the real app, sharing that evidence with sanity checking; can also be requested directly.
 - **square-image:** Center-crop and resize square images.
-- **standup:** Evidence-based standup preparation with a bundled read-only Git/GitHub/Linear collector.
+- **standup:** Ticket-by-ticket standup briefing with Linear titles/statuses, recent outcomes, today's work, and genuine blockers. Includes a reference layout with collapsed planning-only work and engineering follow-up, plus a bundled read-only Git/GitHub/Linear collector. CI and routine review follow-up are not standup blockers.
 - **pointing:** Historically calibrated, agent-assisted ticket estimates; two-sentence summaries, independent guesses, one-at-a-time comparison and durable saved answers. Start with `/skill:pointing kubera <ticket IDs or URLs>`; Kubera's scale and examples live in local project guidance.
 
 Repository-specific accounts, environments, reviewer actions and tooling must be resolved from the target project's instructions. No credentials or private repository history are included here.
