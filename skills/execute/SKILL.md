@@ -53,14 +53,16 @@ to supply facts available in the repository.
 Present these together on a local Brew page, regardless of length, so the user can understand
 and discuss the complete change:
 
-1. **Before.** What happens today, where the behavior lives, and one concrete example of the
-   evidenced problem. Separate observed facts from assumptions; define unfamiliar terms.
-2. **After.** The intended user-visible behavior, what stays unchanged, and how success will
-   be recognized. Use the same example to make the difference clear.
-3. **Flow.** Show a readable flowchart of the current and/or proposed end-to-end architecture,
-   labeled clearly as current or proposed. Include the important decision/failure branches,
-   canonical components to reuse and affected boundaries/callers. Explain the simplest viable
-   approach, material tradeoffs and verification, not an exhaustive code tour.
+1. **Before.** What the user does today, what goes wrong and why it matters, using one
+   concrete example. Describe visible behavior, not callbacks, query predicates or table
+   internals. Separate reported/observed facts from assumptions.
+2. **After.** What the user can do after the change, what stays unchanged and how success
+   will be recognized. Use the same example to make the difference clear.
+3. **Flow.** Show the current and/or proposed behavior in a small flowchart, labeled clearly
+   as current or proposed. Use plain-language actions and outcomes, with only the branches
+   needed to understand the change. Put implementation details, canonical components to reuse,
+   affected callers, tradeoffs and verification in a short **Proposed fix** paragraph or the
+   existing task plan, not in the before/after or every diagram node.
 
 Right-size this as an approach preview, not a testing handoff or engineering report. Default to
 about 200 words of prose (usually 150–250) plus one small flowchart (usually 4–6 nodes); simple
@@ -75,7 +77,11 @@ Before handing it over, trim repeated scope, generic process disclaimers, test i
 implementation/file details; keep those in existing records or the separate UI testing guide.
 This is not a rigid cap: retain a material decision or risk even if it needs more space.
 Diagram the system's meaningful behavior and real branches, not the agent's work schedule.
-Do not invent a review queue or fallback branch.
+Do not invent a review queue or fallback branch. Before sharing, read the before/after and
+diagram as someone who hasn't read the code: can they explain the problem and intended change
+without decoding technical terms? Rewrite anything that requires that decoding. For example,
+say "Clicking a search result doesn't open the policy," not "The document table doesn't supply
+its existing row-navigation callback." Simplify the wording without hiding material uncertainty.
 
 Ask about unresolved requirements or material tradeoffs, not for a confirmation after each
 topic. Answer questions and incorporate corrections. If there is no unresolved decision,
@@ -87,9 +93,13 @@ Always create or update a concise local Brew explanation page using `skill://bre
 this checkpoint, including the before/after, flowchart, recommendation and decision needed.
 Do not substitute an inline explanation even when it would fit in five sentences. Verify the
 rendered page, then send only the takeaway, page link and agreement question in chat. Update
-the same page as the discussion changes the approach. Creating and locally previewing this
-explanation is permitted during discovery, but does not authorize app setup, tests, data changes,
-implementation or publication. Keep it separate from the UI-only testing guide.
+the same page as the discussion changes the approach. Feedback that the page is confusing,
+too complex or poorly worded means rework the page and verify the rendered revision, not merely
+acknowledge the feedback or suggest replacement prose in chat. Distinguish a request to stop
+implementation from a request to rewrite the explanation; honor an explicit stop-all instruction.
+Creating and locally previewing this explanation is permitted during discovery, but does not
+authorize app setup, tests, data changes, implementation or publication. Keep it separate from
+the UI-only testing guide.
 
 Record the agreed before, after and architecture in the existing task plan. Reuse an existing
 agreement for the same scope, including on resume; reopen only a material change. An explicit
