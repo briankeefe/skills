@@ -7,6 +7,11 @@ description: Write, revise, or review a Brew article or page in Brian's voice. U
 
 Read `skill://brian-voice` and the Brew repository's `AUTHORING.md` before writing. Write as **Brian explaining work to colleagues**, never as an assistant replying to Brian. Assume the reader hasn't seen the ticket, chat, or earlier draft.
 
+Resolve the current local renderer from personal/project runtime guidance before serving.
+Reuse its shared styles and theme controls; don't launch an older feature worktree's bundle
+just because a preview already responds. Keep existing page URLs and assets when updating a
+stale preview, and verify the rendered theme rather than only its HTTP status.
+
 - Lead with the answer: what changed or was learned, why it matters, and how certain we are. Define the problem before comparing attempts or saying “the first result.”
 - Keep it short. Prefer a few purposeful sections, brief paragraphs, and one useful table over a lab notebook. Cut repeated conclusions, process chronology, and details that don't change the takeaway. More length is justified only by a reader's real question.
 - Ground claims in the source. Separate observed results, interpretation, and untested recommendations. Include the denominator, important failure modes, data/privacy boundaries, and what still needs validation. Don't dress a small exploratory result up as a production verdict.

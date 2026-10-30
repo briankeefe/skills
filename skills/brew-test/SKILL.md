@@ -45,13 +45,21 @@ Default slug: `<task-id>-test`, or a descriptive task slug when there is no ID. 
 slug when updating. Use the renderer's standard front matter and shared styles. Quote YAML
 values containing colons. Prefer Markdown; no custom page layout or diagram for a checklist.
 
-The reader-facing page contains only minimal starting context, numbered UI journeys and
-brief blocked/not-UI-verifiable notices. No implementation explanation, evidence appendix,
-source files to inspect, code blocks, shell commands, scripts, SQL, API calls, browser console
+The reader-facing page contains a brief change summary, minimal starting context, numbered
+UI journeys with checkable steps, and brief blocked/not-UI-verifiable notices. No implementation
+explanation, evidence appendix, source files to inspect, code blocks, shell commands, scripts, SQL, API calls, browser console
 or developer-tools steps. Do not ask the reader to start services, set environment variables,
 switch branches, seed data, change roles/feature flags, or otherwise configure an environment.
 Keep engineering evidence and operator procedures in the existing private task record, not
 in hidden/collapsed sections or linked prerequisites the reader must execute.
+
+**What changed comes first.** Put 1–4 short bullets immediately below the page title, before
+access context. Name concrete user-visible changes and their scope, not files, process or
+generic benefits. Keep enough context to understand the feature without the ticket/chat.
+Front-matter `summary` is an index description, not a substitute for these visible bullets.
+Immediately below those bullets, link the original tracker ticket using its sourced URL and
+identifier (for example, **Linear: ENG-1234**). Keep that link on revisions; include the PR
+nearby when available. Follow `brew-clear`'s fresh-tab behavior for every authored link.
 
 1. **Start here.** A checked app link, explicitly local/preview/staging, required existing
    tenant/role, safe test record and ordinary browser sign-in/navigation steps. Briefly name
@@ -59,12 +67,19 @@ in hidden/collapsed sections or linked prerequisites the reader must execute.
    The agent must prepare authorized prerequisites before handoff. If the app, account,
    fixture or gate is unavailable, mark the affected journey **Blocked** with the missing
    prerequisite. Do not offer a setup command or ask the reader to repair the environment.
-2. **Actions and visual checks.** Group related cases into short numbered journeys. For
-   every step use **Action:** followed by **Visual check:**. Name exact UI labels, selection
-   order, hidden-field activation, full input values, blur/commit actions and where the
-   result appears. State exact expected text, values, selected/disabled state, or presence/
-   absence of a named element. No "looks correct," "works as expected," "configure the
-   override" or "check the merged row." Put long input sets in a field/value table.
+2. **Actions and visual checks.** Group related cases into short numbered journeys. Each
+   independently checkable action/result pair gets a native checkbox and a short title.
+   Put **Action:** and **Visual check:** in separate rendered paragraphs with a blank line
+   between them. A newline in Markdown source alone renders as a space. Don't put another
+   action after the expected result; make it the next checkpoint. Keep related clicks
+   together when there is no meaningful intermediate result to verify.
+   Variants with the same action and expected result can share one checkpoint with an exact
+   input/link list. Don't repeat the same error-result paragraph for each invalid value.
+   Name exact UI labels, selection order, hidden-field activation, full input values,
+   blur/commit actions and where the result appears. State exact expected text, values,
+   selected/disabled state, or presence/absence of a named element. No "looks correct,"
+   "works as expected," "configure the override" or "check the merged row." Put long input
+   sets in a field/value table.
 3. **Scope and persistence.** Cover every UI-observable sourced criterion, including named
    negative, unchanged-sibling and save/reload/reopen cases. Ordinary app edits/saves are
    allowed on prepared, authorized task-owned records, not environment/admin setup or
@@ -78,6 +93,33 @@ in hidden/collapsed sections or linked prerequisites the reader must execute.
    the reader to try from results the agent already observed. Prepared links need a checked
    blank-form UI fallback if they depend on saved state.
 
+**Full feature, minimum repetition.** Reconcile every sourced criterion and named case to a
+journey or explicit limitation in the existing private task record before shortening.
+Keep the mapping out of the reader-facing page. On revisions, update affected steps within
+the full guide; never replace it with only the latest fix. State shared setup and expected
+values once, then refer back unambiguously for reload/reopen checks. Keep distinct required
+negative, sibling and persistence cases; don't repeat navigation or outcomes just to mirror
+the acceptance record's rows. No fixed step/word limit. Optional checks belong in a separate
+section, clearly labeled optional; don't add unsupported platforms as required coverage.
+Missing browser fixtures are **Blocked**, not inherently **Not UI-verifiable**.
+
+Use the renderer's shared checklist convention, not a per-page script or stylesheet:
+
+```markdown
+## 1. Historical policy details
+
+- <label><input type="checkbox" data-brew-check> Open the August revision</label>
+
+  **Action:** Under **08/01/2026**, click **Open policy details**.
+
+  **Visual check:** The banner says **Viewing version 1 · Effective 08/01/2026**.
+```
+
+Author every box unchecked. Tell the reader once to check only after the visual check passes.
+Saved boxes are browser-local place markers, not the agent's verification or an acceptance PASS.
+Use the shared renderer's small completion animation and reduced-motion behavior; no confetti,
+sound, custom page layout or animation dependency. Keep completed instructions readable.
+
 Use a few actual screenshots when they clarify a hard-to-find control or expected result.
 Reuse still-applicable captures; label older captures and replays. Keep local images alongside
 the page using the renderer's supported asset convention, with useful alt text and full-size
@@ -86,11 +128,15 @@ links where needed. Don't upload media, record a video or publish hosted Brew as
 
 ## 3. Serve locally without publishing
 
-Reuse a healthy task preview and stable URL. Otherwise use the installed Brew renderer's local
-entry point, an isolated pages directory outside application source, a free port and a named
-long-lived service. Bind to `127.0.0.1`, not `0.0.0.0`; don't kill another task's server.
-Keep cloud page/media stores disabled. For the Node Brew renderer exposing `createApp`, after
-resolving and exporting absolute `BREW_ROOT`, `PAGES_DIR` and a free `PORT`, use:
+Reuse a healthy task preview and stable URL only after confirming it serves the current shared
+styles and client behavior, not an obsolete worktree's built renderer. Check the actual asset
+responses and rendered theme control; a healthy HTTP response is not proof of current styles.
+If stale, replace the affected preview with the current renderer while preserving its pages
+directory, port, per-slug assets and URLs; never kill an unrelated task's server.
+Otherwise use the installed Brew renderer's local entry point, an isolated pages directory
+outside application source, a free port and a named long-lived service. Bind to `127.0.0.1`,
+not `0.0.0.0`. Keep cloud page/media stores disabled. For the Node Brew renderer exposing
+`createApp`, after resolving and exporting absolute `BREW_ROOT`, `PAGES_DIR` and a free `PORT`, use:
 
 ```sh
 env -u BREW_PAGES_BUCKET -u BREW_MEDIA_BUCKET node -e '
@@ -116,10 +162,15 @@ another session can resume without reconstructing them. Leave the preview runnin
 - Inspect the rendered page in a managed headless browser using
   `skill://execute/reference/tool-recipes.md`. Check desktop and narrow widths, images and
   links. Look at screenshots; HTTP 200 alone isn't visual proof.
-- Audit the rendered reader-facing content: every numbered test step has an **Action** and
-  **Visual check**, with no code, commands, engineering evidence or environment-mutation
-  instructions, including inside collapsed sections. Remove or rewrite violations before
-  returning the guide; do not merely label a mixed technical runbook "UI-only."
+- Audit the rendered reader-facing content: concrete change bullets precede access context;
+  every checkpoint has separate **Action** and **Visual check** paragraphs and an unchecked
+  labeled checkbox. No code, commands, engineering evidence or environment-mutation instructions,
+  including inside collapsed sections. Remove or rewrite violations before returning the guide.
+  Compare the rewritten journeys to the private criterion mapping: shorter must not mean partial.
+- Exercise checkbox click/keyboard behavior and reload persistence; check that a changed action
+  or expected result invalidates saved completion and another page doesn't inherit it. Verify
+  reduced motion and readable completed text. Don't mark boxes on the user's behalf or equate
+  a personal completion count with successful feature verification.
 - Apply **Walk the testing guide** in `skill://execute/reference/sanity-check.md` to the rendered
   page on the real app. Check required refresh/reopen behavior and restore test values. Its
   recorded journey evidence is shared with ticket sanity checking, not a second walkthrough
