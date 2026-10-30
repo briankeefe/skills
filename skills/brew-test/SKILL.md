@@ -53,11 +53,18 @@ switch branches, seed data, change roles/feature flags, or otherwise configure a
 Keep engineering evidence and operator procedures in the existing private task record, not
 in hidden/collapsed sections or linked prerequisites the reader must execute.
 
-**What changed comes first.** Put 1–4 short bullets immediately below the page title, before
-access context. Name concrete user-visible changes and their scope, not files, process or
-generic benefits. Keep enough context to understand the feature without the ticket/chat.
-Front-matter `summary` is an index description, not a substitute for these visible bullets.
-Immediately below those bullets, link the original tracker ticket using its sourced URL and
+**What changed comes first.** Use 1–3 complete sentences immediately below the page title,
+before access context. Explain the previous behavior and what the user can do now, naming the
+concrete objects involved. Prefer a short paragraph for one connected change; use bullets
+for genuinely separate changes, not fragments of the same explanation. Clarity wins over
+word count: don't replace meaningful nouns with "it," "that revision" or "the selection"
+before explaining what they refer to. Don't turn the summary into test instructions or a
+list of every fix. Someone without the ticket/chat should understand the main change.
+For example: "Historical policy revisions now show their own stored summaries and extracted
+rules instead of the latest revision's content. The selected revision stays aligned across
+its PDF, Details view, shared links and page reloads."
+Front-matter `summary` is an index description, not a substitute for this visible explanation.
+Immediately below the explanation, link the original tracker ticket using its sourced URL and
 identifier (for example, **Linear: ENG-1234**). Keep that link on revisions; include the PR
 nearby when available. Follow `brew-clear`'s fresh-tab behavior for every authored link.
 
@@ -168,7 +175,7 @@ another session can resume without reconstructing them. Leave the preview runnin
 - Inspect the rendered page in a managed headless browser using
   `skill://execute/reference/tool-recipes.md`. Check desktop and narrow widths, images and
   links. Look at screenshots; HTTP 200 alone isn't visual proof.
-- Audit the rendered reader-facing content: concrete change bullets precede access context;
+- Audit the rendered reader-facing content: a self-contained before-and-after summary precedes access context;
   every checkpoint has separate **Action** and **Visual check** paragraphs and an unchecked
   labeled checkbox. No code, commands, engineering evidence or environment-mutation instructions,
   including inside collapsed sections. Remove or rewrite violations before returning the guide.
