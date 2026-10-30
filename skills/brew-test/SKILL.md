@@ -81,11 +81,17 @@ nearby when available. Follow `brew-clear`'s fresh-tab behavior for every author
    "works as expected," "configure the override" or "check the merged row." Put long input
    sets in a field/value table.
 3. **Scope and persistence.** Cover every UI-observable sourced criterion, including named
-   negative, unchanged-sibling and save/reload/reopen cases. Ordinary app edits/saves are
-   allowed on prepared, authorized task-owned records, not environment/admin setup or
-   paid/destructive/shared-data operations. If restoration is needed, give exact UI actions,
-   original values and visual confirmation. If safe UI-only restoration is impossible,
-   mark the journey blocked rather than supplying a script or database procedure.
+   negative and unchanged-sibling cases. Add save/reload/reopen checks only when a sourced
+   requirement, the changed state flow or a concrete reported failure makes persistence
+   relevant. A read-only result doesn't need a refresh check just because it is displayed.
+   Prefer one representative reload after the meaningful state change; add reopen or another
+   reload only if it exercises a different failure mode. Keep the reason in the private
+   criterion mapping, not a repeated explanation on the page. Don't drop explicitly required
+   reload behavior. Ordinary app edits/saves are allowed on prepared, authorized task-owned
+   records, not environment/admin setup or paid/destructive/shared-data operations.
+   If restoration is needed, give exact UI actions, original values and visual confirmation.
+   If safe UI-only restoration is impossible, mark the journey blocked rather than supplying
+   a script or database procedure.
 4. **Non-UI criteria and limits.** Never invent a visual proxy for backend-only behavior or
    silently drop a required case. Mark it **Not UI-verifiable** with a short reason and keep
    the actual engineering verification in the acceptance record. A blocked or non-UI case
