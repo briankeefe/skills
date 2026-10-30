@@ -34,6 +34,10 @@ verified app URLs, tenant/role, fixtures and observations. For projects with an 
 handoff exporter, reuse its private output after checking for secrets and sensitive data.
 Don't invent a second checklist, rerun applicable acceptance checks for reassurance, or claim
 that screenshots prove live behavior. Missing runtime/data/access stays visibly blocked.
+For a fresh drafting call, supply concise sourced requirements and verified UI fixtures,
+not raw observation traces: record names, search values, controls, starting states and visible
+oracles. Keep incidental counts, API/SQL details and harness click/reload sequences private.
+Tie each oracle to its search/filter context; changing the query can change matching rules.
 
 Reuse a guide for this task instead of creating another competing page. Keep machine paths,
 accounts and environment coordinates in local project guidance or private task artifacts,
@@ -44,6 +48,7 @@ not in this public skill. Never copy credentials, tokens, cookies or patient dat
 Default slug: `<task-id>-test`, or a descriptive task slug when there is no ID. Keep the existing
 slug when updating. Use the renderer's standard front matter and shared styles. Quote YAML
 values containing colons. Prefer Markdown; no custom page layout or diagram for a checklist.
+The front-matter title is rendered automatically; don't repeat it as an H1 in the body.
 
 The reader-facing page contains a brief change summary, minimal starting context, numbered
 UI journeys with checkable steps, and brief blocked/not-UI-verifiable notices. No implementation
@@ -52,6 +57,8 @@ or developer-tools steps. Do not ask the reader to start services, set environme
 switch branches, seed data, change roles/feature flags, or otherwise configure an environment.
 Keep engineering evidence and operator procedures in the existing private task record, not
 in hidden/collapsed sections or linked prerequisites the reader must execute.
+Keep access context to the minimum needed to start. Don't narrate generation, missing tools,
+the review process or pending authoring checks in the testing page; record those privately.
 
 **What changed comes first.** Use 1–3 complete sentences immediately below the page title,
 before access context. Explain the previous behavior and what the user can do now, naming the
@@ -62,6 +69,8 @@ before explaining what they refer to. Don't turn the summary into test instructi
 list of every fix. Someone without the ticket/chat should understand the main change.
 Reject a summary that could double as checklist headings: "Find the policy. Open results.
 Disable empty arrows." Explain the changed behavior, not a set of commands or testing goals.
+Don't present unchanged regression coverage as a new capability. Name the affected record
+when it makes the change recognizable.
 For example: "Historical policy revisions now show their own stored summaries and extracted
 rules instead of the latest revision's content. The selected revision stays aligned across
 its PDF, Details view, shared links and page reloads."
@@ -76,27 +85,44 @@ nearby when available. Follow `brew-clear`'s fresh-tab behavior for every author
    The agent must prepare authorized prerequisites before handoff. If the app, account,
    fixture or gate is unavailable, mark the affected journey **Blocked** with the missing
    prerequisite. Do not offer a setup command or ask the reader to repair the environment.
-2. **Actions and visual checks.** Group related cases into short numbered journeys. Each
-   independently checkable action/result pair gets a native checkbox and a short title.
-   Put **Action:** and **Visual check:** in separate rendered paragraphs with a blank line
-   between them. A newline in Markdown source alone renders as a space. Don't put another
-   action after the expected result; make it the next checkpoint. Keep related clicks
-   together when there is no meaningful intermediate result to verify.
-   Variants with the same action and expected result can share one checkpoint with an exact
-   input/link list. Don't repeat the same error-result paragraph for each invalid value.
+2. **Actions and visual checks.** Organize journeys around the reader's next visible result,
+   not one checkbox per acceptance criterion. A criterion may need several checkpoints.
+   Each checkpoint ends while its expected result is still on screen: action, immediate
+   visual check, then check it off. Separate independently failing behaviors or meaningful
+   state changes. Don't bundle source, status, bookmark, filter and pagination behaviors
+   into one progress marker just to shorten the page.
+   Don't create a checkbox for mechanical setup, returning to the list, closing a source
+   tab or opening a menu on the way to its real check. Put that navigation at the start of
+   the next relevant action. A separate box needs its own meaningful verification outcome.
+   Never ask the reader to close, undo, navigate away from or replace a result before its
+   check. Restoration follows the original check, not before it.
+   Combine equivalent inputs with the same expected result (search spellings or ways to
+   open the same policy): run Action then Visual check for each variant in one checkpoint.
+   Opposite states with different expected results (apply/clear, save/restore) need separate
+   checkpoints. Don't use "check, then undo, then check again" to compress them into prose.
+   Put **Action:** and **Visual check:** in separate rendered paragraphs, with a blank line
+   between them and both indented inside the checkbox's list item. A source newline alone
+   is not a paragraph break. Use the complete markup example below, not inline label pairs.
+   Group equivalent variants only when their action/result pattern is the same. Don't hide
+   an action-then-undo sequence behind a single final check or omit its intermediate result.
+   Keep **Visual check:** for observations only. Closing a tab, restoring a value or any
+   other next action belongs at the start of the following checkpoint's **Action:**.
    Name exact UI labels, selection order, hidden-field activation, full input values,
    blur/commit actions and where the result appears. State exact expected text, values,
    selected/disabled state, or presence/absence of a named element. No "looks correct,"
    "works as expected," "configure the override" or "check the merged row." Put long input
    sets in a field/value table.
+   Don't carry a rule name or expected child row from one search into another without
+   evidence for that query. Use the verified query-specific name or its supported visibility check.
 3. **Scope and persistence.** Cover every UI-observable sourced criterion, including named
    negative and unchanged-sibling cases. Add save/reload/reopen checks only when a sourced
    requirement, the changed state flow or a concrete reported failure makes persistence
    relevant. A read-only result doesn't need a refresh check just because it is displayed.
-   Prefer one representative reload after the meaningful state change; add reopen or another
-   reload only if it exercises a different failure mode. Keep the reason in the private
-   criterion mapping, not a repeated explanation on the page. Don't drop explicitly required
-   reload behavior. Ordinary app edits/saves are allowed on prepared, authorized task-owned
+   Combine compatible saved changes into one persistence checkpoint: one reload can verify
+   several changed fields, then another can verify their restored states. Don't reload per
+   field when those combined checks satisfy every required saved-state oracle. Add another
+   reload or reopen only for a different sourced failure mode; keep the reason in the private
+   mapping. Don't drop explicitly required reload behavior. Ordinary app edits/saves are allowed on prepared, authorized task-owned
    records, not environment/admin setup or paid/destructive/shared-data operations.
    If restoration is needed, give exact UI actions, original values and visual confirmation.
    If safe UI-only restoration is impossible, mark the journey blocked rather than supplying
@@ -110,6 +136,13 @@ nearby when available. Follow `brew-clear`'s fresh-tab behavior for every author
 
 **Full feature, minimum repetition.** Reconcile every sourced criterion and named case to a
 journey or explicit limitation in the existing private task record before shortening.
+Use acceptance expectations as the coverage contract, not the observation trace as a script.
+An earlier verification may have repeated a reload or used separate harness steps unnecessarily;
+those actions aren't required unless the expectation or reported failure makes them necessary.
+A checkpoint can satisfy several criteria. Merge overlapping coverage before drafting:
+verify a behavior once in the journey and map every applicable criterion to that checkpoint.
+Don't repeat an enabled control's expand/collapse checks in both a controls section and a
+disabled-sibling section, or repeat the same positive search after every negative case.
 Keep the mapping out of the reader-facing page. On revisions, update affected steps within
 the full guide; never replace it with only the latest fix. State shared setup and expected
 values once, then refer back unambiguously for reload/reopen checks. Keep distinct required
@@ -117,6 +150,24 @@ negative, sibling and persistence cases; don't repeat navigation or outcomes jus
 the acceptance record's rows. No fixed step/word limit. Optional checks belong in a separate
 section, clearly labeled optional; don't add unsupported platforms as required coverage.
 Missing browser fixtures are **Blocked**, not inherently **Not UI-verifiable**.
+
+**Draft for resuming, then compress.** First map the sourced outcomes to the UI states where
+they can actually be seen. Write those checkpoints before shortening their wording. Read
+each checkpoint in isolation: can someone returning after an interruption identify the record,
+perform the next action and verify it without remembering an earlier transient result?
+Use named records and nearby section context instead of "the original one" or "repeat above."
+Name a long record once per section, then use its unambiguous short name. Default each action
+and visual-check paragraph to one or two short sentences. Don't repeat access warnings,
+verification history or unchanged-peer expectations in every checkpoint; state shared
+conditions once beside that group. Brevity comes from removing repeated context, not hiding
+several changing results in one paragraph.
+For an ordinary single-feature handoff, aim for roughly 600–900 words; this is a drafting
+default, not a cap or permission to omit cases. Before adding length, remove repeated names,
+setup and equivalent checks. Use descriptive link labels, not long raw URLs or duplicate
+address text; when source identity matters, name the domain and filename beside the link.
+Keep the exact values that identify the result, not incidental totals or snapshot counts
+unless the requirement is about those counts. Lead the summary with the user-visible problem,
+not implementation exceptions or scope exclusions. Keep scope notes beside the relevant check.
 
 Use the renderer's shared checklist convention, not a per-page script or stylesheet:
 
@@ -177,11 +228,16 @@ another session can resume without reconstructing them. Leave the preview runnin
 - Inspect the rendered page in a managed headless browser using
   `skill://execute/reference/tool-recipes.md`. Check desktop and narrow widths, images and
   links. Look at screenshots; HTTP 200 alone isn't visual proof.
-- Audit the rendered reader-facing content: a self-contained before-and-after summary precedes access context;
-  every checkpoint has separate **Action** and **Visual check** paragraphs and an unchecked
-  labeled checkbox. No code, commands, engineering evidence or environment-mutation instructions,
-  including inside collapsed sections. Remove or rewrite violations before returning the guide.
-  Compare the rewritten journeys to the private criterion mapping: shorter must not mean partial.
+- Audit the rendered DOM, not just the Markdown: for every checklist item, require exactly
+  one labeled unchecked checkbox, one **Action:** paragraph and one later **Visual check:**
+  paragraph that is a different element in the same item. Fail the handoff if labels share
+  a paragraph; fix the Markdown and rerender before continuing.
+- Read the rendered instructions in order, including the intermediate screen states.
+  Reject a checkpoint if its result has already been closed, undone or replaced when the
+  reader reaches the check, or if its checkbox conceals independently resumable outcomes.
+  Verify the self-contained before-and-after summary precedes access context. No code,
+  commands, engineering evidence or environment-mutation instructions, including collapsed
+  sections. Compare all sourced cases with the private mapping; don't trade coverage for brevity.
 - Exercise checkbox click/keyboard behavior and reload persistence; check that a changed action
   or expected result invalidates saved completion and another page doesn't inherit it. Verify
   reduced motion and readable completed text. Don't mark boxes on the user's behalf or equate
