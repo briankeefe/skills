@@ -60,6 +60,8 @@ for genuinely separate changes, not fragments of the same explanation. Clarity w
 word count: don't replace meaningful nouns with "it," "that revision" or "the selection"
 before explaining what they refer to. Don't turn the summary into test instructions or a
 list of every fix. Someone without the ticket/chat should understand the main change.
+Reject a summary that could double as checklist headings: "Find the policy. Open results.
+Disable empty arrows." Explain the changed behavior, not a set of commands or testing goals.
 For example: "Historical policy revisions now show their own stored summaries and extracted
 rules instead of the latest revision's content. The selected revision stays aligned across
 its PDF, Details view, shared links and page reloads."
