@@ -59,7 +59,7 @@ Don't add speculative cases or unsupported platforms. Label sourced optional che
 
 Use the existing slug and standard front matter; default a new slug to `<task-id>-test`.
 Preserve visibility and links on revisions. The renderer supplies the title, styles and
-checklist behavior; no duplicate H1, custom layout, scripts or styles.
+checklist behavior; no duplicate H1, custom layout, scripts, styles or inline HTML.
 
 The page contains only:
 
@@ -70,9 +70,9 @@ The page contains only:
 2. **Start here:** A checked app link and environment, existing tenant/role, prepared record,
    and only the access context needed to begin. Distinguish prior observations from current
    verification. Missing access, fixtures or gates make affected journeys **Blocked**.
-3. **Numbered UI journeys:** Checkpoints with a short title, native checkbox, exact **Action**
-   and immediate **Visual check** in separate rendered paragraphs. Use blank lines and indent
-   both paragraphs inside the list item, as below.
+3. **Numbered UI journeys:** Markdown task-list checkpoints (`- [ ] Short title`),
+   exact **Action** and immediate **Visual check** in separate rendered paragraphs.
+   Use blank lines and indent both paragraphs inside the list item, as below.
 4. **Necessary limits:** Mark backend-only criteria **Not UI-verifiable** with a short reason.
    Missing UI fixtures are **Blocked**, not inherently non-UI-verifiable. Neither is PASS.
 
@@ -106,7 +106,7 @@ Prepared links that depend on saved state need a checked ordinary-UI fallback.
 ```markdown
 ## 1. Historical policy details
 
-- <label><input type="checkbox" data-brew-check> Open the August revision</label>
+- [ ] Open the August revision
 
   **Action:** Under **08/01/2026**, click **Open policy details**.
 
@@ -196,8 +196,8 @@ conflicts with the budget, report the specific blocker described above, not a re
   Verify the self-contained before-and-after summary precedes access context. No code,
   commands, engineering evidence or environment-mutation instructions, including collapsed
   sections. Compare all sourced cases with the private mapping; don't trade coverage for brevity.
-- Exercise checkbox click/keyboard behavior and reload persistence; check that a changed action
-  or expected result invalidates saved completion and another page doesn't inherit it. Verify
+- Exercise checkbox click/keyboard behavior and reload persistence; instruction edits preserve
+  progress, renamed checkpoint titles reset it, and another page doesn't inherit it. Verify
   reduced motion and readable completed text. Don't mark boxes on the user's behalf or equate
   a personal completion count with successful feature verification.
 - Apply **Walk the testing guide** in `skill://execute/reference/sanity-check.md` to the rendered
