@@ -33,6 +33,11 @@ Restart OMP or reload skills after installing or updating. Edit files in this ch
 
 Repository-specific accounts, environments, reviewer actions and tooling must be resolved from the target project's instructions. No credentials or private repository history are included here.
 
+Execute approach pages teach the task's domain model and normal behavior before the bug.
+They carry one worked example through before and after, then explain the engineering fix.
+Size follows understanding rather than a word target; remove repetition before essential context.
+The existing local Brew handoff and single agreement checkpoint remain unchanged.
+
 The optional feature-video workflow in `execute` requires a separately installed `playwright-demo-kit` checkout with its recording-lock wrapper; it is not bundled here. `ponytail`, when installed separately, supplements the review workflow's minimum-complexity guidance.
 
 `execute` applies a shared [thermo-nuclear quality standard](skills/execute/reference/code-quality.md)

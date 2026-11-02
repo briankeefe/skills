@@ -50,38 +50,46 @@ explanation page below, do not edit files, delegate implementation, run tests or
 services, change data, or publish anything before the checkpoint closes. Do not ask the user
 to supply facts available in the repository.
 
-Present these together on a local Brew page, regardless of length, so the user can understand
-and discuss the complete change:
+Write for a developer who can follow code but is new to the task's domain and product.
+Don't confuse unfamiliar domain concepts with unfamiliar programming. Present these together
+on a local Brew page so the user can understand and discuss the complete change:
 
-1. **Before.** What the user does today, what goes wrong and why it matters, using one
-   concrete example. Describe visible behavior, not callbacks, query predicates or table
-   internals. Separate reported/observed facts from assumptions.
-2. **After.** What the user can do after the change, what stays unchanged and how success
-   will be recognized. Use the same example to make the difference clear.
-3. **Flow.** Show the current and/or proposed behavior in a small flowchart, labeled clearly
-   as current or proposed. Use plain-language actions and outcomes, with only the branches
-   needed to understand the change. Put implementation details, canonical components to reuse,
-   affected callers, tradeoffs and verification in a short **Proposed fix** paragraph or the
-   existing task plan, not in the before/after or every diagram node.
+1. **Context and normal behavior.** First explain the few concepts and relationships needed
+   for this task, defining domain terms at first use. Explain who does what and what the
+   relevant number or document means. For example, distinguish money from reports describing
+   that money, or a policy from its dated revisions and their stored summaries and rules.
+   Teach the relationship, not just a plainer synonym for a technical term.
+2. **Before.** Walk one concrete example from its starting facts through the current behavior,
+   the wrong result, and why it matters. Explain the causal step that produces the failure,
+   not just the symptom. Describe visible behavior rather than callbacks or table internals.
+   Separate reported/observed facts from assumptions; label invented teaching numbers.
+3. **After.** Carry the same example through the proposed behavior and result. Explain why
+   the change removes the failure, what stays unchanged, and how success will be recognized.
+   Don't invent a missing dollar amount or imply new extraction when stored content already
+   exists. For discovery work, distinguish what the investigation will deliver from a possible
+   later product change.
+4. **Flow and proposed fix.** Show current and/or proposed behavior in one small flowchart,
+   labeled clearly, with plain-language actions and only meaningful branches. After the
+   domain explanation and worked example, give the short engineering explanation of the fix.
+   Keep detailed implementation, affected callers, tradeoffs and verification in the existing
+   task plan, or a short optional technical section when it helps the reader.
 
-Right-size this as an approach preview, not a testing handoff or engineering report. Default to
-about 200 words of prose (usually 150–250) plus one small flowchart (usually 4–6 nodes); simple
-tasks can be shorter. Use short bold-labeled paragraphs, not a heading for every field:
-problem/before, proposed after, decisive facts versus uncertainty, investigation/fix, what stays
-intact, key checks and the approval boundary. Combine related labels. Name code PR, data repair
-or both. Give each fact once; do not repeat safeguards in the prose, diagram and decision.
-Keep key checks and the approval boundary to one sentence each. Do not copy the implementation
-workflow's red/green recipe, operator procedure or reviewer checklist into this preview. Put the
-agreement question in chat; do not repeat the whole recommendation as a second conclusion.
-Before handing it over, trim repeated scope, generic process disclaimers, test inventories and
-implementation/file details; keep those in existing records or the separate UI testing guide.
-This is not a rigid cap: retain a material decision or risk even if it needs more space.
-Diagram the system's meaningful behavior and real branches, not the agent's work schedule.
-Do not invent a review queue or fallback branch. Before sharing, read the before/after and
-diagram as someone who hasn't read the code: can they explain the problem and intended change
-without decoding technical terms? Rewrite anything that requires that decoding. For example,
-say "Clicking a search result doesn't open the policy," not "The document table doesn't supply
-its existing row-navigation callback." Simplify the wording without hiding material uncertainty.
+Size to understanding, not a word target. Simple UI changes can be short; an unfamiliar payment
+calculation may need a few more paragraphs. Keep this an approach preview, not a testing handoff
+or engineering report. Use a few short labeled paragraphs rather than a heading for every field.
+Give each fact once; cut repeated safeguards, generic process language, test inventories and
+file details before cutting the context needed to understand the problem. Name code PR, data
+repair or both, and retain material uncertainty, scope and risk. Keep key checks and the
+approval boundary brief; detailed procedures belong in existing records or the UI testing guide.
+Put the agreement question in chat, without repeating the recommendation as another conclusion.
+
+The diagram should clarify the system's behavior, not the agent's work schedule or repeat every
+matching rule. Do not invent a review queue or fallback branch. Before sharing, read the opening,
+before/after and diagram as someone new to the domain: can they explain what normally happens,
+what goes wrong, why it goes wrong and how this fix changes the result? Rewrite any missing
+conceptual bridge rather than merely replacing jargon or shortening the text. For example,
+"recognize repeated payment reports" still needs the explanation that two reports may describe
+one payment, not two payments. Don't require follow-up questions to uncover these prerequisites.
 
 Ask about unresolved requirements or material tradeoffs, not for a confirmation after each
 topic. Answer questions and incorporate corrections. If there is no unresolved decision,
