@@ -2,6 +2,43 @@
 
 Use for `execute sanity check [scope]` to assess completed work against its requirements. Apply shared defaults from `skill://execute`. This is a review, not automatic authorization to edit or publish.
 
+## Fresh reviewer for standalone checks
+
+An explicit `execute sanity check [scope]` MUST run its assessment in one fresh reviewer session
+with no inherited conversation or implementing-agent transcript. Use the active harness's supported
+delegation mechanism with an explicit, self-contained brief; do not fork, resume or reuse the
+implementing session. If context isolation is unavailable, report that blocker rather than silently
+performing the check in the current conversation. This isolates conversational context, not files,
+credentials or runtime targets; the existing verification safety rules still apply.
+
+The parent resolves the target and supplies source references, not a proposed verdict:
+
+- The original request/ticket and original requirement sources, approved decisions and scope changes.
+- Repository/worktree, comparison base and exact reviewed head, plus any in-scope uncommitted diff.
+  Identify local changes explicitly; do not imply a commit contains them.
+- Applicable repository/personal instructions and authorization limits, this canonical workflow,
+  and the complete in-scope diff/code locations for the reviewer to inspect directly.
+- Existing verification records with commands/actions, observed results, environment/revision and
+  known gaps; the current testing guide, frozen acceptance baseline and persisted closeout count.
+
+Do not forward the implementing agent's conclusions, proposed PASS/FAIL, reassurance or narrative
+of why its solution is correct. When plans or evidence records mix facts with conclusions, identify
+the factual/source sections and require independent verification; do not erase approved decisions,
+known failures or required cases to create a supposedly neutral brief. The reviewer reads the
+original sources and complete change itself and checks evidence applicability before reuse.
+
+The reviewer performs the assessment below and returns the stage, PASS/WARNING/FAIL, sourced
+findings, observed verification and exact gaps. The parent relays that result without upgrading it
+or launching another reviewer to obtain a better verdict. Neither session may repair or publish;
+tracker writes and other external mutations remain subject to the user's explicit authorization.
+The fresh reviewer is the single initial assessment, not an additional review or a reset of the
+persisted acceptance/Cursor limits. An unchanged invocation reuses applicable evidence and verdict
+under the bounded contract below rather than rerunning checks merely for a new opinion.
+
+Built-in ticket/PR-revision acceptance verification stays in the working session. The composed
+`execute pr review [PR_URL] --sanity` also remains one review in its existing session, not a second
+reviewer; only the standalone `execute sanity check` command requires this fresh-session handoff.
+
 ## Bounded assessment and closeout
 
 This contract also applies to acceptance closeout in ticket implementation and PR revisions.

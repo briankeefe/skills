@@ -38,6 +38,10 @@ An explicit command wins: `local-repro <PR_URL>` reproduces, it does not post a 
 
 Reference paths resolve as `skill://execute/reference/<doc>`.
 
+Standalone `execute sanity check` requires one fresh reviewer session without inherited conversation;
+follow **Fresh reviewer for standalone checks** in `reference/sanity-check.md`. Built-in acceptance
+verification and the composed `pr review --sanity` do not spawn an extra reviewer.
+
 ## Pre-work Socratic checkpoint
 
 Before starting an implementation or other mutating execute workflow, explain the task-specific
