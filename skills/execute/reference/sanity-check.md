@@ -134,6 +134,26 @@ Apply the bounded evidence pass above. If evidence is missing or invalidated by 
 the smallest relevant check in a safe, isolated environment and report the exact outcome. Use
 documented project commands and installed CLI help, not assumed package managers or test runners.
 
+### Keep sanity separate from broad CI
+
+This boundary applies to standalone sanity checks, composed `pr review --sanity` assessments,
+and built-in ticket/PR-revision acceptance verification. Check the changed behavior against sourced
+requirements; do not turn sanity into a second CI run.
+
+- Reuse applicable evidence first. For a missing criterion, run only the smallest targeted check
+  needed to establish the affected behavior, using the real UI/API/database where appropriate.
+- Do not run broad backend/frontend suites, full builds, lint/typecheck sweeps or CI reruns by
+  default. Require a broad check only when explicitly requested for this assessment or mandated by
+  a sourced requirement or applicable repository instruction. Name that source and why targeted
+  evidence cannot satisfy it; a CI job's existence alone does not make it a sanity requirement.
+- Keep CI status and publication/merge gates separate from the sanity verdict. Do not promote
+  unrelated, pre-existing or flaky suite failures into required acceptance cases or sanity blockers.
+  Report known failures separately without rerunning them merely to confirm the report. Separate
+  required CI gates still apply to publication/merge; sanity PASS does not waive them.
+- A demonstrated regression in the changed path or missing required behavioral evidence still
+  blocks sanity, even when discovered by a fragile suite. Do not dismiss a relevant failure as
+  flaky without evidence or mark an unverified criterion PASS.
+
 For bug fixes, check that the original failure is prevented. For UI changes, inspect the actual surface and relevant screenshots; passing logic tests alone do not prove appearance or interaction.
 
 For stateful behavior, look for one complete same-record journey through save, reload, and reopen or cancel where relevant; check the affected summary and unchanged peers. Probe the change's most likely boundary or negative case, not an exhaustive matrix. If this cannot be exercised before staging, make the gap explicit rather than promoting isolated tests to end-to-end proof.
@@ -165,7 +185,7 @@ explicitly requested. If a required ticket handoff guide is missing, report the 
   workflow and existing repair limits, then verify affected steps. A read-only sanity invocation
   reports the finding without editing. Do not add another review or repair cycle for this pass.
 
-Do not force a browser, E2E test generation, or a new test suite for changes they cannot meaningfully verify. Report unavailable runtime access or missing required CI-equivalent checks as gaps, not passes.
+Do not force a browser, E2E test generation, or a new test suite for changes they cannot meaningfully verify. Report unavailable runtime access or missing required targeted behavioral evidence as criterion-local gaps, not passes.
 
 ## 4. Give the verdict
 

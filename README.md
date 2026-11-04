@@ -48,6 +48,12 @@ It prioritizes structural simplification, canonical ownership, explicit contract
 files over cosmetic cleanup or extra abstractions. These local passes never replace the post-PR
 `/check` cycle, either required Cursor approval, or the existing two-round cap.
 
+Sanity checks verify sourced requirements and changed behavior, reusing applicable evidence and
+running only missing targeted checks. Broad backend/frontend suites and other CI sweeps are not
+default sanity work; CI status and publication/merge gates remain separate. Unrelated or flaky
+suite failures do not become sanity blockers, while affected-path regressions and missing required
+behavioral evidence still do.
+
 ## Reuse instead of rediscovering
 
 The installed skill entry points route agents to version-scoped CLI/JSON recipes and explicit
