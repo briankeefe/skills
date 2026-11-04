@@ -26,6 +26,8 @@ of why its solution is correct. When plans or evidence records mix facts with co
 the factual/source sections and require independent verification; do not erase approved decisions,
 known failures or required cases to create a supposedly neutral brief. The reviewer reads the
 original sources and complete change itself and checks evidence applicability before reuse.
+Pass approved revisions and their stated reasons as sources to verify. Never instruct the reviewer
+to accept a revised oracle or to treat the gap it leaves as settled.
 
 The reviewer performs the assessment below and returns the stage, PASS/WARNING/FAIL, sourced
 findings, observed verification and exact gaps. The parent relays that result without upgrading it
@@ -117,6 +119,12 @@ blocked row to PASS or ignore a failing gate.
 ## 2. Check requirements, correctness, and scope
 
 - Account for **every acceptance criterion** as satisfied, missing, or unverified, with a source location and evidence level: unit, real API/database, local UI, staging, or unverified. Distinguish implementation inspection and deployment status from runtime proof.
+- Re-check every approved revision that weakens or replaces a sourced expectation, especially a
+  ticket's own named example. Verify the revision's factual premise against the actual data and
+  original sources. If the data contradicts that premise, or the revised result is still wrong by the
+  ticket's stated intent, report a material finding with that evidence and the decision needed.
+  Don't record it as an approved limitation. An approval shows what was decided, not that the
+  decided behavior is correct.
 - Check relevant happy paths, boundaries, failures, and preserved behavior. Review security and authorization boundaries, state ownership, data integrity, and performance-sensitive paths where affected.
 - Compare with existing repository patterns and instructions, not universal preferences about languages, frameworks, mutation, component styles, or syntax. Separate genuine defects from stylistic suggestions.
 - Identify unnecessary features, abstractions, dependencies, refactors, or unrelated edits. Do not revert user work or silently expand the approved scope.
