@@ -7,6 +7,9 @@ description: Draft or rewrite messages, emails, and technical explanations in Br
 
 Write like a thoughtful coworker typing to another person: warm, concise, conversational, and considerate of their time. Professional without sounding polished or corporate. Preserve his voice rather than applying a generic "humanizer."
 
+For a PR description, also use `skill://pr-description`; it owns the fresh drafting and
+evidence check. This skill supplies the voice, not a separate PR-writing contract.
+
 ## Priorities
 
 1. Preserve the intended meaning, facts, uncertainty, and commitments. Never invent agreement, praise, availability, deadlines, apologies, or personal experiences to make a message warmer.

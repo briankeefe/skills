@@ -284,23 +284,10 @@ it; staging catches environment differences, not skipped pre-PR acceptance check
 
 ## PR descriptions
 
-For every new or updated PR description, read `skill://brian-voice` and write in Brian's voice:
-plain, direct and conversational. Use short sentences and contractions, without corporate phrasing,
-forced slang or em dashes. Follow required repository templates, but omit optional empty sections.
-
-- Lead with what changed and why the reviewer should care. Default to a short paragraph or 1–3
-  bullets, then a compact testing section and the ticket link. Add detail only when it helps review
-  behavior, scope, a non-obvious decision or a material risk. Include UI evidence only when useful.
-- Check every claim against the current base-to-head diff and observed verification before initial
-  publication, after revisions and before marking ready. Remove stale claims when scope changes.
-  Distinguish checks actually run from suggested steps; never imply unverified behavior, staging
-  deployment or broader coverage. Keep review-relevant limitations even when shortening.
-- Exclude agent/process narration, review-round history, internal acceptance bookkeeping, raw logs,
-  exhaustive file lists, repeated ticket text and unrelated caveats. Link reviewer-accessible details
-  when needed rather than copying them into the body.
-
-Final pass: is it accurate for this head, does every sentence help the reviewer, and does it sound
-like Brian? Cut anything that fails those checks; brevity must not hide a risk or verification gap.
+Use `skill://pr-description` for every new or updated PR body, including a fresh, stateless
+draft from the current diff and verified results. It owns the writing contract, examples,
+claim/audience check and saved-body readback. Initial publication, revisions and readiness
+all use that same contract; this is not an additional code-review or approval round.
 
 ## Testing handoffs
 
@@ -341,10 +328,12 @@ Each handoff MUST include:
 - What the agent actually verified in that environment and any remaining gaps or access/data
   blockers. Distinguish suggested user checks from checks already performed.
 
-Keep concise verification results and reviewer testing steps in the PR's testing section. If the
-full checklist or environment setup is long, link a current reviewer-accessible record there rather
-than duplicating it; keep every acceptance criterion and prerequisite in that record. Refresh after
-revisions and link from chat. Give the first concrete action in chat, not only a PR-body link.
+The PR body is a short reviewer note under `skill://pr-description`, not the complete acceptance
+handoff. Keep concise observed verification and material gaps there. Longer testing instructions
+may be linked only when reviewers can access them; never substitute a localhost guide. Keep
+every acceptance criterion and prerequisite in the existing full handoff/record, not a second
+PR-body inventory. Refresh affected instructions after revisions and give the first concrete
+action in chat, not only a PR-body link.
 Confirm staging deployment through project-local operational evidence, then repeat the acceptance
 gate and send the staging handoff; do not claim staging verification from a build.
 This rule adds no deployment authorization or indefinite background monitoring.

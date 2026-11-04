@@ -26,6 +26,7 @@ Restart OMP or reload skills after installing or updating. Edit files in this ch
 - **execute-update:** `/skill:execute-update <change>` updates execute locally in its canonical source, verifies it, then commits and pushes only the scoped change to the owning personal repos. Keeps the pipeline in skills and personal configuration/shims in dotfiles.
 - **provision-account:** Create and invite tenant-scoped accounts using project runbooks; verify identity membership and application roles without exposing temporary passwords.
 - **brian-voice:** Brian's writing style.
+- **pr-description:** Fresh, stateless PR drafting from the current diff and observed verification. First-person reviewer notes, compact testing and preserved material risks, without internal process logs. Includes synthetic trial examples, a claim/audience check and saved-body readback; applies to create, revisions and readiness, not a CLI/CI enforcement gate.
 - **brew-clear:** Clear Brew articles and diagrams; uses `brian-voice` and the content repository's `AUTHORING.md`.
 - **brew-update:** `/skill:brew-update <page or change>` edits and previews locally before committing and pushing to the owning personal repos. Meaningful shared Brew changes also require an app PR; ordinary page edits do not. Hosted publication remains explicit and separate.
 - **brew-test:** Concise local UI testing walkthroughs, not acceptance inventories. Handoff requires a measured 900-word maximum (unless the user approves another budget), a repetition review and a private map covering every sourced criterion. Actions and visual checks render separately; shared checkboxes save personal progress, not acceptance evidence. Coverage/budget conflicts block delivery instead of silently expanding the guide or dropping cases. No reader-facing code or environment setup. Runs at full `execute` handoffs, after published revisions, or on request; verifies written journeys on the real app.
@@ -74,6 +75,13 @@ GitHub CLI and optionally Linear CLI are used; no new Python dependencies are ne
 The [CodePipeline monitoring recipe](skills/execute/reference/ops-facts.md#aws-codepipeline-one-execution-one-revision)
 uses the bundled waiter with an explicit pipeline, execution, revision, AWS profile and region.
 It reports terminal failure or timeout without starting/retrying deployments.
+
+PR bodies use the shared [PR-description contract](skills/pr-description/SKILL.md), also linked
+from `brian-voice` for callers outside execute. Try `/skill:pr-description` with a current diff,
+purpose and verified results to draft without publishing. The [offline trial cases](skills/pr-description/reference/examples.md)
+cover a version bump, connected changes, a data repair and deliberately misleading drafts.
+Candidate examples need Brian's style feedback; they are not labeled approved. The next five
+authorized PRs track first-draft acceptance in the existing local workflow record, not this repo.
 
 
 ## Check the workflows
