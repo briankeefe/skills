@@ -129,6 +129,10 @@ request to skip the quiz waives only this checkpoint, not authorization or safet
   Source them from the request, ticket/comments and later decisions. Carry the full original
   and expanded scope through implementation and sanity checking. An approved change to one
   expectation does not waive other requirements. Show agreement changes, not repeated copies.
+  Keep source-backed invariants (grouping/order, identity, precedence and preserved behavior),
+  known failures and successful verification commands/recipes in that same record. Before a
+  repair or handoff, consult them; do not rediscover a settled contract or repeat a failed
+  invocation unchanged. Update only facts invalidated by new evidence.
 - If no user action is needed, continue authorized work. A progress update is not a request
   for "continue", and an intermediate milestone is not a stopping point. Before yielding,
   identify completion, the exact user decision needed, or the external prerequisite that
@@ -148,6 +152,8 @@ request to skip the quiz waives only this checkpoint, not authorization or safet
 - Read applicable repository instructions and the relevant project docs before editing.
   Resolve repository/host from an explicit URL, assigned worktree, remotes and ticket links.
   Do not silently substitute the current repo for a different repo named by a URL.
+  An assigned project/worktree is the default; ask which repository only when actual evidence
+  conflicts or leaves the target ambiguous, not merely because a new session began.
 - Resolve the issue provider/workspace and ID format from the URL and local configuration.
   Reuse verified local recipes and `skill://execute/reference/tool-recipes.md` for structured
   issue/PR reads, Linear 2.6.0 and managed OMP browsers. Check versions once; inspect targeted
@@ -161,6 +167,9 @@ request to skip the quiz waives only this checkpoint, not authorization or safet
 - Derive runtime/package manager from repo instructions, manifests, lockfiles and pinned versions.
   Reuse existing install, dev, test, lint and CI commands; do not install a runner merely to fit
   this toolkit. Resolve documentation locations from the repository, not a global personal path.
+  Reuse instructions already loaded in the current context. Reload only missing context after
+  compaction, changed guidance or a newly needed section; retain its canonical source pointer in
+  the existing task record. This never caches authorization, authentication or live task state.
 - Missing context: exhaust repo/tool evidence, then ask one focused question. Report unavailable
   credentials or services without guessing values or exposing secrets.
 
@@ -242,17 +251,18 @@ multi-ticket sessions separate; cached reads and raw transcript size are not tok
 
 ## Acceptance gate for publishing and revisions
 
-Apply **Bounded assessment and closeout** in `skill://execute/reference/sanity-check.md` to
-implementation, revisions and readiness: criterion-local prerequisites, a frozen required-case
-baseline, applicable evidence reuse and two persisted acceptance repair rounds. Required
-verification still blocks publication/readiness; reaching the limit means an honest blocker
-handoff, not a waiver, another reviewer or an automatic restart. Keep optional findings outside
-the required case table; never silently remove existing required cases.
+Use **Bounded assessment and closeout** and **PR readiness versus rollout completion** in
+`skill://execute/reference/sanity-check.md` as the canonical policy for case baselines, evidence
+reuse, criterion-local blockers, persisted repair limits and implementation-versus-rollout scope.
+Required verification and current-head reviews still block publication/readiness; these references
+are not additional review rounds. Project runbooks own helper syntax, not copies of this policy.
 
-For data-repair PRs, apply **PR readiness versus rollout completion** in that reference. Demonstrate
-the complete repair against the A/C on representative isolated data, with reviewed selection and
-operator/recovery steps. Production execution or its approval is a separate rollout prerequisite,
-not a reason by itself to fail PR sanity or require live mutations before publication.
+Before final evidence binding, finish intended code changes, generated output, formatting and
+mutating hooks; settle the index and intended revision. Commit first when already authorized;
+otherwise explicitly bind the intended uncommitted state without claiming a committed head.
+Keep red/green and exploratory observations, but do not repeatedly recapture final evidence while
+the bound state is still changing. Later changes invalidate affected evidence under the canonical
+reuse policy; never weaken freshness or skip required checks to avoid recapture.
 
 Before creating a draft PR, enumerate every acceptance criterion from the ticket and later decisions.
 Personally exercise each feasible criterion on the running surface where its behavior is observable;
@@ -296,47 +306,25 @@ PR revision, and when deployment evidence confirms the change has reached stagin
 for the review loop to finish or for the user to ask. This notification does not pause authorized
 work or replace the agent's own acceptance verification.
 
-For full ticket executions, use `skill://brew-test` after runtime verification to create or
-refresh a local Brew testing page for the initial draft-PR handoff and final completion or
-blocker handoff. Refresh the same page after published revisions and confirmed staging
-deployment during the active workflow. The reader-facing page contains only browser UI actions
-paired with explicit visual checks, plus minimal access/status context. No code, commands,
-scripts, developer tools, environment setup or administrative mutation instructions. Ordinary
-authorized UI edits/saves remain testable within `brew-test`'s safety limits. The agent handles
-authorized setup separately; unavailable prerequisites stay blocked. Follow `brew-test`'s local-only and
-rendered-page verification rules; this adds no publication/deployment authority or acceptance waiver.
-The ticket's existing acceptance and quality checks, scope reconciliation and `brew-test`'s
-verification form its built-in sanity check before initial publication and final completion.
-Apply **Walk the testing guide** in `reference/sanity-check.md` as part of that same pass,
-not a separate read-only invocation or duplicate walkthrough. Refresh the guide and re-walk
-affected steps after revisions; do not defer checking instructions until the user tries them.
-Read-only commands do not create testing pages unless requested; they inspect an existing guide
-when applicable. Keep chat handoffs short: link the verified guide, give its first action and any
-decision/blocker. A localhost guide is not a substitute for a reviewer-accessible PR checklist.
+For full ticket executions, `skill://brew-test` owns the reader-facing guide's content, checklist
+format, coverage, length, rendered verification and local-only delivery. Prepare and verify that
+guide before the first draft-PR handoff, not after a request for the checklist. Refresh the same
+page for published revisions, final completion/blockers and confirmed staging deployment.
+Read-only commands inspect an existing guide; they do not create one unless requested.
 
-Each handoff MUST include:
+Use one concise, head-specific handoff: **revision and environment; actual acceptance and any
+independent-sanity status; PR state/link; verified guide link and first action; next action or
+blocker**. Distinguish built-in verification from a separately requested standalone assessment.
+Put tenant/role, prepared records, gates, numbered UI journeys and backend-only limits in the
+guide; expose essential access context and gaps in chat without copying the entire checklist.
+Never invent a URL, imply that a build proves deployment, or call an unreachable runtime ready.
+For revisions, name the changed journeys and reuse the still-applicable full guide.
 
-- The PR link and the actual preview/local URL for PR testing, or the staging URL for staging
-  testing. Identify the environment and current head or deployed revision; never invent a URL or
-  imply branch membership proves deployment. If no test environment is reachable, name the blocker
-  and the exact known startup/access steps instead of claiming it is ready for testing.
-- Required tenant/account role, test records, setup and feature gates, without exposing credentials.
-- A verified guide/checklist covering every acceptance criterion with concrete numbered actions
-  and visible results, including relevant negative, scope and save/reload/reopen cases. In chat,
-  give its link and first action rather than pasting the whole checklist. For revisions, name
-  what changed and link the refreshed affected steps plus the still-applicable full checklist.
-- What the agent actually verified in that environment and any remaining gaps or access/data
-  blockers. Distinguish suggested user checks from checks already performed.
-
-The PR body is a short reviewer note under `skill://pr-description`, not the complete acceptance
-handoff. Keep concise observed verification and material gaps there. Longer testing instructions
-may be linked only when reviewers can access them; never substitute a localhost guide. Keep
-every acceptance criterion and prerequisite in the existing full handoff/record, not a second
-PR-body inventory. Refresh affected instructions after revisions and give the first concrete
-action in chat, not only a PR-body link.
-Confirm staging deployment through project-local operational evidence, then repeat the acceptance
-gate and send the staging handoff; do not claim staging verification from a build.
-This rule adds no deployment authorization or indefinite background monitoring.
+Guide walkthroughs share the ticket's existing evidence pass under **Walk the testing guide** in
+`reference/sanity-check.md`; they are not a second review or blanket app replay. Confirm actual
+deployment provenance before the staging gate/handoff. The short PR body follows
+`skill://pr-description`, not the private acceptance inventory; link longer instructions only
+when reviewers can access them. No added deployment authority or indefinite monitoring.
 
 ## Scope and authorization
 

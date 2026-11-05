@@ -24,6 +24,7 @@ Restart OMP or reload skills after installing or updating. Edit files in this ch
 
 - **execute:** Ticket implementation, PR review/revision, acceptance verification, testing handoffs, releases and operations. Mutating workflows begin with a concrete before/after and architecture flowchart on a local Brew page every time, discussed together with one agreement instead of repeated confirmations. Keeps original and expanded scope in the task plan, continues when no user action is needed, and names where changes happened. Substantive explanations, plans and reports default to local Brew pages regardless of length; chat carries the takeaway, link and decision needed. Built-in and explicit sanity checks follow the rendered testing guide through the UI. Includes [verified tool recipes](skills/execute/reference/tool-recipes.md) and a read-only, execution/revision-specific CodePipeline waiter.
 - **execute-update:** `/skill:execute-update <change>` updates execute locally in its canonical source, verifies it, then commits and pushes only the scoped change to the owning personal repos. Keeps the pipeline in skills and personal configuration/shims in dotfiles.
+- **execute-audit:** `/skill:execute-audit this week` reviews dated execute histories for token churn, repeated corrections, redundant checks and conflicting instructions. Separates actual uncached/output/cache usage from qualitative waste, preserves useful safeguards, and recommends changes without editing the pipeline or starting another verification loop.
 - **provision-account:** Create and invite tenant-scoped accounts using project runbooks; verify identity membership and application roles without exposing temporary passwords.
 - **brian-voice:** Brian's writing style.
 - **pr-description:** Fresh, stateless PR drafting from the current diff and observed verification. First-person reviewer notes, compact testing and preserved material risks, without internal process logs. Includes synthetic trial examples, a claim/audience check and saved-body readback; applies to create, revisions and readiness, not a CLI/CI enforcement gate.
@@ -54,6 +55,14 @@ running only missing targeted checks. Broad backend/frontend suites and other CI
 default sanity work; CI status and publication/merge gates remain separate. Unrelated or flaky
 suite failures do not become sanity blockers, while affected-path regressions and missing required
 behavioral evidence still do.
+
+Execute keeps inspected invariants and working verification recipes in the existing task record.
+Named examples are traced during discovery and probed before broad recomputation. Final evidence
+binds only after formatting, mutating hooks and the intended revision settle; helper command
+failures stop their batch without erasing successfully recorded product failures. The first
+handoff includes the verified interactive guide, revision/environment, actual acceptance and
+independent-sanity status, PR link/state and next action. Canonical policy stays in execute;
+`brew-test` owns guide format and project runbooks own private helper integration.
 
 ## Reuse instead of rediscovering
 
