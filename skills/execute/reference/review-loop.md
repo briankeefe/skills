@@ -15,13 +15,12 @@ The user has authorized this workflow to:
 
 Do not ask for confirmation for those actions. This authorization does not permit merging, force-pushing, changing the PR base, resolving unrelated feedback, broadening ticket scope, or ignoring repository publication rules.
 
-The standing repair authorization is also bounded by **Bounded assessment and closeout** in
-`skill://execute/reference/sanity-check.md`. Recover and preserve the ticket/PR's acceptance-round
-count before acting; increment before each grouped repair attempt and record its affected recheck.
-At the limit, finish only the final round's required current-head reviews within the remaining
-Cursor cap, then report any blockers without another repair or optional review. A fresh invocation
-does not reset the acceptance budget. Acceptance rounds do not count as Cursor rounds and cannot
-supply either Cursor approval.
+Apply **Bounded assessment and closeout** in `skill://execute/reference/sanity-check.md`:
+retain the baseline and repair history, resolve authorized in-scope acceptance failures and stop
+only for its evidence-backed blockers/no-progress conditions or explicit owner limits.
+Acceptance has no default repair-round cap, but this workflow's two completed Cursor
+thermo-nuclear rounds remain a hard limit. Neither repairs nor a fresh assessment supply
+either required approval or authorize another Cursor cycle after that limit.
 
 ## Establish the review cycle
 
@@ -41,8 +40,8 @@ Poll the host API at a reasonable interval until both Cursor actions triggered f
 A successful check run proves only that the automation executed. Approval must come from each action's review state or explicit review conclusion. Fetch full formal reviews, review bodies, inline comments, general comments, thread state and check details using the **Collect feedback** rules in `skill://execute/reference/update-pr.md`.
 
 Before acting, verify the PR head is still the recorded SHA. If another authorized actor pushed,
-refresh affected evidence and review bindings without overwriting their work or resetting the
-persisted acceptance budget.
+refresh affected evidence and review bindings without overwriting their work or discarding
+the baseline and repair history.
 
 ## Triage and respond
 Before changing code, read `skill://ponytail` if that skill is installed and apply its full ladder.
@@ -69,11 +68,10 @@ Reply to every substantive finding with its disposition. Never claim verificatio
 After all fixes and replies are published, confirm the new head is remote, refresh the whole PR
 description using `skill://execute`'s **PR descriptions** rules, and immediately send its revision
 testing handoff before waiting for another review. If fewer than two thermo-nuclear rounds have
-completed, finish the required current-head review cycle for the final allowed repair: comment
-exactly `/check`, record the new
-head and trigger timestamp, then return to **Wait and inspect**. An exhausted acceptance budget
-permits this final verification, not another repair or repeat review of an unchanged head.
-After the second Cursor round, do not post another `/check`; hand over unresolved blockers.
+completed and authorized repairs are verified, comment exactly `/check`, record the new head and
+trigger timestamp, then return to **Wait and inspect**. Do not repeat review of an unchanged head
+merely for a better verdict. After the second Cursor round, do not post another `/check`;
+hand over unresolved blockers even if further acceptance repair could otherwise be authorized.
 
 If an action fails without producing a substantive review, inspect the failure. Fix an in-scope cause; otherwise retrigger once. Repeated infrastructure failure, missing authentication, an unavailable reviewer action, or the same unsupported finding recurring without new evidence is a blocker: preserve the draft and notify the user with links and the exact reason.
 Two thermo-nuclear rounds are a hard cap even when the risk analysis has not approved or the second

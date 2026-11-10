@@ -48,7 +48,7 @@ The optional feature-video workflow in `execute` requires a separately installed
 during planning, implementation, full-change pre-publication review, PR review and sanity checks.
 It prioritizes structural simplification, canonical ownership, explicit contracts and cohesive
 files over cosmetic cleanup or extra abstractions. These local passes never replace the post-PR
-`/check` cycle, either required Cursor approval, or the existing two-round cap.
+`/check` cycle, either required Cursor approval, or the separate two-round Cursor review cap.
 
 Sanity checks verify sourced requirements and changed behavior, reusing applicable evidence and
 running only missing targeted checks. Broad backend/frontend suites and other CI sweeps are not
@@ -63,6 +63,13 @@ failures stop their batch without erasing successfully recorded product failures
 handoff includes the verified interactive guide, revision/environment, actual acceptance and
 independent-sanity status, PR link/state and next action. Canonical policy stays in execute;
 `brew-test` owns guide format and project runbooks own private helper integration.
+
+After approach agreement, execution owns in-scope repairs through acceptance without repeated
+"fix and recheck" permission. The [canonical closeout contract](skills/execute/reference/sanity-check.md#bounded-assessment-and-closeout)
+replaces the default two-repair acceptance cap with evidence-backed progress/no-progress stops.
+Independent reviewers remain read-only; their findings return to an already-active execution
+owner, not a new permission gate. A standalone assessment doesn't resume historical implementation.
+Real access/product/spend boundaries, explicit owner limits and Cursor's review cap still apply.
 
 ## Reuse instead of rediscovering
 

@@ -133,14 +133,14 @@ request to skip the quiz waives only this checkpoint, not authorization or safet
   known failures and successful verification commands/recipes in that same record. Before a
   repair or handoff, consult them; do not rediscover a settled contract or repeat a failed
   invocation unchanged. Update only facts invalidated by new evidence.
-- If no user action is needed, continue authorized work. A progress update is not a request
-  for "continue", and an intermediate milestone is not a stopping point. Before yielding,
-  identify completion, the exact user decision needed, or the external prerequisite that
-  blocks all remaining authorized work. Continue independent work when only one part is blocked.
-- When a decision is needed, state the concrete question, recommendation and consequence.
-  Ask only after exhausting relevant available evidence. Do not return "nothing needed"
-  while actionable work remains. These rules do not authorize repairs in a read-only workflow;
-  completing the requested assessment is completion even when its verdict is FAIL.
+- Own authorized execution through acceptance: implement, check, repair and recheck under
+  **Bounded assessment and closeout** in `reference/sanity-check.md`. In-scope failures, stale
+  evidence and review findings are work to resolve, not requests for another "fix and recheck".
+  A progress update, finished review or intermediate milestone does not end that ownership.
+  Before yielding, identify completion, an evidence-backed no-progress stop, the exact user
+  decision needed, or the external prerequisite blocking all remaining authorized work.
+  Continue independent work when only one criterion is blocked. Standalone read-only commands
+  still complete on their verdict; historical implementation permission alone does not resume them.
 - When reporting applied changes, name where they happened: local worktree, isolated data
   branch, staging or production. Do not say only "applied". This is clearer reporting, not
   another approval gate or permission to cross an existing authorization boundary.
@@ -253,7 +253,7 @@ multi-ticket sessions separate; cached reads and raw transcript size are not tok
 
 Use **Bounded assessment and closeout** and **PR readiness versus rollout completion** in
 `skill://execute/reference/sanity-check.md` as the canonical policy for case baselines, evidence
-reuse, criterion-local blockers, persisted repair limits and implementation-versus-rollout scope.
+reuse, criterion-local blockers, progress-bounded repairs and implementation-versus-rollout scope.
 Required verification and current-head reviews still block publication/readiness; these references
 are not additional review rounds. Project runbooks own helper syntax, not copies of this policy.
 
@@ -282,9 +282,9 @@ the criterion or constraint, or split/defer the work. Keep unmet criteria FAIL/B
 silently narrow acceptance or mark partial work complete. Record an approved revision and its
 source as a requirements change, preserve the original requirement/decision history, update the
 applicable cases and scope boundaries, and invalidate/re-exercise affected evidence. A decision
-does not substitute for passing verification; ordinary authorized fixes remain actionable within
-the persisted closeout limit. At exhaustion, report the blockers and request a bounded owner
-decision rather than starting another autonomous fix/review cycle.
+does not substitute for passing verification. Continue ordinary authorized fixes under the
+canonical progress/no-progress contract; keep missing access, product decisions and sensitive
+authorization boundaries explicit rather than treating a failed attempt as completion.
 
 After PR revisions, personally re-exercise affected criteria and any connected behavior the edits
 could change; reconcile the full criterion list against the current head before claiming feedback

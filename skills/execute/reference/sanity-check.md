@@ -19,7 +19,7 @@ The parent resolves the target and supplies source references, not a proposed ve
 - Applicable repository/personal instructions and authorization limits, this canonical workflow,
   and the complete in-scope diff/code locations for the reviewer to inspect directly.
 - Existing verification records with commands/actions, observed results, environment/revision and
-  known gaps; the current testing guide, frozen acceptance baseline and persisted closeout count.
+  known gaps; the current testing guide, frozen acceptance baseline and persisted repair history.
 
 Do not forward the implementing agent's conclusions, proposed PASS/FAIL, reassurance or narrative
 of why its solution is correct. When plans or evidence records mix facts with conclusions, identify
@@ -31,11 +31,12 @@ to accept a revised oracle or to treat the gap it leaves as settled.
 
 The reviewer performs the assessment below and returns the stage, PASS/WARNING/FAIL, sourced
 findings, observed verification and exact gaps. The parent relays that result without upgrading it
-or launching another reviewer to obtain a better verdict. Neither session may repair or publish;
-tracker writes and other external mutations remain subject to the user's explicit authorization.
-The fresh reviewer is the single initial assessment, not an additional review or a reset of the
-persisted acceptance/Cursor limits. An unchanged invocation reuses applicable evidence and verdict
-under the bounded contract below rather than rerunning checks merely for a new opinion.
+or launching another reviewer merely to obtain a better verdict. The reviewer stays read-only;
+the assessment grants neither session repair, publication or tracker-write authority.
+An already-active execution owner resumes only under its existing authorization as described
+below. The fresh assessment does not reset repair history or Cursor's separate review limit.
+An unchanged invocation reuses applicable evidence and verdict rather than rerunning checks
+merely for a new opinion.
 
 Built-in ticket/PR-revision acceptance verification stays in the working session. The composed
 `execute pr review [PR_URL] --sanity` also remains one review in its existing session, not a second
@@ -65,26 +66,31 @@ Use the existing task plan, acceptance record or PR report; no separate budget a
   safety preflight and evidence integrity checks still apply; stale receipts stay unverified,
   not PASS by explanation. Reassess only affected cases after a relevant change or new material
   evidence. An unchanged invocation returns the applicable prior verdict and remaining gaps.
-- **Two acceptance repair rounds total.** After initial implementation, record `Closeout: 0/2`
-  alongside the baseline and findings. Each separately authorized grouped repair attempt consumes
-  one round: increment before editing, then record affected verification, even when it fails.
-  Persist the count across publication, revisions, new heads, reviewers, agents and invocations
-  for the same ticket/PR closeout; recover existing rounds from task history rather than assuming
-  zero. If that history is unavailable, report the missing count instead of silently resetting it.
-  The final allowed round may finish affected verification and required current-head reviews
-  within their existing authorization and Cursor cap; it may not start another repair attempt
-  or optional independent review. At two rounds, hand over remaining blockers and smallest next
-  actions. Only explicit owner approval for a stated number of additional rounds extends the limit.
-  New material safety/correctness evidence still requires safe assessment and escalation, not
-  automatic extra repair rounds. This limit neither consumes nor resets Cursor's separate
-  two-round cap and never substitutes for its current-head approvals or publication gates.
+- **Own repairs through acceptance.** Once an implementation/revision workflow is authorized,
+  its owner fixes in-scope defects and verification/guide gaps without another repair approval.
+  Continue implement → check → repair → recheck until every required criterion passes or an
+  evidence-backed blocker remains. There is no default two-round acceptance repair cap.
+  Preserve explicit owner-imposed limits, scope, spend and sensitive-action boundaries.
+- **Bound attempts by evidence, not a counter.** Before another grouped repair, record the
+  failing criterion, supported cause, concrete next remedy and affected recheck in the existing
+  Closeout record. Retain attempts and outcomes across heads, agents and invocations; an old
+  `0/2` or `2/2` policy counter is history, not the new default stopping rule. A new commit,
+  repeated test or reworded explanation alone isn't progress. Continue when new evidence
+  supports a materially different in-scope remedy; don't repeat an exhausted approach.
+  If no credible authorized remedy remains, stop that criterion, finish independent work and
+  report the failing evidence, attempts, exact missing prerequisite/decision and smallest options.
+  Don't lower the baseline, resample paid output or seek repeated opinions to manufacture PASS.
+  This policy neither consumes nor resets Cursor's separate two-round cap and never substitutes
+  for current-head approvals or publication gates. At that cap, keep the PR draft and hand off
+  unresolved review/readiness blockers; don't start another review cycle to reach acceptance.
 
-An explicit `execute sanity check` invocation never starts a repair round or additional independent
-review, even when implementation was previously authorized. PASS, WARNING and FAIL all complete
-that read-only command: report the finite findings and next actions, then stop. Repairs belong to
-a separately authorized implementation/revision workflow under the same persisted closeout limit.
-This command-only stop rule does not halt a ticket's built-in verification pass; that workflow
-continues already-authorized work within the same repair limits, without a second assessment loop.
+Standalone `execute sanity check` remains read-only:
+PASS, WARNING and FAIL complete the assessment, not the ticket. They never start or resume
+implementation merely because it was authorized in an earlier session. When the assessment is
+an explicit step in an already-active authorized execution, the reviewer still only reports;
+the execution owner consumes its findings and continues in-scope repairs under the contract above,
+without requiring "address and recheck". Honor an explicit pause or report-only handoff for the
+parent. Built-in ticket verification stays in that execution, not a second assessment loop.
 
 ## 1. Establish what is being checked
 
@@ -190,8 +196,8 @@ explicitly requested. If a required ticket handoff guide is missing, report the 
   fabricated visual proxy.
 - A required journey that cannot be followed is not PASS. Report its smallest correction or
   prerequisite. Fix the guide/app only within an explicitly authorized implementation or revision
-  workflow and existing repair limits, then verify affected steps. A read-only sanity invocation
-  reports the finding without editing. Do not add another review or repair cycle for this pass.
+  workflow under the contract above, then verify affected steps. A standalone read-only assessment
+  reports the finding without editing. This pass does not add another review gate.
 
 Do not force a browser, E2E test generation, or a new test suite for changes they cannot meaningfully verify. Report unavailable runtime access or missing required targeted behavioral evidence as criterion-local gaps, not passes.
 

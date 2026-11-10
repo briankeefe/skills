@@ -32,6 +32,9 @@
 
 - Follow the red/green TDD contract in `skill://execute`: capture the failing behavior before
   production edits, make the minimum fix, then prove the same check passes.
+- Retain execution ownership through acceptance under **Bounded assessment and closeout** in
+  `reference/sanity-check.md`. Consume independent review findings as in-scope repair work when
+  execution remains active; do not stop for another "go" or an obsolete acceptance-round counter.
 - Make the smallest complete change following existing patterns; fix the root cause and migrate affected callers.
 - Apply **Implement against the same bar** in `skill://execute/reference/code-quality.md` as the
   change develops; do not postpone design cleanup until external review.
@@ -52,6 +55,9 @@
   publication** in `skill://execute/reference/code-quality.md`. Fix or substantiate presumptive
   quality blockers, record dispositions, and repeat affected acceptance verification after any
   restructuring. Keep an environment needed for the user's visual review.
+- Before claiming PASS, follow every required written guide journey, including connected routes
+  to the same outcome, and disclose known material payload/performance risks. A passing tested
+  route or case count doesn't establish an unexercised route or an unmeasured performance claim.
 - Prepare and verify the first testing guide under `skill://brew-test` and `skill://execute`'s
   **Testing handoffs** within the same acceptance pass. Reuse applicable journey evidence and
   re-walk only affected steps; do not create another assessment or repair loop.
