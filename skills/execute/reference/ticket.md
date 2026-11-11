@@ -16,9 +16,11 @@
    and reported failures; lack of a matching data example does not waive them.
 3. Resolve the assigned repository/worktree and intended PR base from available context under
    `skill://execute`'s **Discover once, reuse**; do not ask for facts already supplied there.
+   Consult Fable first under **Consult Fable before planning** in `skill://execute`, falling back
+   from T3 to vanilla Claude Code to the normal model only as that contract specifies.
 4. Prepare a proportionate proposed plan covering affected files, every acceptance criterion,
    risks and verification. Complete `skill://execute`'s **Pre-work Socratic checkpoint** with
-   the user before implementation, setup, tests or delegated work. Use read-only discovery
+   the user before implementation, setup, tests or delegated implementation. Use read-only discovery
    for the current-state explanation; do not present an unexamined design as settled.
    Apply **Plan before adding complexity** in `skill://execute/reference/code-quality.md`:
    identify canonical ownership/reuse, a simpler framing, affected callers and contracts, file-size

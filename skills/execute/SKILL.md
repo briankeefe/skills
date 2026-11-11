@@ -43,15 +43,56 @@ follow **Fresh reviewer for standalone checks** in `reference/sanity-check.md`. 
 verification and the composed `pr review --sanity` do not spawn an extra reviewer.
 
 ## Pre-work Socratic checkpoint
+## Consult Fable before planning
+
+Before settling a substantive execute plan or presenting the proposed approach, gather the minimum
+read-only context, then consult Fable using this order:
+
+1. **T3 first.** If T3 tools are available, inspect `orchestrator_capabilities` for Fable and use
+   `delegate_task` with the exact advertised provider/model. Request one read-only planning
+   consultation, not implementation or another review gate. Follow the returned waiting contract;
+   consume its completed result before finalizing the plan.
+2. **Vanilla Claude Code fallback.** If T3 or its Fable model is unavailable, or the consultation
+   fails because of access/model availability, check the installed `claude` CLI. Use its own
+   authentication and an explicit Fable model, not an OMP provider/proxy or an Opus substitute.
+   When the installed CLI supports these options, run a fresh non-interactive consultation in
+   the assigned worktree as a background shell job:
+
+   ```sh
+   env -u ANTHROPIC_OAUTH_TOKEN -u ANTHROPIC_API_KEY -u ANTHROPIC_AUTH_TOKEN -u ANTHROPIC_BASE_URL \
+     claude --model fable --print --permission-mode plan --output-format json "<planning brief>"
+   ```
+
+   CLI presence or a listed alias alone does not prove model access: the consultation must
+   succeed without a model substitution. Wait for that same process to exit and read its complete
+   output and exit status. Do not use `--bare`, permission bypass, `--resume`, `--continue`,
+   credential extraction or a second session to retrieve the first result.
+3. **Normal model last.** If neither route can provide Fable, record the concrete availability
+   failures briefly in the existing plan and plan with the current normal model. Do not block
+   the task, change that model, repeatedly retry, or ask the user to provision access.
+
+Give either consultant the actual request, known requirements/invariants, inspected code flow,
+repo/worktree and base, applicable instructions, unrelated changes to preserve, evidence and
+verification constraints. Ask for the simplest complete approach, material risks and missing
+decisions. Explicitly prohibit edits, setup, tests, services, data changes, tracker writes,
+publication and further delegation. Treat its advice as input: check claims against evidence,
+retain ownership of the plan and route product questions through the user.
+
+This narrow read-only consultation is allowed before the Socratic checkpoint closes; it does
+not authorize implementation or replace user agreement, acceptance checks or required Cursor
+reviews. Reuse an applicable completed consultation on resume; consult again only for a material
+change to the agreed approach. Read-only commands that do not need a plan gain no extra review.
+
 
 Before starting an implementation or other mutating execute workflow, explain the task-specific
 before, after and architecture. This **socraticQuiz** is a discussion to understand the work,
 not three rounds of "is this ok?" Read-only commands do not require this checkpoint.
 
 Only do the minimum read-only discovery needed to ground the discussion: read the request,
-ticket, relevant code and existing evidence. Except for creating and locally previewing the
-explanation page below, do not edit files, delegate implementation, run tests or setup, start
-services, change data, or publish anything before the checkpoint closes. Do not ask the user
+ticket, relevant code and existing evidence, including the read-only Fable consultation above.
+Except for that consultation and creating and locally previewing the explanation page below, do
+not edit files, delegate implementation, run tests or setup, start services, change data, or publish
+anything before the checkpoint closes. Do not ask the user
 to supply facts available in the repository.
 
 Write for a developer who can follow code but is new to the task's domain and product.

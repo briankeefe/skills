@@ -10,6 +10,8 @@
 
 ## Order the work
 
+- Consult Fable under **Consult Fable before planning** in `skill://execute` before settling
+  the order and approach: T3 first, vanilla Claude Code second, otherwise the normal model.
 - Distinguish explicit blocking relationships from inferred technical dependencies. A related-task link is not itself a blocker. Label assumptions and unresolved scope.
 - Order unfinished tasks after their prerequisites. Use project priorities and existing recommendations to break ties, then consider which task unlocks more work. Do not invent foundation phases without a real dependency.
 - Check for cycles, missing dependencies, external blockers and on-hold tasks. List the affected tasks and the decision needed to unblock them; do not force them into a runnable sequence.
