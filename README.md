@@ -83,6 +83,13 @@ pass. Handoffs name the exercised journey and evidence level before test counts.
 startup remains authorized execution work, while unsafe fixtures and genuine access/spend boundaries
 stay criterion-local blockers. These clarifications add no review round or verification framework.
 
+Nondeterministic acceptance requires a predeclared batch of three independent end-to-end runs per
+required affected journey, with frozen inputs and actual UI/artifact checks. All three must pass;
+failures are retained and diagnosed, not retried until green. Deterministic checks still apply.
+The [canonical policy](skills/execute/reference/sanity-check.md#bounded-assessment-and-closeout)
+preserves evidence reuse and existing safety/spend authorization; three passes aren't a reliability
+guarantee or permission for new paid calls.
+
 ## Reuse instead of rediscovering
 
 The installed skill entry points route agents to version-scoped CLI/JSON recipes and explicit

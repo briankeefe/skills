@@ -72,11 +72,32 @@ Use the existing task plan, acceptance record or PR report; no separate budget a
   still report gaps; this does not grant setup, paid-call or data-mutation authority.
 - **One evidence pass per relevant state.** Reuse applicable observations after checking relevant
   code, requirements, fixtures/data, runtime/role and model/prompt/context identities. Exercise
-  missing feasible cases once; retry a transient infrastructure failure at most once. Do not
-  regenerate paid outputs or launch another independent reviewer merely to get green. Required
+  missing feasible deterministic cases once; nondeterministic journeys use the three-run batch
+  below. Retry a transient infrastructure failure at most once; retain the interrupted attempt,
+  and never treat a completed behavioral failure as infrastructure. Do not regenerate paid
+  outputs or launch another independent reviewer merely to get green. Required
   safety preflight and evidence integrity checks still apply; stale receipts stay unverified,
   not PASS by explanation. Reassess only affected cases after a relevant change or new material
   evidence. An unchanged invocation returns the applicable prior verdict and remaining gaps.
+- **Three independent runs for nondeterministic acceptance.** For each required affected journey
+  whose result depends on nondeterministic behavior, require at least three independent
+  end-to-end executions at the same relevant implementation/runtime/model/prompt state.
+  Predeclare the batch in the existing acceptance record: freeze the natural inputs,
+  conversation/action sequence, expected outcomes and relevant configuration before admission.
+  Start each run from a fresh chat or equivalent safe reset; follow any required conversation
+  history within each run. Reopening a saved answer, replaying captured output or fixing a seed
+  to repeat one result does not count as independent generation.
+  Check the actual user-visible result and every required downloaded/persisted artifact in each
+  run, including semantic values, identities, distinct rows and required columns, not counts alone.
+  All three must pass. Any behavioral failure fails the batch: stop remaining admissions, retain
+  every outcome and diagnose it; do not coach inputs, tune between runs, discard failures or keep
+  sampling until three pass. After an evidence-backed repair, run a new affected batch; never
+  combine successes across changed states. Deterministic contract checks remain required.
+  This batch is one evidence pass, not three reviews; reuse an applicable complete batch on later
+  assessments rather than generating three more answers. Existing safety, paid-call authorization
+  and spend limits still apply. If they permit fewer than three runs, keep the criterion unverified
+  and report the exact boundary rather than silently lowering the minimum or exceeding authority.
+  Three passes are a minimum acceptance sample, not statistical proof or a quantitative benchmark.
 - **Own repairs through acceptance.** Once an implementation/revision workflow is authorized,
   its owner fixes in-scope defects and verification/guide gaps without another repair approval.
   Continue implement → check → repair → recheck until every required criterion passes or an

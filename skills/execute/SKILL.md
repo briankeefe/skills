@@ -252,6 +252,9 @@ Before proposing live/paid verification limits or admitting the first case:
 - Use the smallest complete set of required cases, applicable existing evidence and existing
   API/UI/database observations. Name the remaining checks and a clear stop condition in the
   existing plan; do not add a separate verification framework or blanket time limit.
+- For required nondeterministic journeys, budget the predeclared three-run end-to-end batch under
+  **Three independent runs for nondeterministic acceptance** in `reference/sanity-check.md`.
+  One successful output is not acceptance; deterministic replay does not replace independent runs.
 - Check whole-path resource bounds, including retries and already-admitted asynchronous work,
   against the proposed limits. Distinguish observed usage from a conservative bound, and
   stopping new admissions from enforcing a ceiling inside a running job. Unknown or
