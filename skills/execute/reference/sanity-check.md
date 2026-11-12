@@ -53,12 +53,23 @@ Use the existing task plan, acceptance record or PR report; no separate budget a
   in the changed path. Record its evidence and impact once. Reviewer suggestions, cosmetic polish
   and unrelated pre-existing debt stay nonblocking findings outside the required case table.
   Existing required cases cannot be removed or downgraded without a sourced owner-approved revision.
+  Preserve the original failing action/input and independent expected outcome, including natural
+  requests and conversation order for LLM behavior. Before changing a guide action, fixture,
+  assertion or readiness wait, record which sourced contract correction or owner-approved behavior
+  change makes the old expectation wrong. A request to "adjust" a failure is repair authority,
+  not permission to replace the failing journey with an easier one. Legitimate navigation/copy
+  corrections may fix a guide without changing the required product action or outcome.
 - **Keep prerequisites local to the criterion.** Name the exact missing input, oracle, access or
   authorization each BLOCKED case actually needs. A missing clinical benchmark rubric does not
   block deterministic selection, deduplication or quote checks. Finite named examples use their
   declared source-backed expectations; a quantitative accuracy benchmark needs its own approved
   corpus, denominator, rubric and threshold. Keep an unresolved benchmark visible and blocking
   whole-scope readiness unless the owner explicitly revises or splits its scope.
+  Within authorized execution, safe startup of an owned local service and ordinary missing checks
+  remain the agent's work. Before calling them external blockers, attempt the documented action
+  or identify the concrete access, safety or authorization boundary preventing it. An unsafe
+  fixture probe blocks that probe, not safe startup or independent checks. Read-only assessments
+  still report gaps; this does not grant setup, paid-call or data-mutation authority.
 - **One evidence pass per relevant state.** Reuse applicable observations after checking relevant
   code, requirements, fixtures/data, runtime/role and model/prompt/context identities. Exercise
   missing feasible cases once; retry a transient infrastructure failure at most once. Do not
@@ -71,6 +82,9 @@ Use the existing task plan, acceptance record or PR report; no separate budget a
   Continue implement → check → repair → recheck until every required criterion passes or an
   evidence-backed blocker remains. There is no default two-round acceptance repair cap.
   Preserve explicit owner-imposed limits, scope, spend and sensitive-action boundaries.
+  If a repair breaks a connected behavior, reconcile both failures with the shared owner/state
+  contract before another edit; a narrower green check is not progress while the preserved
+  behavior is broken. Use the coupled-consumer guidance in `code-quality.md`, not another review gate.
 - **Bound attempts by evidence, not a counter.** Before another grouped repair, record the
   failing criterion, supported cause, concrete next remedy and affected recheck in the existing
   Closeout record. Retain attempts and outcomes across heads, agents and invocations; an old
@@ -171,6 +185,13 @@ requirements; do not turn sanity into a second CI run.
 For bug fixes, check that the original failure is prevented. For UI changes, inspect the actual surface and relevant screenshots; passing logic tests alone do not prove appearance or interaction.
 
 For stateful behavior, look for one complete same-record journey through save, reload, and reopen or cancel where relevant; check the affected summary and unchanged peers. Probe the change's most likely boundary or negative case, not an exhaustive matrix. If this cannot be exercised before staging, make the gap explicit rather than promoting isolated tests to end-to-end proof.
+
+When shared behavior changes, exercise its relevant preserved consumers and interacting states
+identified under `code-quality.md`, not only the new feature. For polling UI, observe repeated
+automatic checks in healthy and recovery states; a manual-click or geometry check alone does not
+prove the interaction. Adding waits to many existing tests is a signal to inspect whether the
+application acquired an unwanted gate before normalizing those tests to it. Simulated streams or
+saved-state transitions prove their tested seams, not live model compliance or actual worker completion.
 
 ### Walk the testing guide
 

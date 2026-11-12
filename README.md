@@ -76,6 +76,13 @@ Independent reviewers remain read-only; their findings return to an already-acti
 owner, not a new permission gate. A standalone assessment doesn't resume historical implementation.
 Real access/product/spend boundaries, explicit owner limits and Cursor's review cap still apply.
 
+Regression prevention keeps the original failing action and independent expected result intact;
+changing a prompt, fixture, assertion or readiness wait needs a sourced reason, not a green result.
+Shared-state repairs check coupled consumers and preserved behavior in the existing acceptance
+pass. Handoffs name the exercised journey and evidence level before test counts. Safe owned-service
+startup remains authorized execution work, while unsafe fixtures and genuine access/spend boundaries
+stay criterion-local blockers. These clarifications add no review round or verification framework.
+
 ## Reuse instead of rediscovering
 
 The installed skill entry points route agents to version-scoped CLI/JSON recipes and explicit

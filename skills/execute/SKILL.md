@@ -365,6 +365,10 @@ Put tenant/role, prepared records, gates, numbered UI journeys and backend-only 
 guide; expose essential access context and gaps in chat without copying the entire checklist.
 Never invent a URL, imply that a build proves deployment, or call an unreachable runtime ready.
 For revisions, name the changed journeys and reuse the still-applicable full guide.
+Lead acceptance claims with the original user journey exercised and relevant preserved control,
+bound to the stated revision/environment. Test counts are supporting detail, not a verdict.
+Distinguish source tests, simulated transitions, real saved results and live generation; none
+establishes another evidence level merely because its output or receipt is green.
 
 Guide walkthroughs share the ticket's existing evidence pass under **Walk the testing guide** in
 `reference/sanity-check.md`; they are not a second review or blanket app replay. Confirm actual
