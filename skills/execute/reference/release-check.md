@@ -59,4 +59,5 @@ URL, merge SHA, target, exact inclusion and any revert/equivalence caveat.
 
 For one ticket/PR, one line per repo with target, deciding SHA and `IN`, `NOT REACHABLE`, or
 `UNKNOWN`, plus content/revert caveats when relevant. For a sweep, use a compact per-PR table.
-Branch membership is not proof of deployment; consult `ops-facts.md` for live-state questions.
+Branch membership is not proof of deployment. Use `staging-check.md` for staging arrival questions
+and `ops-facts.md` for other live-state questions.

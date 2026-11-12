@@ -97,6 +97,13 @@ The [CodePipeline monitoring recipe](skills/execute/reference/ops-facts.md#aws-c
 uses the bundled waiter with an explicit pipeline, execution, revision, AWS profile and region.
 It reports terminal failure or timeout without starting/retrying deployments.
 
+Use `execute staging-check <ticket/PR/sha>` for “has this landed on staging yet?”
+The [canonical staging check](skills/execute/reference/staging-check.md) follows the change into
+an actual deployment, including later descendant revisions, and separates deployed, deploying,
+not deployed and unknown. It distinguishes historical deployment from current runtime identity;
+merged PRs, branch membership and green builds are not deployment proof. A status question
+does not start a deployment, application acceptance run or watcher.
+
 PR bodies use the shared [PR-description contract](skills/pr-description/SKILL.md), also linked
 from `brian-voice` for callers outside execute. Try `/skill:pr-description` with a current diff,
 purpose and verified results to draft without publishing. The [offline trial cases](skills/pr-description/reference/examples.md)

@@ -33,10 +33,15 @@ An explicit command wins: `local-repro <PR_URL>` reproduces, it does not post a 
 | `execute update project NAME` | `reference/update-project.md` | Refresh project documentation |
 | `execute docs [topic]` | `reference/docs.md` | Draft project documentation |
 | `execute release-check <ticket/PR/sha> [target]` | `reference/release-check.md` | Check release membership or missing changes |
+| `execute staging-check <ticket/PR/sha>` | `reference/staging-check.md` | Check whether a change has deployed to staging |
 | `execute local-repro <ticket/PR>` | `reference/local-repro.md` | Bring up the relevant local stack and verify |
 | `execute ops [question]` | `reference/ops-facts.md` | Consult project-local operational guidance |
 
 Reference paths resolve as `skill://execute/reference/<doc>`.
+
+Questions such as “has this commit landed on staging yet?” route to `reference/staging-check.md`,
+not branch membership alone. `release-check` proves reachability; `staging-check` correlates the
+change with actual deployment provenance. Both are read-only unless further action is authorized.
 
 Standalone `execute sanity check` requires one fresh reviewer session without inherited conversation;
 follow **Fresh reviewer for standalone checks** in `reference/sanity-check.md`. Built-in acceptance

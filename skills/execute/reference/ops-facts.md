@@ -3,6 +3,9 @@
 Use for `execute ops [question]` or project-specific logging, telemetry, deployment and version
 questions. Apply `skill://execute`; this is a discovery workflow, not a universal deployment policy.
 
+For “has this ticket/PR/commit reached staging?”, use `staging-check.md` as the canonical workflow;
+this reference supplies provider-specific reads and the existing execution waiter.
+
 1. Identify the repository and environment from the question and current context. Read its
    operational docs, CI/deployment workflows, runtime configuration and logging helpers.
    Organization-specific architecture, provider keys, branch names, rollout rules and version-bump
@@ -17,9 +20,9 @@ questions. Apply `skill://execute`; this is a discovery workflow, not a universa
 4. Inspect read-only deployment status with the configured provider tooling after checking its
    installed capabilities. Correlate the successful deployment's artifact/commit with the actual
    environment; a green build alone is not proof of rollout or current live state.
-   When this confirms a tracked change has reached staging, apply `skill://execute`'s acceptance
-   gate and immediately send its staging testing handoff with the staging URL, prerequisites,
-   concrete steps and expected results, and observed verification or blockers.
+   During an active ticket workflow, confirmed staging arrival triggers `skill://execute`'s
+   staging acceptance gate and testing handoff. Standalone status questions report deployment
+   evidence without starting application acceptance checks or setup.
 5. Answer with source paths and observed artifact/commit/status. An operations question does not
    authorize a push, workflow dispatch, release, secret change or production mutation. Present any
    proposed action and its target/risk for explicit approval before acting.
@@ -35,8 +38,10 @@ for the one containing the requested revision.
 aws codepipeline list-pipeline-executions --pipeline-name "$PIPELINE" --profile "$AWS_PROFILE" --region "$AWS_REGION" --output json --no-cli-pager --query 'pipelineExecutionSummaries[].{id:pipelineExecutionId,status:status,revisions:sourceRevisions[].revisionId}'
 ```
 
-Select `EXECUTION_ID` by the expected revision, then use the bundled read-only waiter rather
-than constructing another polling loop. In OMP the installed path is:
+Select `EXECUTION_ID` by a source revision containing the requested change, using the ancestry
+rules in `staging-check.md` when it is a later descendant. Set `EXPECTED_REVISION` to that
+execution's full source revision, not the older requested commit. If the user requested waiting,
+use the bundled read-only waiter rather than constructing another polling loop. In OMP:
 
 ```bash
 python3 ~/.omp/agent/skills/execute/scripts/wait-codepipeline.py \
