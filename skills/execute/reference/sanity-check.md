@@ -128,9 +128,9 @@ the existing task plan, acceptance record or PR report.
   gates; at that cap, keep the PR draft, hand off unresolved blockers and start no further review
   cycle.
 
-Standalone `execute sanity check` ends at PASS, WARNING or FAIL; that completes the assessment, not
-the ticket, and does not resume implementation authorized in an earlier session. When the
-assessment is a step inside an active authorized execution, the reviewer reports and the owner
+Standalone `execute sanity check` and `execute pr review [PR_URL] --sanity` end at PASS, WARNING or
+FAIL; that completes the assessment, not the ticket, and does not resume implementation authorized
+in an earlier session. When the assessment is a step inside an active authorized execution, the reviewer reports and the owner
 continues in-scope repairs under the contract above, unless the user or parent asked for a pause
 or report-only handoff.
 

@@ -22,7 +22,8 @@ does not post a review.
 | `execute help` | (this file) | Show commands |
 | `execute <ticket-ID/name/issue-URL>` | `reference/ticket.md` | Fetch, plan, implement, verify, review, PR |
 | `execute pr summary [scope]` | `reference/pr-summary.md` | Summarize your open PRs |
-| `execute pr review <PR_URL>` | `reference/pr-review.md` | Review with Conventional Comments |
+| `execute pr review [PR_URL]` | `reference/pr-review.md` | Review with Conventional Comments |
+| `execute pr review [PR_URL] --sanity` | `reference/pr-review.md` | Review plus the canonical requirements sanity assessment |
 | `execute update-pr [PR_URL]` | `reference/update-pr.md` | Address actionable reviewer feedback |
 | `execute shepherd-pr [PR_URL]` | `reference/review-loop.md` | Run Cursor review/fix cycles, then mark the PR ready |
 | `execute actionable pr [scope]` | `reference/actionable-pr.md` | Find PRs with unaddressed feedback |

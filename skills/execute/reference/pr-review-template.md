@@ -22,6 +22,25 @@ Findings: <N> (<B> blocking, <U> non-blocking)
    Fix: <smallest concrete correction>
 ```
 
+For `--sanity` only, include this section in the same private report. Use
+`skill://execute/reference/sanity-check.md` for assessment semantics, evidence applicability and
+verdict rules, not a second review pass. Omit the section for the default review.
+
+```text
+## Sanity assessment
+Stage: <implementation readiness | explicitly requested rollout/completion stage>
+Verdict: <PASS | WARNING | FAIL>
+Scope and sources: <original request/ticket, approved decisions, comparison base>
+| Criterion and source location | Status | Evidence level and observation/reference | Gap and smallest next action |
+|---|---|---|---|
+| <every sourced criterion, including preserved behavior> | <satisfied | missing | unverified> | <inspection/unit/API/database/UI/staging/unverified; applicable shared evidence> | <none, or exact missing evidence/prerequisite> |
+
+<Material sanity findings: criterion/source, location, evidence, impact, kind,
+blocking disposition/reason and smallest next action; reference shared review findings
+instead of duplicating them. Record missing requirements explicitly if no baseline can
+be established. Keep pending rollout prerequisites separate from readiness criteria.>
+```
+
 Omit empty severity groups. Use HIGH for serious correctness/security/data-loss risks, MEDIUM for meaningful lower-impact defects, LOW only for worthwhile non-blocking improvements. Severity and blocking status are separate judgments.
 
 Conventional Comments labels: `issue`, `suggestion`, `question`, `nitpick`, `thought`, `praise`; decorate with `blocking`, `non-blocking`, `security` or `performance` when useful. Do not inflate questions into defects. Every finding needs exact verified location and evidence, not a guessed line or generic checklist. A finding outside an inline-addressable diff hunk stays in the review body with its real location.

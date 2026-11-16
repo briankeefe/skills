@@ -114,6 +114,14 @@ Each scenario runs three times with shuffled options and passes only if all thre
 scenario for each new incident instead of only adding prose. These are stated-choice checks, not
 proof of behavior on a live ticket. Each full run costs about 72 model calls.
 
+`execute pr review [PR_URL]` prepares the existing private review; omitting the URL resolves the
+current branch's PR when unambiguous. Opt in with `execute pr review [PR_URL] --sanity` to add the
+[canonical sanity assessment](skills/execute/reference/sanity-check.md) at the same pinned head.
+The combined report reuses requirements, inspection and applicable runtime evidence, lists every
+sourced criterion and its evidence/gaps, and keeps the sanity stage/verdict separate from the normal
+review recommendation. Missing requirements cannot yield sanity PASS. Neither command implies
+publication or repairs; the standalone assessment completes even when sanity fails.
+
 ## Reuse instead of rediscovering
 
 The installed skill entry points route agents to version-scoped CLI/JSON recipes and explicit
