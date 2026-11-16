@@ -21,10 +21,11 @@ The parent resolves the target and hands over sources, not a verdict:
   complete in-scope diff/code locations;
 - verification records (actions, observed results, environment/revision, known gaps), the testing
   guide, frozen acceptance baseline and repair history;
-- the oracle-change list (below) and the output of
-  `python3 <execute skill dir>/scripts/oracle-tripwire.py --base <base> --oracle <guide/acceptance
-  paths> --list <oracle-change list>`. The reviewer checks each flagged path against its source;
-  an UNDECLARED path or a declared one without a source is a finding.
+- the oracle-change list (below) and the output of `python3 <execute skill
+  dir>/scripts/oracle-tripwire.py --base <base> --baseline-dir <acceptance dir>/oracle-baseline
+  --oracle <guide> --oracle <acceptance record> --list <oracle-change list>`. The reviewer checks
+  each flagged path against its source; an UNDECLARED path or a declared one without a source is
+  a finding.
 
 Leave out the implementer's conclusions, proposed verdict, reassurance and narrative of why the
 fix works: a reviewer handed a hypothesis tends to confirm it. Where records mix facts and
@@ -61,7 +62,10 @@ the existing task plan, acceptance record or PR report.
   nonblocking findings outside the case table. Removing or downgrading a required case needs a
   sourced owner-approved revision. Keep the original failing action/input and its independent
   expected outcome, including natural requests and conversation order for LLM behavior. A request
-  to "adjust" a failure authorizes repair, not swapping in an easier journey.
+  to "adjust" a failure authorizes repair, not swapping in an easier journey. When the guide and
+  acceptance record exist, snapshot them with `scripts/oracle-tripwire.py --freeze --baseline-dir
+  <acceptance dir>/oracle-baseline --oracle <guide> --oracle <acceptance record>`; snapshots are
+  never overwritten, so approved revisions go on the oracle-change list instead.
 - **Treat oracles as locked.** Guide expectations, acceptance cases, fixtures and the assertions,
   inputs and waits of tests that existed at the base are the grader. Editing the grader to reach
   green is the most common way agents hide regressions. Navigation/copy corrections that keep the
@@ -70,8 +74,9 @@ the existing task plan, acceptance record or PR report.
   in an **oracle-change list** in the acceptance record with its source. Changes to an expected
   outcome or required action need owner approval before they count; the agent's own reading of a
   contract is a proposal, not a source. Run `scripts/oracle-tripwire.py` (beside `SKILL.md`)
-  before each handoff and PR revision; it flags edited assertions, waits and mocks in pre-existing
-  tests, deleted tests and oracle-file edits missing from the list. Report the list in the handoff.
+  with the same `--baseline-dir` and `--oracle` paths before each handoff and PR revision; it flags
+  edited assertions, waits and mocks in pre-existing tests, deleted tests, and guide/acceptance
+  edits since the freeze that are missing from the list. Report the list in the handoff.
   Several pre-existing tests needing the same new wait or mock means the product likely gained an
   unwanted gate: diagnose the product first.
 - **Keep prerequisites local to the criterion.** Name the exact input, oracle, access or

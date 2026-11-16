@@ -52,4 +52,22 @@ with tempfile.TemporaryDirectory() as directory:
     result = run("--oracle", "guide.md", "--list", "oracle-changes.md")
     assert result.returncode == 0 and "declared    src/chat.test.ts" in result.stdout, result.stdout
 
-print("PASS: ignores non-oracle edits; flags added waits, deleted tests and guide edits; honors the list")
+    # Oracles outside the repo are compared with the frozen snapshot, which is never overwritten.
+    outside = Path(directory) / "acceptance"
+    outside.mkdir()
+    guide, baseline = outside / "guide.md", outside / "baseline"
+    guide.write_text("Click Run. Report starts.\n")
+    check = ("--oracle", str(guide), "--baseline-dir", str(baseline))
+    assert "no frozen baseline" in run(*check).stdout
+    freeze = subprocess.run([sys.executable, str(script), "--freeze", *check], cwd=repo,
+                            capture_output=True, text=True)
+    assert freeze.returncode == 0 and "frozen" in freeze.stdout, freeze.stdout + freeze.stderr
+    result = run(*check, "--list", "oracle-changes.md")
+    assert str(guide) not in result.stdout, result.stdout
+    guide.write_text("Click Retrieve. Results appear.\n")
+    subprocess.run([sys.executable, str(script), "--freeze", *check], cwd=repo, capture_output=True)
+    result = run(*check, "--list", "oracle-changes.md")
+    assert result.returncode == 1 and f"UNDECLARED  {guide}: oracle file changed" in result.stdout, result.stdout
+
+print("PASS: ignores non-oracle edits; flags added waits, deleted tests and guide edits; honors the "
+      "list; out-of-repo oracles checked against a freeze that cannot be overwritten")

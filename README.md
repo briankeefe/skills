@@ -97,6 +97,8 @@ final head. Its FAIL stands until a fresh assessment of a repaired head replaces
 implementer's own recheck can't overturn it. `skills/execute/scripts/oracle-tripwire.py --base <ref>`
 flags edited assertions, waits and mocks in pre-existing tests, deleted tests and guide/acceptance
 edits that are missing from the oracle-change list; the readiness gate requires it to be clean.
+Guides and acceptance records live outside the app repo, so `--freeze` snapshots them when the
+baseline is recorded and later checks compare against that snapshot, which is never overwritten.
 
 ### Evaluating changes to the execute skill
 
