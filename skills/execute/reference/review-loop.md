@@ -86,9 +86,15 @@ Continue the cycle until all of these are true for the current head and latest `
 - the risk analysis action explicitly approves;
 - the thermo-nuclear review explicitly approves or states that no blocking changes are required;
 - no newer unresolved `CHANGES_REQUESTED` review or substantive Cursor finding remains; and
-- required repository checks are not failing because of this PR.
+- required repository checks are not failing because of this PR; and
+- a fresh-session assessment under **Fresh reviewer for standalone checks** in
+  `skill://execute/reference/sanity-check.md` returned PASS or WARNING for the current head, with
+  no unresolved independent FAIL/BLOCKED. A FAIL is in-scope repair work. Repair, re-exercise the
+  affected cases, then request one fresh assessment of the new head. That assessment does not
+  count as a Cursor round.
 
-Approval from one Cursor action never substitutes for the other. An old approval, green automation run, author's reply, dismissed review, or outdated thread does not satisfy this gate.
+Approval from one Cursor action never substitutes for the other, and neither substitutes for the
+independent acceptance verdict. An old approval, green automation run, author's reply, dismissed review, or outdated thread does not satisfy this gate.
 
 ## Finish
 

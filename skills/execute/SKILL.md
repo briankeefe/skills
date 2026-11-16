@@ -45,7 +45,8 @@ change with actual deployment provenance. Both are read-only unless further acti
 
 Standalone `execute sanity check` requires one fresh reviewer session without inherited conversation;
 follow **Fresh reviewer for standalone checks** in `reference/sanity-check.md`. Built-in acceptance
-verification and the composed `pr review --sanity` do not spawn an extra reviewer.
+verification and the composed `pr review --sanity` do not spawn an extra reviewer; the one
+exception is the fresh assessment required before marking an executed PR ready.
 
 ## Pre-work Socratic checkpoint
 ## Consult Fable before planning

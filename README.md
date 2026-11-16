@@ -90,6 +90,12 @@ The [canonical policy](skills/execute/reference/sanity-check.md#bounded-assessme
 preserves evidence reuse and existing safety/spend authorization; three passes aren't a reliability
 guarantee or permission for new paid calls.
 
+Acceptance oracles are locked: changing an expected outcome or required action, removing a case,
+or adding waits to pre-existing tests goes on an oracle-change list. Outcome changes need owner
+approval. Before an executed PR is marked ready, one fresh-session sanity assessment grades the
+final head. Its FAIL stands until a fresh assessment of a repaired head replaces it; the
+implementer's own recheck can't overturn it.
+
 ## Reuse instead of rediscovering
 
 The installed skill entry points route agents to version-scoped CLI/JSON recipes and explicit

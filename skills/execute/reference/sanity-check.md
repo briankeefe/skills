@@ -20,6 +20,9 @@ The parent resolves the target and supplies source references, not a proposed ve
   and the complete in-scope diff/code locations for the reviewer to inspect directly.
 - Existing verification records with commands/actions, observed results, environment/revision and
   known gaps; the current testing guide, frozen acceptance baseline and persisted repair history.
+- The oracle-change list (below) and the pre-existing test files changed since the base
+  (`git diff --stat <base>...<head>` filtered to tests that existed at the base). The reviewer
+  checks each against its source; an oracle change without one is a finding.
 
 Do not forward the implementing agent's conclusions, proposed PASS/FAIL, reassurance or narrative
 of why its solution is correct. When plans or evidence records mix facts with conclusions, identify
@@ -38,9 +41,17 @@ below. The fresh assessment does not reset repair history or Cursor's separate r
 An unchanged invocation reuses applicable evidence and verdict rather than rerunning checks
 merely for a new opinion.
 
-Built-in ticket/PR-revision acceptance verification stays in the working session. The composed
-`execute pr review [PR_URL] --sanity` also remains one review in its existing session, not a second
-reviewer; only the standalone `execute sanity check` command requires this fresh-session handoff.
+Built-in ticket/PR-revision acceptance verification stays in the working session, and the composed
+`execute pr review [PR_URL] --sanity` remains one review in its existing session. The exception is
+the readiness gate: before marking an executed PR ready, the owner runs this fresh-session
+assessment once on the final head. The implementer's own checks are self-graded; a reviewer that
+did not write the change catches regressions in preserved behavior that the implementer's checks
+are built around.
+
+**Independent verdicts stand.** An independent FAIL or BLOCKED stays in force for that head. The
+implementing agent's recheck, explanation or user-facing summary cannot overturn it or report
+PASS over it. After an evidence-backed repair, a fresh assessment of the new head (affected cases
+plus the original finding) replaces it. Never describe self-verification as an independent PASS.
 
 ## Bounded assessment and closeout
 
@@ -54,11 +65,18 @@ Use the existing task plan, acceptance record or PR report; no separate budget a
   and unrelated pre-existing debt stay nonblocking findings outside the required case table.
   Existing required cases cannot be removed or downgraded without a sourced owner-approved revision.
   Preserve the original failing action/input and independent expected outcome, including natural
-  requests and conversation order for LLM behavior. Before changing a guide action, fixture,
-  assertion or readiness wait, record which sourced contract correction or owner-approved behavior
-  change makes the old expectation wrong. A request to "adjust" a failure is repair authority,
-  not permission to replace the failing journey with an easier one. Legitimate navigation/copy
-  corrections may fix a guide without changing the required product action or outcome.
+  requests and conversation order for LLM behavior. A request to "adjust" a failure is repair
+  authority, not permission to replace the failing journey with an easier one.
+- **Treat oracles as locked.** Guide expectations, acceptance cases, fixtures and the assertions,
+  inputs and waits of tests that existed at the base are the grader. Editing the grader to reach
+  green is the most common way agents hide regressions. Navigation/copy corrections that keep the
+  required action and outcome need no approval. Any other change to an existing oracle (expected
+  result, required action/input, removed case, or an added wait/retry in a pre-existing test) goes
+  in an **oracle-change list** in the acceptance record with its source. Changes to an expected
+  outcome or required action need owner approval before they count; the agent's own reading of a
+  contract is a proposal, not a source. Report the list in every handoff and PR revision.
+  Several pre-existing tests needing the same new wait or mock means the product likely gained an
+  unwanted gate: diagnose the product first.
 - **Keep prerequisites local to the criterion.** Name the exact missing input, oracle, access or
   authorization each BLOCKED case actually needs. A missing clinical benchmark rubric does not
   block deterministic selection, deduplication or quote checks. Finite named examples use their
@@ -210,9 +228,8 @@ For stateful behavior, look for one complete same-record journey through save, r
 When shared behavior changes, exercise its relevant preserved consumers and interacting states
 identified under `code-quality.md`, not only the new feature. For polling UI, observe repeated
 automatic checks in healthy and recovery states; a manual-click or geometry check alone does not
-prove the interaction. Adding waits to many existing tests is a signal to inspect whether the
-application acquired an unwanted gate before normalizing those tests to it. Simulated streams or
-saved-state transitions prove their tested seams, not live model compliance or actual worker completion.
+prove the interaction. Simulated streams or saved-state transitions prove their tested seams, not
+live model compliance or actual worker completion.
 
 ### Walk the testing guide
 
