@@ -1,6 +1,6 @@
 ---
 name: standup
-description: Prepare a ticket-by-ticket standup briefing with Linear titles, status changes, recent work, today's focus, and genuine blockers. Use when the user asks to prep for standup, asks what they worked on since the previous weekday at 11:00 AM, asks what they are working on today, or invokes /standup.
+description: Prepare a ticket-by-ticket standup briefing limited to In Progress, In Review, and Staging tickets, with Linear titles, status changes, recent work, today's focus, and genuine blockers. Use when the user asks to prep for standup, asks what they worked on since the previous weekday at 11:00 AM, asks what they are working on today, or invokes /standup.
 argument-hint: "[optional scope]"
 ---
 
@@ -8,11 +8,20 @@ argument-hint: "[optional scope]"
 
 Produce a factual, ticket-by-ticket standup briefing, not a script telling the user what to say, covering:
 
-1. completed or materially advanced work since 11:00 AM on the previous weekday, in the user's local timezone;
+1. materially advanced work on eligible tickets since 11:00 AM on the previous weekday, in the user's local timezone;
 2. work currently in progress today;
 3. blockers that are evidenced by the available sources.
 
 Do the research. Do not ask the user to remember their own work.
+
+## Eligible tickets
+
+Include only tickets whose current Linear status is **In Progress**, **In Review**, or **Staging**.
+Apply this filter to every section, including recent work, today's focus, blockers, and collapsed groups.
+Exclude **Ready for Release**, **Done**, and all other statuses, even if the ticket changed during the
+window, its PR just merged, or its code is still on staging. Current Linear status controls inclusion,
+not deployment state or a previous status. Omit tickets with unverified current status and disclose
+the source limitation once. Do not add unticketed work or excluded tickets as secondary follow-up.
 
 ## Time window
 
@@ -91,18 +100,18 @@ Show `Previous → Current` only when dated issue history, an earlier recorded s
 evidence establishes that transition during the window. Otherwise show just the current status and
 explain once in the evidence note that status transitions were not verified. Do not repeat that caveat per ticket.
 An issue's `updatedAt`, a merged PR, or a branch name does not prove a Linear status change. Never
-substitute PR lifecycle states for Linear statuses. If Linear is unavailable, retain supported work
-and mark the ticket title/status unavailable rather than guessing. All tracker access remains read-only.
+substitute PR lifecycle states for Linear statuses. If Linear is unavailable, use another fresh,
+direct record of its current status or omit the ticket and disclose the limitation rather than
+guessing eligibility. All tracker access remains read-only.
 
 ## Synthesis
 
-- Deduplicate commits, PRs, and sessions by Linear ticket. Give each relevant ticket its own entry with its identifier, exact title, status or evidenced status change, and a short work note.
+- Deduplicate commits, PRs, and sessions by Linear ticket. Each ticket appears exactly once in the entire briefing, including collapsed groups, with its identifier, exact title, status or evidenced status change, and a short work note.
 - Prefer user-visible or engineering outcomes over commit-by-commit narration. Link the ticket identifier to Linear; add a PR link only when useful.
-- Put completed or materially advanced work under **Since last standup**. Put unfinished, actively supported work and its next concrete step under **Today**, even if it began before today.
-- A ticket may appear in both sections only when they describe different facts: a recent outcome and a remaining next step. Do not repeat the same work note.
-- Foreground substantive implementation, merged outcomes, and active delivery work. Sizing-only discussions are planning, not implementation: group them in a collapsed **Planning only** section, retaining each ticket's title, status, and estimate inside it.
-- Put secondary unticketed engineering follow-up in its own collapsed section. Do not inflate the main list with planning or routine follow-up, or imply that every listed ticket was an implementation effort.
-- Report only genuine impediments requiring a decision, access, missing input/data, or another dependency that prevents the next meaningful step. Name the affected ticket and what is needed to unblock it.
+- Choose one section per ticket: **Blockers** when a genuine impediment prevents its next meaningful step; otherwise **Today** when actively supported work has a concrete next step; otherwise **Since last standup** for materially advanced work in the window.
+- Combine the recent outcome, next step and any blocker in that single entry. Never repeat the ticket in another section, even to describe different facts.
+- Foreground substantive implementation and active delivery work on eligible tickets. Sizing-only discussions are planning, not implementation: include them in a collapsed **Planning only** section only when the tickets meet the same current-status filter, retaining each ticket's title, status, and estimate.
+- Report only genuine impediments requiring a decision, access, missing input/data, or another dependency that prevents the next meaningful step. Put the affected ticket's single full entry under **Blockers**, including its recent work and what is needed to unblock it.
 - CI failures, pending CI, ordinary code fixes, merge conflicts, review feedback, and waiting for routine review are engineering follow-up, not standup blockers. Mention them briefly in the ticket's work note only when useful; do not promote them to **Blockers**.
 - If evidence conflicts, prefer the newest direct evidence and state the uncertainty briefly.
 - Omit categories with no supported items. Never invent activity or blockers to make the update look complete.
@@ -126,26 +135,8 @@ statuses when available. Omit unsupported or empty sections, including optional 
 
 - [ENG-102](https://example.test/ENG-102) · Align submission and remittance details
 
-  **Ready for Release.** Merged source-alignment and pagination fixes.
+  **In Review.** Source-alignment and pagination fixes are awaiting review.
 
-- [ENG-103](https://example.test/ENG-103) · Align database permissions
-
-  **Ready for Release.** Merged access alignment; on staging, not production.
-
-<details>
-<summary>Planning only: estimated two search improvements (3 points total)</summary>
-
-- [ENG-107](https://example.test/ENG-107) · Find exact document titles
-
-  **Ready for Work.** Local estimate: 1 point.
-
-- [ENG-108](https://example.test/ENG-108) · Open documents from search results
-
-  **Ready for Work.** Local estimate: 2 points.
-
-Estimates were saved locally, not posted to Linear. These were sizing discussions, not implementation work.
-
-</details>
 
 **Today**
 
@@ -163,20 +154,17 @@ Estimates were saved locally, not posted to Linear. These were sizing discussion
 
 **Blockers**
 
-- [ENG-102](https://example.test/ENG-102) · One payment-posting staging check needs a populated staging record. Other checks can proceed.
+- [ENG-107](https://example.test/ENG-107) · Verify intake on staging
 
-<details>
-<summary>Other engineering follow-up</summary>
+  **Staging.** Intake is deployed. One check needs a populated staging record; obtain that fixture to finish verification.
 
-Unticketed workspace-build fix: removed nested prerequisite builds. PR remains open.
-
-</details>
 
 *Statuses are current Linear states, not verified transitions. Evidence: Git, GitHub, Linear, and dated sessions; <exact local-time start and end>. <Material source limits, if any>.*
 ```
 
-Keep notes factual and short, not first-person speech. Include every supported relevant ticket,
+Keep notes factual and short, not first-person speech. Include every supported eligible ticket,
 but distinguish planning from implementation and keep secondary detail collapsed. Never invent
 a ticket mapping. Follow the user's delivery preference for local Brew versus inline output.
+Before delivery, check ticket identifiers across all sections and remove duplicates without losing outcomes, next steps or blockers.
 For Brew, authored links must open fresh tabs; use explicit `target="_blank" rel="noopener"`
 HTML links if the renderer does not supply those attributes.
