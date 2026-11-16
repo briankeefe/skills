@@ -44,13 +44,11 @@ decisions never transfer review approvals or expand authorization.
 Flag conflicting requests and missing evidence. Show the complete triage and proposed scope. If nothing needs attention, report that with any coverage limitations and stop.
 
 Apply **Bounded assessment and closeout** in `skill://execute/reference/sanity-check.md` before
-starting repairs. Recover the same ticket/PR's baseline and acceptance-round count; a fresh
-reviewer, invocation or head does not reset it. Increment before each grouped authorized material
-repair attempt and record the affected recheck even on failure. At the limit, finish only required
-verification for that final round, then report remaining blockers instead of starting another
-repair attempt or optional independent review.
-Optional suggestions stay outside required cases; new material defects and safety-critical
-verification gaps remain actionable for assessment and escalation.
+starting repairs. Recover the same ticket/PR's baseline, attempts and outcomes; retain them across
+reviewers, invocations and heads. Continue authorized in-scope repairs and affected rechecks until
+acceptance passes or that contract's blocker/no-progress conditions apply, without another
+"fix and recheck" approval. Optional suggestions stay outside required cases; concrete material
+defects and safety-critical verification gaps remain actionable within authorization.
 
 Proceed with fixes covered by the user's request. Ask only about disputed findings, material scope/risk changes or missing requirements. Authorization to edit does not by itself authorize publishing replies.
 
@@ -75,8 +73,9 @@ Before treating feedback as addressed or publishing revised code or a fix reply,
 ticket acceptance criterion against the current head. Personally re-exercise each criterion the
 revision could affect on the actual running surface, including named negative and stateful cases;
 carry forward other criteria only when their prior manual evidence still applies unchanged. Record
-observed outcomes and environment, not just passing tests or reviewer approval. If a criterion fails
-or cannot be exercised, leave the PR in draft, report the blocker, and do not claim the fix is ready.
+observed outcomes and environment, not just passing tests or reviewer approval. If a criterion
+fails or lacks feasible evidence, continue authorized repairs/checks under the closeout contract.
+If genuinely blocked, leave the PR draft, report the exact blocker and don't claim readiness.
 
 ## Publish within authorization
 
@@ -98,8 +97,7 @@ with expected results, and connected regression checks. Do this before continuin
 user testing does not replace the revision acceptance gate.
 
 If the PR remains a draft and the repository supports `/check`, continue with
-`skill://execute/reference/review-loop.md` within its separate Cursor cap. At the acceptance limit,
-finish only the final allowed round's required current-head verification; do not start another
-repair attempt. At a limit with unresolved blockers, or when no review cycle applies, report the
-PR URL, fixes actually published, replies actually posted, exact verification and remaining items.
+`skill://execute/reference/review-loop.md` within its separate Cursor cap. At that cap or an
+evidence-backed blocker/no-progress stop, or when no review cycle applies, report the PR URL,
+fixes actually published, replies actually posted, exact verification and remaining items.
 Keep posted review requests, running checks and completed reviews distinct.

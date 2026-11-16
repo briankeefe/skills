@@ -22,16 +22,30 @@ Restart OMP or reload skills after installing or updating. Edit files in this ch
 
 ## Included skills
 
-- **execute:** Ticket implementation, PR review/revision, acceptance verification, testing handoffs, releases and operations. Mutating workflows begin with a Socratic checkpoint on current state, target state and architecture before work starts. Investigates real edge-case evidence before speculative escalation or defensive scope. Includes [verified tool recipes](skills/execute/reference/tool-recipes.md) and a read-only, execution/revision-specific CodePipeline waiter.
+- **execute:** Ticket implementation, PR review/revision, acceptance verification, testing handoffs, releases and operations. Mutating workflows begin with a concrete before/after and architecture flowchart on a local Brew page every time, discussed together with one agreement instead of repeated confirmations. Keeps original and expanded scope in the task plan, continues when no user action is needed, and names where changes happened. Substantive explanations, plans and reports default to local Brew pages regardless of length; chat carries the takeaway, link and decision needed. Built-in and explicit sanity checks follow the rendered testing guide through the UI. Includes [verified tool recipes](skills/execute/reference/tool-recipes.md) and a read-only, execution/revision-specific CodePipeline waiter.
+- **execute-update:** `/skill:execute-update <change>` updates execute locally in its canonical source, verifies it, then commits and pushes only the scoped change to the owning personal repos. Keeps the pipeline in skills and personal configuration/shims in dotfiles.
+- **execute-audit:** `/skill:execute-audit this week` reviews dated execute histories for token churn, repeated corrections, redundant checks and conflicting instructions. Separates actual uncached/output/cache usage from qualitative waste, preserves useful safeguards, and recommends changes without editing the pipeline or starting another verification loop.
 - **provision-account:** Create and invite tenant-scoped accounts using project runbooks; verify identity membership and application roles without exposing temporary passwords.
 - **brian-voice:** Brian's writing style.
+- **pr-description:** Fresh, stateless PR drafting from the current diff and observed verification. First-person reviewer notes, compact testing and preserved material risks, without internal process logs. Includes synthetic trial examples, a claim/audience check and saved-body readback; applies to create, revisions and readiness, not a CLI/CI enforcement gate.
 - **brew-clear:** Clear Brew articles and diagrams; uses `brian-voice` and the content repository's `AUTHORING.md`.
-- **brew-test:** Local Brew testing guides with browser-only actions and explicit visual checks. No code, scripts or environment setup for the reader. Runs automatically at full `execute` ticket handoffs and refreshes after published revisions; can also be requested directly.
+- **brew-update:** `/skill:brew-update <page or change>` edits and previews locally before committing and pushing to the owning personal repos. Meaningful shared Brew changes also require an app PR; ordinary page edits do not. Hosted publication remains explicit and separate.
+- **brew-test:** Concise local UI testing walkthroughs, not acceptance inventories. Handoff requires a measured 900-word maximum (unless the user approves another budget), a repetition review and a private map covering every sourced criterion. Actions and visual checks render separately; shared checkboxes save personal progress, not acceptance evidence. Coverage/budget conflicts block delivery instead of silently expanding the guide or dropping cases. No reader-facing code or environment setup. Runs at full `execute` handoffs, after published revisions, or on request; verifies written journeys on the real app.
 - **square-image:** Center-crop and resize square images.
-- **standup:** Evidence-based standup preparation with a bundled read-only Git/GitHub/Linear collector.
+- **standup:** Ticket-by-ticket standup briefing with Linear titles/statuses, recent outcomes, today's work, and genuine blockers. Includes a reference layout with collapsed planning-only work and engineering follow-up, plus a bundled read-only Git/GitHub/Linear collector. CI and routine review follow-up are not standup blockers.
 - **pointing:** Historically calibrated, agent-assisted ticket estimates; two-sentence summaries, independent guesses, one-at-a-time comparison and durable saved answers. Start with `/skill:pointing kubera <ticket IDs or URLs>`; Kubera's scale and examples live in local project guidance.
 
 Repository-specific accounts, environments, reviewer actions and tooling must be resolved from the target project's instructions. No credentials or private repository history are included here.
+
+Execute approach pages teach the task's domain model and normal behavior before the bug.
+They carry one worked example through before and after, then explain the engineering fix.
+Size follows understanding rather than a word target; remove repetition before essential context.
+The existing local Brew handoff and single agreement checkpoint remain unchanged.
+
+Before settling an execute plan, consult Fable through T3 when available, then try vanilla
+Claude Code with its own authentication and an explicit Fable model. If neither can provide
+Fable, plan with the normal model and record the availability limits. This read-only advice
+doesn't replace approach agreement, acceptance verification or required Cursor reviews.
 
 The optional feature-video workflow in `execute` requires a separately installed `playwright-demo-kit` checkout with its recording-lock wrapper; it is not bundled here. `ponytail`, when installed separately, supplements the review workflow's minimum-complexity guidance.
 
@@ -39,7 +53,82 @@ The optional feature-video workflow in `execute` requires a separately installed
 during planning, implementation, full-change pre-publication review, PR review and sanity checks.
 It prioritizes structural simplification, canonical ownership, explicit contracts and cohesive
 files over cosmetic cleanup or extra abstractions. These local passes never replace the post-PR
-`/check` cycle, either required Cursor approval, or the existing two-round cap.
+`/check` cycle, either required Cursor approval, or the separate two-round Cursor review cap.
+
+Sanity checks verify sourced requirements and changed behavior, reusing applicable evidence and
+running only missing targeted checks. Broad backend/frontend suites and other CI sweeps are not
+default sanity work; CI status and publication/merge gates remain separate. Unrelated or flaky
+suite failures do not become sanity blockers, while affected-path regressions and missing required
+behavioral evidence still do.
+
+Execute keeps inspected invariants and working verification recipes in the existing task record.
+Named examples are traced during discovery and probed before broad recomputation. Final evidence
+binds only after formatting, mutating hooks and the intended revision settle; helper command
+failures stop their batch without erasing successfully recorded product failures. The first
+handoff includes the verified interactive guide, revision/environment, actual acceptance and
+independent-sanity status, PR link/state and next action. Canonical policy stays in execute;
+`brew-test` owns guide format and project runbooks own private helper integration.
+
+After approach agreement, execution owns in-scope repairs through acceptance without repeated
+"fix and recheck" permission. The [canonical closeout contract](skills/execute/reference/sanity-check.md#bounded-assessment-and-closeout)
+replaces the default two-repair acceptance cap with evidence-backed progress/no-progress stops.
+Independent reviewers remain read-only; their findings return to an already-active execution
+owner, not a new permission gate. A standalone assessment doesn't resume historical implementation.
+Real access/product/spend boundaries, explicit owner limits and Cursor's review cap still apply.
+
+Regression prevention keeps the original failing action and independent expected result intact;
+changing a prompt, fixture, assertion or readiness wait needs a sourced reason, not a green result.
+Shared-state repairs check coupled consumers and preserved behavior in the existing acceptance
+pass. Handoffs name the exercised journey and evidence level before test counts. Safe owned-service
+startup remains authorized execution work, while unsafe fixtures and genuine access/spend boundaries
+stay criterion-local blockers. These clarifications add no review round or verification framework.
+
+Nondeterministic acceptance requires a predeclared batch of three independent end-to-end runs per
+required affected journey, with frozen inputs and actual UI/artifact checks. All three must pass;
+failures are retained and diagnosed, not retried until green. Deterministic checks still apply.
+The [canonical policy](skills/execute/reference/sanity-check.md#bounded-assessment-and-closeout)
+preserves evidence reuse and existing safety/spend authorization; three passes aren't a reliability
+guarantee or permission for new paid calls.
+
+Acceptance oracles are locked: changing an expected outcome or required action, removing a case,
+or adding waits to pre-existing tests goes on an oracle-change list. Outcome changes need owner
+approval. Before an executed PR is marked ready, one fresh-session sanity assessment grades the
+final head. Its FAIL stands until a fresh assessment of a repaired head replaces it; the
+implementer's own recheck can't overturn it. `skills/execute/scripts/oracle-tripwire.py --base <ref>`
+flags edited assertions, waits and mocks in pre-existing tests, deleted tests and guide/acceptance
+edits that are missing from the oracle-change list; the readiness gate requires it to be clean.
+Guides and acceptance records live outside the app repo, so `--freeze` snapshots them when the
+baseline is recorded and later checks compare against that snapshot, which is never overwritten.
+
+### Evaluating changes to the execute skill
+
+`evals/execute/scenarios.json` holds decision scenarios taken from real failures (ENG-2657, ENG-2798).
+Before changing execute guidance, replay them on both model families and compare with the previous
+version and a no-skill baseline:
+
+```sh
+python3 evals/execute/run.py --model claude --model codex            # working tree
+python3 evals/execute/run.py --model claude --model codex --ref HEAD  # before your edit
+python3 evals/execute/run.py --model claude --model codex --no-skill  # does the skill matter?
+```
+
+Each scenario runs three times with shuffled options and passes only if all three are right. Each
+full run costs about 72 model calls.
+
+What these catch: guidance that steers a model wrong. Without any skill, Claude and Codex both pass
+all 12; the pre-2026-11-16 skill failed the readiness gate on both because its text said fresh
+reviewers were only for standalone checks. What they don't catch: the drift that caused ENG-2657,
+which happened mid-session under completion pressure, not on a clean question. The tripwire and the
+independent readiness verdict cover that. Add a scenario for each new incident before rewording the
+skill; a scenario the no-skill baseline fails is the strongest kind.
+
+`execute pr review [PR_URL]` prepares the existing private review; omitting the URL resolves the
+current branch's PR when unambiguous. Opt in with `execute pr review [PR_URL] --sanity` to add the
+[canonical sanity assessment](skills/execute/reference/sanity-check.md) at the same pinned head.
+The combined report reuses requirements, inspection and applicable runtime evidence, lists every
+sourced criterion and its evidence/gaps, and keeps the sanity stage/verdict separate from the normal
+review recommendation. Missing requirements cannot yield sanity PASS. Neither command implies
+publication or repairs; the standalone assessment completes even when sanity fails.
 
 ## Reuse instead of rediscovering
 
@@ -61,6 +150,20 @@ GitHub CLI and optionally Linear CLI are used; no new Python dependencies are ne
 The [CodePipeline monitoring recipe](skills/execute/reference/ops-facts.md#aws-codepipeline-one-execution-one-revision)
 uses the bundled waiter with an explicit pipeline, execution, revision, AWS profile and region.
 It reports terminal failure or timeout without starting/retrying deployments.
+
+Use `execute staging-check <ticket/PR/sha>` for “has this landed on staging yet?”
+The [canonical staging check](skills/execute/reference/staging-check.md) follows the change into
+an actual deployment, including later descendant revisions, and separates deployed, deploying,
+not deployed and unknown. It distinguishes historical deployment from current runtime identity;
+merged PRs, branch membership and green builds are not deployment proof. A status question
+does not start a deployment, application acceptance run or watcher.
+
+PR bodies use the shared [PR-description contract](skills/pr-description/SKILL.md), also linked
+from `brian-voice` for callers outside execute. Try `/skill:pr-description` with a current diff,
+purpose and verified results to draft without publishing. The [offline trial cases](skills/pr-description/reference/examples.md)
+cover a version bump, connected changes, a data repair and deliberately misleading drafts.
+Candidate examples need Brian's style feedback; they are not labeled approved. The next five
+authorized PRs track first-draft acceptance in the existing local workflow record, not this repo.
 
 
 ## Check the workflows

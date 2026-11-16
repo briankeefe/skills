@@ -18,6 +18,16 @@ In the existing task plan, briefly record:
 - the simpler framing considered, the complexity it removes, or why the direct change is best;
 - material branching, type/boundary, file-growth and partial-update risks, with verification.
 
+For a shared gate, service or state transition, name the affected consumers and relevant interacting
+states in that same record before editing. Include an unchanged consumer and the boundary most
+likely to regress: for example, no binding/pending/terminal with allowed/denied access and transport
+failure. Reuse must preserve the caller's contracts, including visibility and read-only access,
+not merely the reused service's happy path. Check handoffs at normal completion, abort and fast
+completion where affected; distinguish automatic activity from user actions in loading/disabled state.
+Verify these coupled behaviors together under the existing acceptance pass. If one repair breaks
+another branch, revisit the shared state decision before stacking exceptions. This is targeted
+preservation, not an exhaustive matrix, broader scope or an additional review.
+
 Inspect current sizes of affected files. A change taking a file from at most 1000 lines to over
 1000 lines needs a cohesive decomposition plan or a compelling structural reason to retain it.
 Already-large files are not exempt from scrutiny, but their size alone does not authorize an

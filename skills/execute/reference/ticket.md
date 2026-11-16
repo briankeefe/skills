@@ -5,46 +5,64 @@
 ## Establish context and plan
 
 1. Read the ticket description, acceptance criteria, relevant comments, attachments and dependencies through the configured provider. Locate the affected behavior and existing repository patterns.
+   Trace each named example's available history through the relevant grouping, identity,
+   ordering and selection rules before proposing the fix. Use existing evidence or bounded,
+   authorized read-only inspection, not broad scans, setup or paid generation before agreement.
+   Label missing inputs/oracles and actual contradictions; do not imply a possible relationship
+   is verified or replace the ticket's example with a convenient passing one.
 2. Resolve missing requirements from available evidence. Ask only if the intended outcome, scope or required dependency remains unclear; do not invent acceptance criteria or silently narrow the request.
    Apply **Evidence before edge-case escalation** in `skill://execute` before raising a
    hypothetical domain question or adding defensive scope. Preserve explicit requirements
    and reported failures; lack of a matching data example does not waive them.
-3. Confirm the assigned repository/worktree and intended PR base. Reuse the current environment and repository install/verification commands.
+3. Resolve the assigned repository/worktree and intended PR base from available context under
+   `skill://execute`'s **Discover once, reuse**; do not ask for facts already supplied there.
+   Consult Fable first under **Consult Fable before planning** in `skill://execute`, falling back
+   from T3 to vanilla Claude Code to the normal model only as that contract specifies.
 4. Prepare a proportionate proposed plan covering affected files, every acceptance criterion,
    risks and verification. Complete `skill://execute`'s **Pre-work Socratic checkpoint** with
-   the user before implementation, setup, tests or delegated work. Use read-only discovery
+   the user before implementation, setup, tests or delegated implementation. Use read-only discovery
    for the current-state explanation; do not present an unexamined design as settled.
    Apply **Plan before adding complexity** in `skill://execute/reference/code-quality.md`:
    identify canonical ownership/reuse, a simpler framing, affected callers and contracts, file-size
    crossings and structural risks before production edits.
 5. If materially different solutions satisfy the wording but not the same user outcome, resolve that distinction before building the larger one.
-6. Record the agreed current state, target state and architecture in that plan. Then proceed
-   within the agreement without another generic plan-approval round.
+6. Record the agreement and source-backed invariants under `skill://execute`'s **Working agreement
+   and handoffs** in the existing plan. Carry later additions forward without dropping scope,
+   then proceed without another generic plan-approval round.
 
 ## Implement, verify and review
 
 - Follow the red/green TDD contract in `skill://execute`: capture the failing behavior before
   production edits, make the minimum fix, then prove the same check passes.
+- Retain execution ownership through acceptance under **Bounded assessment and closeout** in
+  `reference/sanity-check.md`. Consume independent review findings as in-scope repair work when
+  execution remains active; do not stop for another "go" or an obsolete acceptance-round counter.
 - Make the smallest complete change following existing patterns; fix the root cause and migrate affected callers.
 - Apply **Implement against the same bar** in `skill://execute/reference/code-quality.md` as the
   change develops; do not postpone design cleanup until external review.
+- Before broad recomputation, a large-data run or expensive verification, exercise the named
+  example with the smallest complete authorized probe. Compare the actual selection and outcome
+  with its declared oracle; surface policy ambiguity before scaling. If the example fails,
+  resolve its cause within scope or report its blocker, while continuing independent work.
+  This ordering never waives required broad coverage or authorizes otherwise forbidden calls.
 - For bugs, confirm the reported reproduction no longer fails after green. Keep a useful regression
   test when practical; otherwise remove the throwaway check and report the smoke check and its
   limitations. Do not repeat a user-reported failure manually merely to confirm it.
-- Before publishing the draft, manually exercise **every feasible acceptance criterion** on the
-  actual changed surface, not just one representative journey or a demo recording. For stateful
-  criteria, check the same record through edit, visible result, save, reload, and reopen or cancel
-  where applicable. Include named negative and scope cases, plus the boundary implied by the change
-  (for example, multiple selections or a missing step). Tests and builds do not substitute for this.
-  If the required runtime is unavailable or a criterion fails, fix the failure or report the blocker;
-  do not publish the draft while any criterion is failing or unverified.
-- Record each criterion's observed result and environment (real API/database, local UI, staging,
-  or unverified), run applicable repository CI checks after edits settle, and report exact commands
-  and gaps. Do not label a criterion staged when only a bundle or deploy was observed.
+- Apply `skill://execute`'s **Acceptance gate for publishing and revisions** after stabilizing
+  the revision. Use its runtime-coverage and evidence rules; record actual commands, environment,
+  results and gaps in the existing task record. Builds/tests do not replace observed behavior.
+  Run separately required repository/CI checks; do not turn the built-in sanity pass into an
+  unrelated broad CI sweep (see **Keep sanity separate from broad CI** in `reference/sanity-check.md`).
 - Review correctness and scope against the request and run **Review the complete change before
   publication** in `skill://execute/reference/code-quality.md`. Fix or substantiate presumptive
   quality blockers, record dispositions, and repeat affected acceptance verification after any
   restructuring. Keep an environment needed for the user's visual review.
+- Before claiming PASS, follow every required written guide journey, including connected routes
+  to the same outcome, and disclose known material payload/performance risks. A passing tested
+  route or case count doesn't establish an unexercised route or an unmeasured performance claim.
+- Prepare and verify the first testing guide under `skill://brew-test` and `skill://execute`'s
+  **Testing handoffs** within the same acceptance pass. Reuse applicable journey evidence and
+  re-walk only affected steps; do not create another assessment or repair loop.
 
 ## Feature demo video (when requested)
 
@@ -60,14 +78,7 @@ Replace both placeholders with the actual work identifier and spec path. `DEMO_S
 
 Update existing documentation when the contract requires it. Follow the publication authorization in `skill://execute`; an existing instruction to commit/push/publish needs no repeat confirmation.
 
-Generate or refresh the local testing guide with `skill://brew-test` from the current acceptance
-evidence before the initial draft-PR handoff and again before final completion or a blocker
-handoff, even if no PR could be published. Include its working URL and the first concrete
-action in chat; a blocked guide must identify what can and cannot be tested.
-
-Write the draft PR using `skill://execute`'s **PR descriptions** rules, with the ticket link and
-compact testing section required by **Testing handoffs**.
-After publishing the draft, immediately send that testing handoff to the user, then run
-`skill://execute/reference/review-loop.md`; do not return merely because the PR exists or wait for
-reviews before providing the testing link and steps. Notify the user when the review gate completes
-or reaches a blocker it cannot resolve. Missing optional reviewers do not block authorized publication.
+Follow `skill://execute`'s **PR descriptions** and **Testing handoffs** for initial publication,
+revisions and completion/blockers, using the same verified guide. Send the initial handoff as
+soon as the draft is published, then continue `skill://execute/reference/review-loop.md`;
+do not stop merely because the PR exists. Report the final review result or exact blocker.
