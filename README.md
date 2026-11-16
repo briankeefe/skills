@@ -112,9 +112,15 @@ python3 evals/execute/run.py --model claude --model codex --ref HEAD  # before y
 python3 evals/execute/run.py --model claude --model codex --no-skill  # does the skill matter?
 ```
 
-Each scenario runs three times with shuffled options and passes only if all three are right. Add a
-scenario for each new incident instead of only adding prose. These are stated-choice checks, not
-proof of behavior on a live ticket. Each full run costs about 72 model calls.
+Each scenario runs three times with shuffled options and passes only if all three are right. Each
+full run costs about 72 model calls.
+
+What these catch: guidance that steers a model wrong. Without any skill, Claude and Codex both pass
+all 12; the pre-2026-11-16 skill failed the readiness gate on both because its text said fresh
+reviewers were only for standalone checks. What they don't catch: the drift that caused ENG-2657,
+which happened mid-session under completion pressure, not on a clean question. The tripwire and the
+independent readiness verdict cover that. Add a scenario for each new incident before rewording the
+skill; a scenario the no-skill baseline fails is the strongest kind.
 
 `execute pr review [PR_URL]` prepares the existing private review; omitting the URL resolves the
 current branch's PR when unambiguous. Opt in with `execute pr review [PR_URL] --sanity` to add the
