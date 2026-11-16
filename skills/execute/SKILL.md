@@ -9,13 +9,13 @@ Use the matching workflow with active harness/repository rules and the user's cu
 
 ## Dispatch
 
-Match the longest named command prefix below before interpreting a ticket. Pass remaining
+Match the longest named command prefix below before interpreting a ticket and pass remaining
 arguments unchanged. Empty input or `help` shows this table without starting work.
 A bare PR URL routes to `pr-review.md`; a bare issue URL, provider-recognized ID (for example
 `ENG-2612`, not a required prefix), or resolvable ticket name routes to `ticket.md`.
-Resolve names using the configured tracker; ambiguous names require clarification before
-work starts. Unknown commands or unrecognized URLs show help rather than inventing a ticket.
-An explicit command wins: `local-repro <PR_URL>` reproduces, it does not post a review.
+Resolve names with the configured tracker and ask when a name is ambiguous. Unknown commands or
+unrecognized URLs show help. An explicit command wins: `local-repro <PR_URL>` reproduces; it
+does not post a review.
 
 | Invocation | Reference doc | Purpose |
 |---|---|---|
@@ -39,367 +39,267 @@ An explicit command wins: `local-repro <PR_URL>` reproduces, it does not post a 
 
 Reference paths resolve as `skill://execute/reference/<doc>`.
 
-Questions such as “has this commit landed on staging yet?” route to `reference/staging-check.md`,
-not branch membership alone. `release-check` proves reachability; `staging-check` correlates the
-change with actual deployment provenance. Both are read-only unless further action is authorized.
+"Has this commit landed on staging?" routes to `staging-check.md`: `release-check` proves branch
+reachability, while `staging-check` correlates the change with actual deployment provenance.
 
-Standalone `execute sanity check` requires one fresh reviewer session without inherited conversation;
-follow **Fresh reviewer for standalone checks** in `reference/sanity-check.md`. Built-in acceptance
-verification and the composed `pr review --sanity` do not spawn an extra reviewer; the one
-exception is the fresh assessment required before marking an executed PR ready.
+Standalone `execute sanity check` runs in one fresh reviewer session; see **Fresh reviewer for
+standalone checks** in `reference/sanity-check.md`. Built-in acceptance verification and
+`pr review --sanity` stay in the working session, except for the one fresh assessment required
+before marking an executed PR ready.
 
-## Pre-work Socratic checkpoint
+## How the gates fit together
+
+Read-only commands (reviews, sanity checks, release/staging checks, summaries) stay read-only and
+end at their verdict or answer, unless the user authorizes further action. Authorized
+implementation owns its work through acceptance. The verification sections below share one
+evidence pass per relevant state rather than each adding its own round of checks, and none of
+them grants data, spend, publication or tracker-write authority beyond what the user gave.
+
 ## Consult Fable before planning
 
-Before settling a substantive execute plan or presenting the proposed approach, gather the minimum
-read-only context, then consult Fable using this order:
+Before settling a substantive plan, gather minimal read-only context and get one read-only
+planning consultation from Fable:
 
-1. **T3 first.** If T3 tools are available, inspect `orchestrator_capabilities` for Fable and use
-   `delegate_task` with the exact advertised provider/model. Request one read-only planning
-   consultation, not implementation or another review gate. Follow the returned waiting contract;
-   consume its completed result before finalizing the plan.
-2. **Vanilla Claude Code fallback.** If T3 or its Fable model is unavailable, or the consultation
-   fails because of access/model availability, check the installed `claude` CLI. Use its own
-   authentication and an explicit Fable model, not an OMP provider/proxy or an Opus substitute.
-   When the installed CLI supports these options, run a fresh non-interactive consultation in
-   the assigned worktree as a background shell job:
+1. **T3 first.** If T3 tools are available, find Fable in `orchestrator_capabilities` and use
+   `delegate_task` with the exact advertised provider/model. Follow the returned waiting contract
+   and read the completed result before finalizing the plan.
+2. **Vanilla Claude Code fallback.** If T3 or its Fable model is unavailable or the consultation
+   fails on access/model availability, use the installed `claude` CLI with its own authentication
+   and an explicit Fable model (not an OMP provider/proxy or an Opus substitute). When the CLI
+   supports these options, run it as a background job in the assigned worktree:
 
    ```sh
    env -u ANTHROPIC_OAUTH_TOKEN -u ANTHROPIC_API_KEY -u ANTHROPIC_AUTH_TOKEN -u ANTHROPIC_BASE_URL \
      claude --model fable --print --permission-mode plan --output-format json "<planning brief>"
    ```
 
-   CLI presence or a listed alias alone does not prove model access: the consultation must
-   succeed without a model substitution. Wait for that same process to exit and read its complete
-   output and exit status. Do not use `--bare`, permission bypass, `--resume`, `--continue`,
-   credential extraction or a second session to retrieve the first result.
-3. **Normal model last.** If neither route can provide Fable, record the concrete availability
-   failures briefly in the existing plan and plan with the current normal model. Do not block
-   the task, change that model, repeatedly retry, or ask the user to provision access.
+   Model access is proven only by a consultation that succeeds without substitution. Wait for that
+   process to exit and read its full output and exit status. Leave out `--bare`, permission bypass,
+   `--resume`, `--continue`, credential extraction and any second session to retrieve the result.
+3. **Normal model last.** If neither route provides Fable, note the concrete failures in the plan
+   and plan with the current model. Keep going without retrying, switching the session's model
+   or asking the user for access.
 
-Give either consultant the actual request, known requirements/invariants, inspected code flow,
-repo/worktree and base, applicable instructions, unrelated changes to preserve, evidence and
-verification constraints. Ask for the simplest complete approach, material risks and missing
-decisions. Explicitly prohibit edits, setup, tests, services, data changes, tracker writes,
-publication and further delegation. Treat its advice as input: check claims against evidence,
-retain ownership of the plan and route product questions through the user.
+Brief the consultant with the request, requirements/invariants, inspected code flow, repo/worktree
+and base, applicable instructions, unrelated changes to preserve, and evidence constraints. Ask for
+the simplest complete approach, material risks and missing decisions, and limit it to reading:
+no edits, setup, tests, services, data changes, tracker writes, publication or delegation. Its
+advice is input: check claims against evidence, own the plan and take product questions to the
+user. The consultation does not authorize implementation or replace user agreement, acceptance
+checks or Cursor reviews. Reuse a completed consultation on resume; consult again only after a
+material change.
 
-This narrow read-only consultation is allowed before the Socratic checkpoint closes; it does
-not authorize implementation or replace user agreement, acceptance checks or required Cursor
-reviews. Reuse an applicable completed consultation on resume; consult again only for a material
-change to the agreed approach. Read-only commands that do not need a plan gain no extra review.
+## Pre-work Socratic checkpoint
 
+Before an implementation or other mutating workflow, the user and agent agree on the task's
+before, after and architecture. This is a discussion that builds understanding, not repeated
+"is this ok?" rounds. Read-only commands skip it.
 
-Before starting an implementation or other mutating execute workflow, explain the task-specific
-before, after and architecture. This **socraticQuiz** is a discussion to understand the work,
-not three rounds of "is this ok?" Read-only commands do not require this checkpoint.
+Until it closes, limit work to the read-only discovery needed to ground it (request, ticket,
+relevant code, existing evidence, the Fable consultation) plus creating and locally previewing the
+explanation page. Answer repository facts yourself rather than asking the user.
 
-Only do the minimum read-only discovery needed to ground the discussion: read the request,
-ticket, relevant code and existing evidence, including the read-only Fable consultation above.
-Except for that consultation and creating and locally previewing the explanation page below, do
-not edit files, delegate implementation, run tests or setup, start services, change data, or publish
-anything before the checkpoint closes. Do not ask the user
-to supply facts available in the repository.
+Always explain on a local Brew page written per `reference/explain-approach.md`: context, a
+before/after worked example, a flowchart and the recommendation. An inline chat explanation does
+not replace it. Chat carries the takeaway, link and the agreement question.
 
-Write for a developer who can follow code but is new to the task's domain and product.
-Don't confuse unfamiliar domain concepts with unfamiliar programming. Present these together
-on a local Brew page so the user can understand and discuss the complete change:
-
-1. **Context and normal behavior.** First explain the few concepts and relationships needed
-   for this task, defining domain terms at first use. Explain who does what and what the
-   relevant number or document means. For example, distinguish money from reports describing
-   that money, or a policy from its dated revisions and their stored summaries and rules.
-   Teach the relationship, not just a plainer synonym for a technical term.
-2. **Before.** Walk one concrete example from its starting facts through the current behavior,
-   the wrong result, and why it matters. Explain the causal step that produces the failure,
-   not just the symptom. Describe visible behavior rather than callbacks or table internals.
-   Separate reported/observed facts from assumptions; label invented teaching numbers.
-3. **After.** Carry the same example through the proposed behavior and result. Explain why
-   the change removes the failure, what stays unchanged, and how success will be recognized.
-   Don't invent a missing dollar amount or imply new extraction when stored content already
-   exists. For discovery work, distinguish what the investigation will deliver from a possible
-   later product change.
-4. **Flow and proposed fix.** Show current and/or proposed behavior in one small flowchart,
-   labeled clearly, with plain-language actions and only meaningful branches. After the
-   domain explanation and worked example, give the short engineering explanation of the fix.
-   Keep detailed implementation, affected callers, tradeoffs and verification in the existing
-   task plan, or a short optional technical section when it helps the reader.
-
-Size to understanding, not a word target. Simple UI changes can be short; an unfamiliar payment
-calculation may need a few more paragraphs. Keep this an approach preview, not a testing handoff
-or engineering report. Use a few short labeled paragraphs rather than a heading for every field.
-Give each fact once; cut repeated safeguards, generic process language, test inventories and
-file details before cutting the context needed to understand the problem. Name code PR, data
-repair or both, and retain material uncertainty, scope and risk. Keep key checks and the
-approval boundary brief; detailed procedures belong in existing records or the UI testing guide.
-Put the agreement question in chat, without repeating the recommendation as another conclusion.
-
-The diagram should clarify the system's behavior, not the agent's work schedule or repeat every
-matching rule. Do not invent a review queue or fallback branch. Before sharing, read the opening,
-before/after and diagram as someone new to the domain: can they explain what normally happens,
-what goes wrong, why it goes wrong and how this fix changes the result? Rewrite any missing
-conceptual bridge rather than merely replacing jargon or shortening the text. For example,
-"recognize repeated payment reports" still needs the explanation that two reports may describe
-one payment, not two payments. Don't require follow-up questions to uncover these prerequisites.
-
-Ask about unresolved requirements or material tradeoffs, not for a confirmation after each
-topic. Answer questions and incorporate corrections. If there is no unresolved decision,
-ask once for agreement to the complete approach before implementation. Silence, a preselected
-option or the initial execute request is not agreement. Explicit agreement after the discussion
-closes the checkpoint; do not ask again for topics already agreed.
-
-Always create or update a concise local Brew explanation page using `skill://brew-clear` for
-this checkpoint, including the before/after, flowchart, recommendation and decision needed.
-Do not substitute an inline explanation even when it would fit in five sentences. Verify the
-rendered page, then send only the takeaway, page link and agreement question in chat. Update
-the same page as the discussion changes the approach. Feedback that the page is confusing,
-too complex or poorly worded means rework the page and verify the rendered revision, not merely
-acknowledge the feedback or suggest replacement prose in chat. Distinguish a request to stop
-implementation from a request to rewrite the explanation; honor an explicit stop-all instruction.
-Creating and locally previewing this explanation is permitted during discovery, but does not
-authorize app setup, tests, data changes, implementation or publication. Keep it separate from
-the UI-only testing guide.
-
-Record the agreed before, after and architecture in the existing task plan. Reuse an existing
-agreement for the same scope, including on resume; reopen only a material change. An explicit
-request to skip the quiz waives only this checkpoint, not authorization or safety requirements.
+Ask about unresolved requirements or material tradeoffs; otherwise ask once for agreement to the
+complete approach. Agreement must be explicit: silence, a preselected option or the original
+execute request does not count. Once agreed, record the before, after and architecture in the task
+plan and proceed; reuse that agreement on resume and reopen only for a material change. A request
+to skip the quiz waives only this checkpoint.
 
 ## Working agreement and handoffs
 
-- Default substantive explanations, plans, decision writeups and reports to concise local Brew
-  pages, not chat, regardless of length. Chat carries only the takeaway, link and exact question
-  or blocker; brief acknowledgments and operational confirmations can stay in chat. Reuse the
-  task's relevant page and keep explanation pages separate from UI-only testing guides. Honor an
-  explicit request for inline content. A local explanatory page grants no publication authority.
-
-- Keep **Must deliver**, **Must preserve** and **Not included** in the existing task plan.
-  Source them from the request, ticket/comments and later decisions. Carry the full original
-  and expanded scope through implementation and sanity checking. An approved change to one
-  expectation does not waive other requirements. Show agreement changes, not repeated copies.
-  Keep source-backed invariants (grouping/order, identity, precedence and preserved behavior),
-  known failures and successful verification commands/recipes in that same record. Before a
-  repair or handoff, consult them; do not rediscover a settled contract or repeat a failed
-  invocation unchanged. Update only facts invalidated by new evidence.
-- Own authorized execution through acceptance: implement, check, repair and recheck under
-  **Bounded assessment and closeout** in `reference/sanity-check.md`. In-scope failures, stale
-  evidence and review findings are work to resolve, not requests for another "fix and recheck".
-  A progress update, finished review or intermediate milestone does not end that ownership.
-  Before yielding, identify completion, an evidence-backed no-progress stop, the exact user
-  decision needed, or the external prerequisite blocking all remaining authorized work.
-  Continue independent work when only one criterion is blocked. Standalone read-only commands
-  still complete on their verdict; historical implementation permission alone does not resume them.
-- When reporting applied changes, name where they happened: local worktree, isolated data
-  branch, staging or production. Do not say only "applied". This is clearer reporting, not
-  another approval gate or permission to cross an existing authorization boundary.
-- Do not add progress estimates, a progress dashboard or periodic status messages. Give
-  decision/completion handoffs and answer requested status questions using observed facts.
+- Put substantive explanations, plans, decisions and reports on concise local Brew pages; chat
+  carries the takeaway, link and exact question or blocker. Brief acknowledgments can stay in
+  chat, and an explicit request for inline content wins. Reuse the task's page. A local page grants
+  no publication authority.
+- Keep **Must deliver**, **Must preserve** and **Not included** in the task plan, sourced from the
+  request, ticket/comments and later decisions, and carry the full scope through implementation
+  and sanity checking. An approved change to one expectation leaves the others in force. Record
+  source-backed invariants (grouping/order, identity, precedence, preserved behavior), known
+  failures and working verification commands there too. Consult them before a repair or handoff
+  so settled contracts and failed invocations are not rediscovered; update only facts that new
+  evidence invalidates.
+- Own authorized execution through acceptance under **Bounded assessment and closeout** in
+  `reference/sanity-check.md`: failures, stale evidence and review findings are work to resolve.
+  A progress update, finished review or milestone does not end that ownership. Before yielding, name one of: completion, an evidence-backed no-progress stop, the exact user
+  decision needed, or the external prerequisite blocking all remaining work. Continue independent
+  work when only one criterion is blocked. Read-only commands complete on their verdict.
+- When reporting applied changes, name where (local worktree, isolated data branch, staging or
+  production) rather than saying only "applied".
+- Give decision/completion handoffs and answer status questions from observed facts, without
+  progress estimates, dashboards or periodic status messages.
 
 ## Discover once, reuse
 
-- Read applicable repository instructions and the relevant project docs before editing.
-  Resolve repository/host from an explicit URL, assigned worktree, remotes and ticket links.
-  Do not silently substitute the current repo for a different repo named by a URL.
-  An assigned project/worktree is the default; ask which repository only when actual evidence
-  conflicts or leaves the target ambiguous, not merely because a new session began.
-- Resolve the issue provider/workspace and ID format from the URL and local configuration.
-  Reuse verified local recipes and `skill://execute/reference/tool-recipes.md` for structured
-  issue/PR reads, Linear 2.6.0 and managed OMP browsers. Check versions once; inspect targeted
-  `--help` only for an unfamiliar operation, version drift or a contradictory result.
-  Fresh authentication, issue/review state and deployment evidence still require fresh reads.
-  Never assume authentication, flags, JSON fields or a database integration exists.
-- Reuse the assigned branch/worktree. Otherwise discover the default base from repository
-  metadata and any documented project branch; never assume `master`, `main` or a release name.
-  Verify remotes before network writes. If release timing changes the strategy and is unstated,
-  ask whether this targets the normal next release or something faster.
-- Derive runtime/package manager from repo instructions, manifests, lockfiles and pinned versions.
-  Reuse existing install, dev, test, lint and CI commands; do not install a runner merely to fit
-  this toolkit. Resolve documentation locations from the repository, not a global personal path.
-  Reuse instructions already loaded in the current context. Reload only missing context after
-  compaction, changed guidance or a newly needed section; retain its canonical source pointer in
-  the existing task record. This never caches authorization, authentication or live task state.
+- Read repository instructions and relevant project docs before editing. Resolve the repo/host
+  from an explicit URL, the assigned worktree, remotes and ticket links; a URL naming a different
+  repo wins over the current one. The assigned project/worktree is the default; ask which
+  repository only when evidence conflicts or leaves the target ambiguous, not because a new
+  session began.
+- Resolve the issue provider, workspace and ID format from the URL and local configuration. Use
+  verified local recipes and `reference/tool-recipes.md` for issue/PR reads, Linear 2.6.0 and
+  managed OMP browsers. Check versions once; read targeted `--help` only for an unfamiliar
+  operation, version drift or a contradictory result. Authentication, issue/review state and
+  deployment evidence always need fresh reads; verify that auth, flags, JSON fields and database
+  integrations exist before relying on them.
+- Reuse the assigned branch/worktree. Otherwise discover the base from repository metadata and any
+  documented project branch rather than assuming `master`, `main` or a release name. Verify remotes
+  before network writes. If release timing changes the strategy and is unstated, ask whether this
+  targets the normal next release or something faster.
+- Derive runtime and package manager from repo instructions, manifests, lockfiles and pinned
+  versions, and reuse existing install/dev/test/lint/CI commands rather than installing a runner
+  to fit this toolkit. Resolve documentation locations
+  from the repository. Reuse instructions already in context; after compaction or changed guidance,
+  reload only what is missing and keep its source pointer in the task record. Authorization,
+  authentication and live task state are never cached.
 - Missing context: exhaust repo/tool evidence, then ask one focused question. Report unavailable
   credentials or services without guessing values or exposing secrets.
 
 ## Evidence before edge-case escalation
 
-Before raising a speculative domain/edge-case question, adding defensive logic for it, or
-promoting it into a required acceptance case:
+Before raising a speculative edge case, adding defensive logic for it, or making it a required
+acceptance case, look for evidence:
 
-- Check the requirements, reported incidents, relevant code/tests and applicable existing
-  evidence first. A user-reported failure is evidence; do not reproduce it merely to confirm
-  the report or demand a new database example for an already-established requirement.
-- If occurrence is still uncertain, look for a real example using existing project tools and
-  a narrowly scoped, authorized read-only data search when needed. Bound the environment,
-  tenant, date range, predicates and returned rows as appropriate; prefer counts and minimal
-  fields. Do not perform broad production scans, mutate data, generate fixtures or make paid
-  calls just to give a hypothetical substance. This rule grants no new data access.
-- If found, bring a sanitized example, the observed count/frequency with its search scope or
-  denominator, and the concrete impact. Do not expose credentials, patient/customer data or
-  private record details in chat, public PRs or documentation.
-- If not found, record **not observed in the searched scope**, not **impossible**. Without a
-  sourced requirement or concrete material correctness, security or data-integrity concern,
-  skip speculative defensive code and domain escalation; do not expand the acceptance baseline.
-- Missing access, incomplete searches and unavailable data mean **unverified**, not absent.
-  Name that limit and continue independent work; ask only the focused question or prerequisite
-  needed when an in-scope decision is genuinely blocked.
-- Explicit requirements and concrete correctness/security/data-integrity evidence remain
-  actionable without an observed production occurrence. Preserve required validation and
-  acceptance checks; never use an empty search to dismiss a reported bug or a material risk.
+- Check requirements, reported incidents, relevant code/tests and existing evidence first. A
+  user-reported failure is already evidence; it needs no reproduction or new data example.
+- If occurrence is still uncertain, search for a real example with existing tools and a narrow,
+  authorized read-only query bounded by environment, tenant, dates, predicates and rows; prefer
+  counts and minimal fields. Skip broad production scans, mutations, fixtures and paid calls for
+  hypotheticals. This grants no new data access.
+- If found, report a sanitized example, count with its search scope, and impact. Keep credentials
+  and patient/customer data out of chat, PRs and docs.
+- If not found, record **not observed in the searched scope** and, absent a sourced requirement
+  or concrete correctness/security/data-integrity concern, skip the defensive code and keep the
+  baseline unchanged. Missing access or incomplete searches mean **unverified**, not absent.
+  Name that limit and continue independent work, asking only the focused question an in-scope
+  decision needs.
+- Explicit requirements and concrete correctness/security/data-integrity evidence stay actionable
+  without a production occurrence; an empty search never dismisses a reported bug or material risk.
 
 ## Feasible live verification
 
 Before proposing live/paid verification limits or admitting the first case:
 
-- Use the smallest complete set of required cases, applicable existing evidence and existing
-  API/UI/database observations. Name the remaining checks and a clear stop condition in the
-  existing plan; do not add a separate verification framework or blanket time limit.
-- For required nondeterministic journeys, budget the predeclared three-run end-to-end batch under
-  **Three independent runs for nondeterministic acceptance** in `reference/sanity-check.md`.
-  One successful output is not acceptance; deterministic replay does not replace independent runs.
-- Check whole-path resource bounds, including retries and already-admitted asynchronous work,
-  against the proposed limits. Distinguish observed usage from a conservative bound, and
-  stopping new admissions from enforcing a ceiling inside a running job. Unknown or
-  unenforceable bounds are not guarantees.
-- Resolve material feasibility/spending tradeoffs together before requesting approval. If a
-  limit cannot be honored, pause new admissions and explain the concrete options; do not
-  silently exceed it, drop required cases or build bespoke accounting/telemetry infrastructure
-  to justify the trial. Such infrastructure is separate scope, not verification by default.
-  Feasibility or spending approval is not a behavioral PASS: keep unexercised cases unverified
-  and continue independent authorized work.
+- Use the smallest complete set of required cases and existing API/UI/database observations.
+  Name the remaining checks and a stop condition in the plan.
+- Nondeterministic journeys need the three-run batch under **Three independent runs for
+  nondeterministic acceptance** in `reference/sanity-check.md`; one good output is not acceptance.
+- Check whole-path resource bounds, including retries and already-admitted async work. Separate
+  observed usage from a conservative bound, and stopping admissions from enforcing a ceiling inside
+  a running job. Unknown or unenforceable bounds are not guarantees.
+- Settle feasibility/spending tradeoffs before requesting approval. If a limit cannot be honored,
+  pause new admissions and present concrete options rather than exceeding it, dropping cases or
+  building accounting/telemetry to justify the trial. Spending approval is not a PASS: unexercised
+  cases stay unverified while independent work continues.
 
 ## Proactive thermo-nuclear quality
 
-For ticket implementation, PR revisions/shepherding, E2E code generation, project planning,
-PR reviews and sanity checks, read `skill://execute/reference/code-quality.md` before planning
-or evaluating code. Apply its structural quality bar during design and implementation, then
-review the complete in-scope change before initial publication and each code revision.
-Record material design decisions and finding dispositions in the existing plan/review report,
-not a separate checklist for every trivial edit. Read-only workflows remain read-only.
-
-This proactive pass never replaces the post-PR `/check` cycle or either required Cursor approval
-in `reference/review-loop.md`. Keep its existing round cap, authorization and acceptance gates.
+For ticket implementation, PR revisions/shepherding, E2E generation, project planning, PR reviews
+and sanity checks, read `reference/code-quality.md` before planning or evaluating code. Apply its
+bar during design, then review the complete in-scope change before initial publication and each
+code revision. Record material decisions and finding dispositions in the existing plan or review
+report. This local pass complements the post-PR `/check` cycle and both Cursor approvals in
+`reference/review-loop.md`; it does not replace them.
 
 ## Red/green TDD
 
-Every behavior-changing implementation workflow MUST use red/green TDD:
+Behavior-changing implementation must use red/green TDD, because a test that never failed proves
+nothing about the fix:
 
-1. **Red:** Before editing production code, add or update the smallest behavior-level test or
-   throwaway executable check. Run it against the current code and verify it fails for the intended
-   reason. A user-reported failure is ground truth; encode it without repeating the manual
-   reproduction merely to confirm it.
-2. **Green:** Make the minimum source change, then rerun the exact red check and verify it passes.
-3. **Refactor:** Clean up only after green, then rerun the affected check.
+1. **Red:** Before editing production code, add the smallest behavior-level test or throwaway
+   check and confirm it fails for the intended reason. Encode a user-reported failure directly.
+2. **Green:** Make the minimum source change and rerun the exact red check until it passes.
+3. **Refactor:** Clean up after green, then rerun the affected check.
 
-Keep the regression test only when it meets the repository's test-value bar; otherwise remove the
-throwaway check after verification. Documentation-only, metadata-only and purely mechanical changes
-are exempt. Behavior-preserving refactors use a passing characterization check before and after
-instead of fabricating a failure.
-
-For retrospective workflow comparisons, use OMP session usage records to track uncached input
-tokens per single-ticket session alongside staging-discovered defects and user corrections. Keep
-multi-ticket sessions separate; cached reads and raw transcript size are not token-cost estimates.
+Keep the test only if it meets the repository's test-value bar; otherwise remove the throwaway
+check after verification. Documentation, metadata and
+mechanical changes are exempt; behavior-preserving refactors use a characterization check that
+passes before and after.
 
 ## Acceptance gate for publishing and revisions
 
-Use **Bounded assessment and closeout** and **PR readiness versus rollout completion** in
-`skill://execute/reference/sanity-check.md` as the canonical policy for case baselines, evidence
-reuse, criterion-local blockers, progress-bounded repairs and implementation-versus-rollout scope.
-Required verification and current-head reviews still block publication/readiness; these references
-are not additional review rounds. Project runbooks own helper syntax, not copies of this policy.
+**Bounded assessment and closeout** and **PR readiness versus rollout completion** in
+`reference/sanity-check.md` are the canonical policy for baselines, locked oracles, evidence reuse,
+blockers, repairs and stage. Required verification and current-head reviews block publication
+and readiness. Project runbooks own helper syntax, not copies of this policy.
 
-Before final evidence binding, finish intended code changes, generated output, formatting and
-mutating hooks; settle the index and intended revision. Commit first when already authorized;
-otherwise explicitly bind the intended uncommitted state without claiming a committed head.
-Keep red/green and exploratory observations, but do not repeatedly recapture final evidence while
-the bound state is still changing. Later changes invalidate affected evidence under the canonical
-reuse policy; never weaken freshness or skip required checks to avoid recapture.
+Bind final evidence to a settled state: finish code, generated output, formatting and mutating
+hooks first, then commit (when authorized) or explicitly bind the uncommitted state without
+claiming a committed head. Capture final evidence once the state is settled rather than
+repeatedly while it changes; later changes invalidate affected evidence under the reuse policy,
+and required checks are never skipped to avoid recapture.
 
-Before creating a draft PR, enumerate every acceptance criterion from the ticket and later decisions.
-Personally exercise each feasible criterion on the running surface where its behavior is observable;
-include the named negative, scope and persistence cases rather than treating a happy-path video as
-coverage. For stateful work, check the same record through edit, visible result, save, reload and
-reopen where applicable. Record what happened and the environment for each criterion. Automated
-tests, builds, demos, code inspection and reviewer approvals supplement but never replace this pass.
-If any criterion fails or cannot be exercised, do not publish the draft as complete: fix it or
-report the exact blocker and keep the work local until verification is possible.
+Before creating a draft PR, list every acceptance criterion from the ticket and later decisions and
+personally exercise each feasible one on the running surface where it is observable, including
+named negative, scope and persistence cases. For stateful work, follow the same record through
+edit, visible result, save, reload and reopen. Record the result and environment per criterion.
+Tests, builds, demos, code reading and reviewer approvals support this pass; they do not replace it.
+If a criterion fails or cannot be exercised, fix it or report the exact blocker and keep the work
+local.
 
-If evidence shows a criterion remains unmet within the authorized approach and the next credible
-remedy exceeds authorized architecture, scope, spend or a stated constraint, pause only that remedy
-and report a feasibility blocker: the criterion and source, failing evidence, attempted in-scope
-fixes and why further work is out of bounds. State what remains unproven; failed trials alone do
-not prove impossibility. Offer the owner concrete choices: authorize the remedy, explicitly revise
-the criterion or constraint, or split/defer the work. Keep unmet criteria FAIL/BLOCKED; do not
-silently narrow acceptance or mark partial work complete. Record an approved revision and its
-source as a requirements change, preserve the original requirement/decision history, update the
-applicable cases and scope boundaries, and invalidate/re-exercise affected evidence. A decision
-does not substitute for passing verification. Continue ordinary authorized fixes under the
-canonical progress/no-progress contract; keep missing access, product decisions and sensitive
-authorization boundaries explicit rather than treating a failed attempt as completion.
+If a criterion stays unmet and the next credible remedy exceeds authorized architecture, scope,
+spend or a stated constraint, pause that remedy and report a feasibility blocker: criterion and
+source, failing evidence, fixes tried, why the next step is out of bounds and what remains unproven
+(failed trials do not prove impossibility). Pause only that remedy and continue ordinary authorized
+fixes. Offer: authorize the remedy, revise the criterion or constraint, or split/defer the work.
+Unmet criteria stay FAIL/BLOCKED, never quietly narrowed or reported as complete. Record an
+approved revision as a requirements change with its source, keep the original history, update
+affected cases and re-exercise affected evidence; a decision is not passing verification.
 
-After PR revisions, personally re-exercise affected criteria and any connected behavior the edits
-could change; reconcile the full criterion list against the current head before claiming feedback
-addressed or marking the PR ready. Do not accept a revision, post a fix reply, or transition a PR
-based only on a green check or a previous head's evidence. Repeat on staging when the change reaches
-it; staging catches environment differences, not skipped pre-PR acceptance checks.
+After a PR revision, re-exercise the affected criteria and connected behavior the edit could
+change, and reconcile the full criterion list against the current head before accepting a
+revision, replying that feedback is addressed or marking ready. A green check or a previous
+head's evidence is not enough for any of those. Repeat on staging when the change reaches it; staging
+catches environment differences, not skipped pre-PR checks.
 
 ## PR descriptions
 
-Use `skill://pr-description` for every new or updated PR body, including a fresh, stateless
-draft from the current diff and verified results. It owns the writing contract, examples,
-claim/audience check and saved-body readback. Initial publication, revisions and readiness
-all use that same contract; this is not an additional code-review or approval round.
+Write every new or updated PR body with `skill://pr-description`, as a fresh draft from the current
+diff and verified results. It owns the writing contract, claim check and saved-body readback for
+initial publication, revisions and readiness.
 
 ## Testing handoffs
 
-Send a testing handoff in chat as soon as the initial draft PR is published, after each published
-PR revision, and when deployment evidence confirms the change has reached staging. Do not wait
-for the review loop to finish or for the user to ask. This notification does not pause authorized
-work or replace the agent's own acceptance verification.
+Send a testing handoff in chat when the initial draft PR is published, after each published
+revision, and when deployment evidence confirms the change reached staging, without waiting for
+the review loop or a request. Authorized work and the agent's own verification continue.
 
-For full ticket executions, `skill://brew-test` owns the reader-facing guide's content, checklist
-format, coverage, length, rendered verification and local-only delivery. Prepare and verify that
-guide before the first draft-PR handoff, not after a request for the checklist. Refresh the same
-page for published revisions, final completion/blockers and confirmed staging deployment.
-Read-only commands inspect an existing guide; they do not create one unless requested.
+For full ticket executions, `skill://brew-test` owns the guide's content, format, coverage and
+verification. Prepare and verify it before the first draft-PR handoff and refresh the same page for
+revisions, completion/blockers and staging. Read-only commands inspect an existing guide and
+create one only on request.
 
-Use one concise, head-specific handoff: **revision and environment; actual acceptance and any
-independent-sanity status; PR state/link; verified guide link and first action; next action or
-blocker**. Distinguish built-in verification from a separately requested standalone assessment.
-Put tenant/role, prepared records, gates, numbered UI journeys and backend-only limits in the
-guide; expose essential access context and gaps in chat without copying the entire checklist.
-Never invent a URL, imply that a build proves deployment, or call an unreachable runtime ready.
-For revisions, name the changed journeys and reuse the still-applicable full guide.
-Lead acceptance claims with the original user journey exercised and relevant preserved control,
-bound to the stated revision/environment. Test counts are supporting detail, not a verdict.
-Distinguish source tests, simulated transitions, real saved results and live generation; none
-establishes another evidence level merely because its output or receipt is green.
+One concise, head-specific handoff: **revision and environment; acceptance result and evidence
+level (self-verified or independent); oracle changes, if any; PR state/link; guide link and first
+action; next action or blocker**. Tenant/role, prepared records, numbered journeys and backend-only
+limits live in the guide. Use only real URLs and confirmed deployments; a build does not prove
+deployment and an unreachable runtime is not ready. For revisions, name the changed journeys and
+reuse the still-applicable guide. Lead with the original user journey exercised and the preserved control, bound to
+revision and environment; test counts are supporting detail. Keep evidence levels distinct: source
+tests, simulated transitions, real saved results and live generation each prove only their own level.
 
-Guide walkthroughs share the ticket's existing evidence pass under **Walk the testing guide** in
-`reference/sanity-check.md`; they are not a second review or blanket app replay. Confirm actual
-deployment provenance before the staging gate/handoff. The short PR body follows
-`skill://pr-description`, not the private acceptance inventory; link longer instructions only
-when reviewers can access them. No added deployment authority or indefinite monitoring.
+Guide walkthroughs share the acceptance pass under **Walk the testing guide** in
+`reference/sanity-check.md`. Confirm deployment provenance before the staging handoff. The PR body
+stays short per `skill://pr-description`; link longer instructions only when reviewers can access them.
+Handoffs add no deployment authority or indefinite monitoring.
 
 ## Scope and authorization
 
-`execute <ticket>` authorizes implementation after the **Pre-work Socratic checkpoint** closes.
-That checkpoint replaces the former proceed-without-plan-approval default. Once the approach
-is agreed, proceed without repeated approval rounds; ask again only for unresolved requirements,
-material changes to the agreement, or sensitive actions not already authorized.
+`execute <ticket>` authorizes implementation once the **Pre-work Socratic checkpoint** closes.
+After that, proceed without further approval rounds; ask again only for unresolved requirements,
+material changes to the agreement, or sensitive actions not yet authorized.
 
-Use active harness tool/delegation rules, inline first. Native task subagents are not independent
-Foreman workers; retain an assigned worker's worktree/session rather than creating a replacement.
+Follow the harness's tool and delegation rules, inline first. Native task subagents are not Foreman
+workers; keep an assigned worker's worktree/session. Give delegates narrow ownership, the symbols
+already inspected and the open acceptance cases, and ask for a short evidence handoff. In long
+sessions, keep a compact record of what is verified and what remains.
 
-When delegating, give each agent narrow ownership, already-inspected symbols and open acceptance
-cases; return a short evidence handoff instead of duplicating broad reads or full transcripts.
-In long sessions, keep a compact record of what was verified and what remains, rather than
-reloading prior tool output.
-
-Read-only commands do not start implementation or publish. Tracker updates are never automatic.
-Publishing needs authorization, not repeated confirmation when already granted. Create draft PRs,
-keep the author assigned, and follow the assigned publication mechanism unless explicitly overridden.
-Reviewer identities/triggers are repository-local: report missing optional reviewers and proceed
-with authorized publication, never borrow another project's configuration. Distinguish a posted
-trigger, recorded request and completed review. Do not merge. The standing authorization in
-`reference/review-loop.md` permits its exact review comments, fixes, pushes, replies and final
-draft-to-ready transition only after both required approvals.
+Tracker updates are never automatic. Publishing needs authorization once, not repeated confirmation.
+Create draft PRs, keep the author assigned and use the assigned publication mechanism unless told
+otherwise. Reviewer identities/triggers are repository-local: report a missing optional reviewer
+and proceed, without borrowing another project's configuration, and distinguish a posted trigger,
+a recorded request and a completed review. Never merge. `reference/review-loop.md` grants its exact
+review comments, fixes, pushes, replies and the draft-to-ready transition after its gate passes.

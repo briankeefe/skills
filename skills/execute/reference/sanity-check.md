@@ -1,72 +1,66 @@
 # Execute Sanity Check
 
-Use for `execute sanity check [scope]` to assess completed work against its requirements. Apply shared defaults from `skill://execute`. This is a review, not automatic authorization to edit or publish.
+Use for `execute sanity check [scope]` to assess completed work against its requirements, with
+shared defaults from `skill://execute`. The assessment is read-only: it reports, and any edits or
+publication come from an execution that is already authorized.
 
 ## Fresh reviewer for standalone checks
 
-An explicit `execute sanity check [scope]` MUST run its assessment in one fresh reviewer session
-with no inherited conversation or implementing-agent transcript. Use the active harness's supported
-delegation mechanism with an explicit, self-contained brief; do not fork, resume or reuse the
-implementing session. If context isolation is unavailable, report that blocker rather than silently
-performing the check in the current conversation. This isolates conversational context, not files,
-credentials or runtime targets; the existing verification safety rules still apply.
+Run an explicit `execute sanity check [scope]` in one fresh reviewer session with no inherited
+conversation or implementing-agent transcript, through the harness's supported delegation and a
+self-contained brief (no fork, resume or reuse of the implementing session). If context isolation is
+unavailable, report that blocker instead of checking in the current conversation. Isolation covers
+conversation only; files, credentials, runtime targets and safety rules are unchanged.
 
-The parent resolves the target and supplies source references, not a proposed verdict:
+The parent resolves the target and hands over sources, not a verdict:
 
-- The original request/ticket and original requirement sources, approved decisions and scope changes.
-- Repository/worktree, comparison base and exact reviewed head, plus any in-scope uncommitted diff.
-  Identify local changes explicitly; do not imply a commit contains them.
-- Applicable repository/personal instructions and authorization limits, this canonical workflow,
-  and the complete in-scope diff/code locations for the reviewer to inspect directly.
-- Existing verification records with commands/actions, observed results, environment/revision and
-  known gaps; the current testing guide, frozen acceptance baseline and persisted repair history.
-- The oracle-change list (below) and the pre-existing test files changed since the base
-  (`git diff --stat <base>...<head>` filtered to tests that existed at the base). The reviewer
-  checks each against its source; an oracle change without one is a finding.
+- the original request/ticket and requirement sources, approved decisions and scope changes;
+- repository/worktree, comparison base and exact head, plus any in-scope uncommitted diff, labeled
+  as uncommitted;
+- applicable repository/personal instructions and authorization limits, this workflow, and the
+  complete in-scope diff/code locations;
+- verification records (actions, observed results, environment/revision, known gaps), the testing
+  guide, frozen acceptance baseline and repair history;
+- the oracle-change list (below) and the tests that existed at the base and changed since
+  (`git diff --stat <base>...<head>` filtered to them). The reviewer checks each against its source;
+  an oracle change without one is a finding.
 
-Do not forward the implementing agent's conclusions, proposed PASS/FAIL, reassurance or narrative
-of why its solution is correct. When plans or evidence records mix facts with conclusions, identify
-the factual/source sections and require independent verification; do not erase approved decisions,
-known failures or required cases to create a supposedly neutral brief. The reviewer reads the
-original sources and complete change itself and checks evidence applicability before reuse.
-Pass approved revisions and their stated reasons as sources to verify. Never instruct the reviewer
-to accept a revised oracle or to treat the gap it leaves as settled.
+Leave out the implementer's conclusions, proposed verdict, reassurance and narrative of why the
+fix works: a reviewer handed a hypothesis tends to confirm it. Where records mix facts and
+conclusions, pass the factual sections and keep approved decisions, known failures and required
+cases intact. Pass approved revisions with their reasons as claims to verify, never as settled.
 
-The reviewer performs the assessment below and returns the stage, PASS/WARNING/FAIL, sourced
-findings, observed verification and exact gaps. The parent relays that result without upgrading it
-or launching another reviewer merely to obtain a better verdict. The reviewer stays read-only;
-the assessment grants neither session repair, publication or tracker-write authority.
-An already-active execution owner resumes only under its existing authorization as described
-below. The fresh assessment does not reset repair history or Cursor's separate review limit.
-An unchanged invocation reuses applicable evidence and verdict rather than rerunning checks
-merely for a new opinion.
+The reviewer reads the sources and change itself, checks evidence applicability before reuse, and
+returns the stage, PASS/WARNING/FAIL, sourced findings, observed verification and exact gaps. The
+reviewer stays read-only. The parent relays the result as-is and does not launch another reviewer
+to get a better verdict on the same head. Repair, publication and tracker writes stay with an already-active
+execution owner under its existing authorization; the assessment resets neither repair history nor
+Cursor's review limit. An unchanged invocation returns the applicable prior verdict and gaps.
 
-Built-in ticket/PR-revision acceptance verification stays in the working session, and the composed
-`execute pr review [PR_URL] --sanity` remains one review in its existing session. The exception is
-the readiness gate: before marking an executed PR ready, the owner runs this fresh-session
-assessment once on the final head. The implementer's own checks are self-graded; a reviewer that
-did not write the change catches regressions in preserved behavior that the implementer's checks
-are built around.
+Built-in ticket/PR-revision verification and `execute pr review [PR_URL] --sanity` run in the
+working session. The exception is the readiness gate: before marking an executed PR ready, the
+owner runs this fresh-session assessment once on the final head. The implementer's checks are
+self-graded and tend to be built around the change; a reviewer that did not write it catches
+regressions in preserved behavior.
 
 **Independent verdicts stand.** An independent FAIL or BLOCKED stays in force for that head. The
-implementing agent's recheck, explanation or user-facing summary cannot overturn it or report
-PASS over it. After an evidence-backed repair, a fresh assessment of the new head (affected cases
-plus the original finding) replaces it. Never describe self-verification as an independent PASS.
+implementer's recheck, explanation or summary cannot overturn it or report PASS over it. After an
+evidence-backed repair, a fresh assessment of the new head (affected cases plus the original
+finding) replaces it. Label self-verification as such; only a fresh-session verdict is independent.
 
 ## Bounded assessment and closeout
 
-This contract also applies to acceptance closeout in ticket implementation and PR revisions.
-Use the existing task plan, acceptance record or PR report; no separate budget artifact.
+This contract also governs acceptance closeout in ticket implementation and PR revisions. Keep it in
+the existing task plan, acceptance record or PR report.
 
-- **Freeze the baseline.** Record the sourced A/C, approved decisions, named examples and material
-  affected-behavior checks at the start. Add a required check only for a new sourced requirement,
-  a concrete material defect, or a newly identified material correctness/safety verification gap
-  in the changed path. Record its evidence and impact once. Reviewer suggestions, cosmetic polish
-  and unrelated pre-existing debt stay nonblocking findings outside the required case table.
-  Existing required cases cannot be removed or downgraded without a sourced owner-approved revision.
-  Preserve the original failing action/input and independent expected outcome, including natural
-  requests and conversation order for LLM behavior. A request to "adjust" a failure is repair
-  authority, not permission to replace the failing journey with an easier one.
+- **Freeze the baseline.** At the start, record the sourced A/C, approved decisions, named examples
+  and material affected-behavior checks. Add a required check only for a new sourced requirement, a
+  concrete material defect, or a material correctness/safety gap in the changed path, recording its
+  evidence and impact once. Reviewer suggestions, polish and unrelated pre-existing debt are
+  nonblocking findings outside the case table. Removing or downgrading a required case needs a
+  sourced owner-approved revision. Keep the original failing action/input and its independent
+  expected outcome, including natural requests and conversation order for LLM behavior. A request
+  to "adjust" a failure authorizes repair, not swapping in an easier journey.
 - **Treat oracles as locked.** Guide expectations, acceptance cases, fixtures and the assertions,
   inputs and waits of tests that existed at the base are the grader. Editing the grader to reach
   green is the most common way agents hide regressions. Navigation/copy corrections that keep the
@@ -77,203 +71,197 @@ Use the existing task plan, acceptance record or PR report; no separate budget a
   contract is a proposal, not a source. Report the list in every handoff and PR revision.
   Several pre-existing tests needing the same new wait or mock means the product likely gained an
   unwanted gate: diagnose the product first.
-- **Keep prerequisites local to the criterion.** Name the exact missing input, oracle, access or
-  authorization each BLOCKED case actually needs. A missing clinical benchmark rubric does not
-  block deterministic selection, deduplication or quote checks. Finite named examples use their
-  declared source-backed expectations; a quantitative accuracy benchmark needs its own approved
-  corpus, denominator, rubric and threshold. Keep an unresolved benchmark visible and blocking
-  whole-scope readiness unless the owner explicitly revises or splits its scope.
-  Within authorized execution, safe startup of an owned local service and ordinary missing checks
-  remain the agent's work. Before calling them external blockers, attempt the documented action
-  or identify the concrete access, safety or authorization boundary preventing it. An unsafe
-  fixture probe blocks that probe, not safe startup or independent checks. Read-only assessments
-  still report gaps; this does not grant setup, paid-call or data-mutation authority.
-- **One evidence pass per relevant state.** Reuse applicable observations after checking relevant
-  code, requirements, fixtures/data, runtime/role and model/prompt/context identities. Exercise
-  missing feasible deterministic cases once; nondeterministic journeys use the three-run batch
-  below. Retry a transient infrastructure failure at most once; retain the interrupted attempt,
-  and never treat a completed behavioral failure as infrastructure. Do not regenerate paid
-  outputs or launch another independent reviewer merely to get green. Required
-  safety preflight and evidence integrity checks still apply; stale receipts stay unverified,
-  not PASS by explanation. Reassess only affected cases after a relevant change or new material
-  evidence. An unchanged invocation returns the applicable prior verdict and remaining gaps.
-- **Three independent runs for nondeterministic acceptance.** For each required affected journey
-  whose result depends on nondeterministic behavior, require at least three independent
-  end-to-end executions at the same relevant implementation/runtime/model/prompt state.
-  Predeclare the batch in the existing acceptance record: freeze the natural inputs,
-  conversation/action sequence, expected outcomes and relevant configuration before admission.
-  Start each run from a fresh chat or equivalent safe reset; follow any required conversation
-  history within each run. Reopening a saved answer, replaying captured output or fixing a seed
-  to repeat one result does not count as independent generation.
-  Check the actual user-visible result and every required downloaded/persisted artifact in each
-  run, including semantic values, identities, distinct rows and required columns, not counts alone.
-  All three must pass. Any behavioral failure fails the batch: stop remaining admissions, retain
-  every outcome and diagnose it; do not coach inputs, tune between runs, discard failures or keep
-  sampling until three pass. After an evidence-backed repair, run a new affected batch; never
-  combine successes across changed states. Deterministic contract checks remain required.
-  This batch is one evidence pass, not three reviews; reuse an applicable complete batch on later
-  assessments rather than generating three more answers. Existing safety, paid-call authorization
-  and spend limits still apply. If they permit fewer than three runs, keep the criterion unverified
-  and report the exact boundary rather than silently lowering the minimum or exceeding authority.
-  Three passes are a minimum acceptance sample, not statistical proof or a quantitative benchmark.
-- **Own repairs through acceptance.** Once an implementation/revision workflow is authorized,
-  its owner fixes in-scope defects and verification/guide gaps without another repair approval.
-  Continue implement → check → repair → recheck until every required criterion passes or an
-  evidence-backed blocker remains. There is no default two-round acceptance repair cap.
-  Preserve explicit owner-imposed limits, scope, spend and sensitive-action boundaries.
-  If a repair breaks a connected behavior, reconcile both failures with the shared owner/state
-  contract before another edit; a narrower green check is not progress while the preserved
-  behavior is broken. Use the coupled-consumer guidance in `code-quality.md`, not another review gate.
-- **Bound attempts by evidence, not a counter.** Before another grouped repair, record the
-  failing criterion, supported cause, concrete next remedy and affected recheck in the existing
-  Closeout record. Retain attempts and outcomes across heads, agents and invocations; an old
-  `0/2` or `2/2` policy counter is history, not the new default stopping rule. A new commit,
-  repeated test or reworded explanation alone isn't progress. Continue when new evidence
-  supports a materially different in-scope remedy; don't repeat an exhausted approach.
-  If no credible authorized remedy remains, stop that criterion, finish independent work and
-  report the failing evidence, attempts, exact missing prerequisite/decision and smallest options.
-  Don't lower the baseline, resample paid output or seek repeated opinions to manufacture PASS.
-  This policy neither consumes nor resets Cursor's separate two-round cap and never substitutes
-  for current-head approvals or publication gates. At that cap, keep the PR draft and hand off
-  unresolved review/readiness blockers; don't start another review cycle to reach acceptance.
+- **Keep prerequisites local to the criterion.** Name the exact input, oracle, access or
+  authorization each BLOCKED case needs, and keep checking cases that don't need it: a missing
+  clinical rubric does not block deterministic selection, deduplication or quote checks. Named
+  examples use their declared source-backed expectations; a quantitative accuracy benchmark needs
+  its own approved corpus, denominator, rubric and threshold, and an unresolved one blocks
+  whole-scope readiness until the owner revises or splits it. In authorized execution, starting an
+  owned local service safely and running ordinary missing checks are the agent's work: attempt the
+  documented action, or name the concrete access/safety/authorization boundary, before calling
+  something external. An unsafe fixture probe blocks only that probe. Read-only assessments report
+  gaps without gaining setup, paid-call or data-mutation authority.
+- **One evidence pass per relevant state.** Reuse an observation after checking that code,
+  requirements, fixtures/data, runtime/role and model/prompt/context still match. Exercise missing
+  feasible deterministic cases once; nondeterministic journeys use the batch below. Retry a
+  transient infrastructure failure at most once and keep the interrupted attempt; a completed
+  behavioral failure is never infrastructure. Paid outputs are not regenerated and reviewers are
+  not relaunched just to get green. Safety preflight and evidence-integrity checks still
+  apply, and stale receipts stay unverified. After a relevant change or new evidence, reassess only
+  affected cases.
+- **Three independent runs for nondeterministic acceptance.** Each required affected journey that
+  depends on nondeterministic behavior needs at least three independent end-to-end runs at the same
+  implementation/runtime/model/prompt state, because one good sample says little about consistency.
+  - Predeclare the batch in the acceptance record: natural inputs, conversation/action sequence,
+    expected outcomes and configuration, frozen before the first run.
+  - Start each run from a fresh chat or equivalent safe reset, following any required history
+    within the run. Reopened answers, replayed output or a fixed seed are not independent.
+  - In each run, check the user-visible result and every required downloaded/persisted artifact:
+    semantic values, identities, distinct rows and required columns, not counts alone.
+  - All three must pass. A behavioral failure fails the batch: stop admissions, keep every outcome
+    and diagnose. Inputs and the system stay as frozen between runs (no coaching or tuning), and
+    failures are never discarded or outvoted by extra samples. After an evidence-backed repair, run a new batch; successes from
+    different states never combine.
+  - Deterministic contract checks are still required. A complete applicable batch is reused on
+    later assessments. If safety, paid-call or spend limits allow fewer than three runs, the
+    criterion stays unverified and the boundary is reported. Three passes are a minimum sample,
+    not statistical proof or a benchmark.
+- **Own repairs through acceptance.** Once implementation or revision is authorized, its owner
+  fixes in-scope defects and verification/guide gaps without asking again, looping implement →
+  check → repair → recheck until every required criterion passes or an evidence-backed blocker
+  remains. There is no default repair-round cap; owner-imposed limits, scope, spend and
+  sensitive-action boundaries still hold. If a repair breaks connected behavior, reconcile both
+  failures through the shared owner/state contract (see coupled consumers in `code-quality.md`)
+  before another edit; a narrower green check is not progress while preserved behavior is broken.
+- **Bound attempts by evidence, not a counter.** Before each grouped repair, record the failing
+  criterion, supported cause, next remedy and affected recheck in the closeout record, and keep
+  attempts and outcomes across heads, agents and invocations (old `0/2`/`2/2` counters are history).
+  Progress means new evidence supporting a materially different remedy; a new commit, rerun test or
+  reworded explanation is not progress. When no credible authorized remedy remains, stop that
+  criterion, finish independent work and report the evidence, attempts, missing prerequisite or
+  decision, and the smallest options. PASS comes only from passing evidence, never from lowering
+  the baseline, resampling paid output or collecting opinions. This policy neither consumes nor
+  resets Cursor's two-round cap and never substitutes for current-head approvals or publication
+  gates; at that cap, keep the PR draft, hand off unresolved blockers and start no further review
+  cycle.
 
-Standalone `execute sanity check` remains read-only:
-PASS, WARNING and FAIL complete the assessment, not the ticket. They never start or resume
-implementation merely because it was authorized in an earlier session. When the assessment is
-an explicit step in an already-active authorized execution, the reviewer still only reports;
-the execution owner consumes its findings and continues in-scope repairs under the contract above,
-without requiring "address and recheck". Honor an explicit pause or report-only handoff for the
-parent. Built-in ticket verification stays in that execution, not a second assessment loop.
+Standalone `execute sanity check` ends at PASS, WARNING or FAIL; that completes the assessment, not
+the ticket, and does not resume implementation authorized in an earlier session. When the
+assessment is a step inside an active authorized execution, the reviewer reports and the owner
+continues in-scope repairs under the contract above, unless the user or parent asked for a pause
+or report-only handoff.
 
 ## 1. Establish what is being checked
 
-Read the original request/ticket, approved plan and subsequent decisions, relevant repository instructions, the complete in-scope change, and available verification evidence. Derive the comparison base and files from the current assignment or PR; do not assume the last commit is the whole change.
+Read the original request/ticket, approved plan and later decisions, repository instructions, the
+complete in-scope change and available verification evidence. Derive the base and files from the
+assignment or PR rather than assuming the last commit is the whole change.
 
-Reconcile the existing plan's **Must deliver**, **Must preserve** and **Not included** with the
-original request, ticket/comments and subsequent approved changes. Do not treat a relaxed
-expectation or a newer requirement as permission to drop the rest of the scope.
+Reconcile the plan's **Must deliver**, **Must preserve** and **Not included** with the original
+request, ticket/comments and approved changes. A relaxed expectation or newer requirement leaves
+the rest of the scope in force.
 
-If requirements or the intended scope cannot be established from available context, **STOP** and ask for the specific missing information. Do not invent acceptance criteria or report a pass based only on code style.
+If the requirements or intended scope cannot be established, **STOP** and ask for the specific
+missing information. Acceptance criteria come from sources, and code style alone never earns PASS.
 
 ### PR readiness versus rollout completion
 
-Default code/PR sanity checks to **implementation readiness**, not production rollout completion.
-A data-repair PR can **PASS** when the implemented repair is demonstrated to meet every in-scope
-A/C on representative isolated data, with reviewed target/record selection, preserved invariants,
-and an explicit operator procedure. Exercise applicable stale-input, repeat/resume and recovery
-behavior; require backup/rollback or another concrete recovery path appropriate to the operation.
-A script's existence, unit tests alone or an unexercised plan is not sufficient proof.
+By default a code/PR sanity check assesses **implementation readiness**, not production rollout. A
+data-repair PR can **PASS** when the repair is demonstrated against every in-scope A/C on
+representative isolated data, with reviewed target/record selection, preserved invariants, an
+explicit operator procedure, exercised stale-input/repeat/resume/recovery behavior, and a backup,
+rollback or other concrete recovery path. A script's existence, unit tests alone or an unexercised
+plan are not enough.
 
-Production deployment/execution and its approval are separate **pending rollout** items. Their
-absence alone must not turn a demonstrated PR implementation into WARNING, FAIL or BLOCKED.
-This does not authorize production writes or claim that live data has changed. Incomplete repair
-coverage, unreviewed mappings and unapproved scope exclusions still block PR readiness.
+Production deployment/execution and its approval are separate **pending rollout** items and alone
+do not make a demonstrated implementation WARNING, FAIL or BLOCKED. This grants no production
+writes and claims no live change. Incomplete repair coverage, unreviewed mappings and unapproved
+exclusions still block readiness.
 
-State the stage in the verdict. If explicitly checking rollout or completion of an operational
-task, require actual results in the named target. Project case oracles/gates must reflect the same
-stage: record an owner-approved stage correction for an existing baseline, reconcile applicable
-evidence, and track rollout prerequisites outside the PR-required case table. Never merely flip a
-blocked row to PASS or ignore a failing gate.
+State the stage in the verdict. When explicitly checking rollout or an operational task, require
+actual results in the named target. Case oracles and gates follow the same stage: correct an
+existing baseline's stage only with owner approval, reconcile evidence, and track rollout
+prerequisites outside the PR case table. A blocked row moves to PASS only on evidence, and a
+failing gate is never ignored.
 
 ## 2. Check requirements, correctness, and scope
 
-- Account for **every acceptance criterion** as satisfied, missing, or unverified, with a source location and evidence level: unit, real API/database, local UI, staging, or unverified. Distinguish implementation inspection and deployment status from runtime proof.
+- Account for **every acceptance criterion** as satisfied, missing or unverified, with its source
+  and evidence level: unit, real API/database, local UI, staging or unverified. Code inspection
+  and deployment status are not runtime proof.
 - Re-check every approved revision that weakens or replaces a sourced expectation, especially a
-  ticket's own named example. Verify the revision's factual premise against the actual data and
-  original sources. If the data contradicts that premise, or the revised result is still wrong by the
-  ticket's stated intent, report a material finding with that evidence and the decision needed.
-  Don't record it as an approved limitation. An approval shows what was decided, not that the
-  decided behavior is correct.
-- Check relevant happy paths, boundaries, failures, and preserved behavior. Review security and authorization boundaries, state ownership, data integrity, and performance-sensitive paths where affected.
-- Compare with existing repository patterns and instructions, not universal preferences about languages, frameworks, mutation, component styles, or syntax. Separate genuine defects from stylistic suggestions.
-- Identify unnecessary features, abstractions, dependencies, refactors, or unrelated edits. Do not revert user work or silently expand the approved scope.
-- Separate in-scope defects from pre-existing issues. Ground findings in affected files and explain the observable impact; give calibrated confidence for diagnoses rather than presenting guesses as facts.
-- Apply `skill://execute/reference/code-quality.md` to the complete change; include structural
-  regressions and demonstrated complexity-deleting alternatives, not just behavioral defects.
-  Report blocking quality findings and any substantiated structural waivers.
+  ticket's own named example. Verify its factual premise against actual data and the original
+  sources. If the data contradicts it, or the revised result is still wrong by the ticket's intent,
+  report a material finding with the evidence and decision needed: an approval records what was
+  decided, not that it is correct.
+- Check relevant happy paths, boundaries, failures and preserved behavior, plus security and
+  authorization boundaries, state ownership, data integrity and performance-sensitive paths.
+- Judge against repository patterns and instructions rather than universal style preferences, and
+  separate defects from stylistic suggestions.
+- Flag unnecessary features, abstractions, dependencies, refactors and unrelated edits, without
+  reverting user work or expanding scope.
+- Separate in-scope defects from pre-existing issues. Ground findings in affected files, explain
+  observable impact and give calibrated confidence.
+- Apply `code-quality.md` to the complete change, including structural regressions and
+  demonstrated simpler alternatives; report blocking quality findings and substantiated waivers.
 
 A checklist or reviewer opinion is not runtime evidence.
 
 ## 3. Assess verification
 
-Reuse current, applicable results without repeating checks just to reconfirm reported observations.
-Apply the bounded evidence pass above. If evidence is missing or invalidated by later changes, run
-the smallest relevant check in a safe, isolated environment and report the exact outcome. Use
-documented project commands and installed CLI help, not assumed package managers or test runners.
+Reuse current, applicable results under the evidence pass above. If evidence is missing or
+invalidated, run the smallest relevant check in a safe, isolated environment with documented
+project commands and report the exact outcome.
 
 ### Keep sanity separate from broad CI
 
-This boundary applies to standalone sanity checks, composed `pr review --sanity` assessments,
-and built-in ticket/PR-revision acceptance verification. Check the changed behavior against sourced
-requirements; do not turn sanity into a second CI run.
+This applies to standalone checks, `pr review --sanity` and built-in acceptance verification:
+sanity checks changed behavior against sourced requirements; CI is a separate gate.
 
-- Reuse applicable evidence first. For a missing criterion, run only the smallest targeted check
-  needed to establish the affected behavior, using the real UI/API/database where appropriate.
-- Do not run broad backend/frontend suites, full builds, lint/typecheck sweeps or CI reruns by
-  default. Require a broad check only when explicitly requested for this assessment or mandated by
-  a sourced requirement or applicable repository instruction. Name that source and why targeted
-  evidence cannot satisfy it; a CI job's existence alone does not make it a sanity requirement.
-- Keep CI status and publication/merge gates separate from the sanity verdict. Do not promote
-  unrelated, pre-existing or flaky suite failures into required acceptance cases or sanity blockers.
-  Report known failures separately without rerunning them merely to confirm the report. Separate
-  required CI gates still apply to publication/merge; sanity PASS does not waive them.
-- A demonstrated regression in the changed path or missing required behavioral evidence still
-  blocks sanity, even when discovered by a fragile suite. Do not dismiss a relevant failure as
-  flaky without evidence or mark an unverified criterion PASS.
+- For a missing criterion, run the smallest targeted check that establishes the behavior, on the
+  real UI/API/database where appropriate.
+- Run broad suites, full builds, lint/typecheck sweeps or CI reruns only when this assessment's
+  request, a sourced requirement or a repository instruction mandates it; name that source and why
+  targeted evidence can't satisfy it. A CI job's existence alone is not such a mandate.
+- Report CI status and known unrelated, pre-existing or flaky failures separately from the verdict,
+  without rerunning them to confirm. Required CI gates still apply to publication and merge.
+- A demonstrated regression in the changed path, or missing required behavioral evidence, blocks
+  sanity even when a fragile suite found it. Call a failure flaky only with evidence.
 
-For bug fixes, check that the original failure is prevented. For UI changes, inspect the actual surface and relevant screenshots; passing logic tests alone do not prove appearance or interaction.
+For bug fixes, confirm the original failure is prevented. For UI changes, inspect the actual surface
+and screenshots; logic tests do not prove appearance or interaction.
 
-For stateful behavior, look for one complete same-record journey through save, reload, and reopen or cancel where relevant; check the affected summary and unchanged peers. Probe the change's most likely boundary or negative case, not an exhaustive matrix. If this cannot be exercised before staging, make the gap explicit rather than promoting isolated tests to end-to-end proof.
+For stateful behavior, look for one same-record journey through save, reload and reopen or cancel,
+checking the affected summary and unchanged peers, and probe the most likely boundary or negative
+case. If it can't be exercised before staging, state the gap rather than treating isolated tests as
+end-to-end proof.
 
-When shared behavior changes, exercise its relevant preserved consumers and interacting states
-identified under `code-quality.md`, not only the new feature. For polling UI, observe repeated
-automatic checks in healthy and recovery states; a manual-click or geometry check alone does not
-prove the interaction. Simulated streams or saved-state transitions prove their tested seams, not
-live model compliance or actual worker completion.
+When shared behavior changes, exercise its preserved consumers and interacting states identified
+under `code-quality.md`. For polling UI, observe repeated automatic checks in healthy and recovery
+states; a manual click or geometry check does not prove the interaction. Simulated streams or
+saved-state transitions prove their tested seams, not live model compliance or worker completion.
 
 ### Walk the testing guide
 
-For UI work, this pass is part of both the built-in ticket sanity check and an explicit sanity
-check. Use the current rendered testing guide as the route through the real app, not a separate
-happy-path walkthrough. Ticket implementation prepares it with `skill://brew-test` first.
-A read-only sanity check inspects an existing guide; it does not create or edit one unless
-explicitly requested. If a required ticket handoff guide is missing, report the gap.
+For UI work, the guide walk is part of both built-in and explicit sanity checks: the rendered
+testing guide is the route through the real app, rather than a separate happy-path walkthrough.
+Ticket implementation prepares it with `skill://brew-test`; a read-only check inspects the existing
+guide, reports a missing one, and creates or edits one only on explicit request.
 
-- Open the guide and follow its numbered actions in order from the stated starting link,
-  tenant/role and record state, not an agent's prefilled tab. Follow links and filters as written;
-  find the exact named controls and compare each visible result with its written expectation.
-- Do not silently compensate for missing navigation, hidden prerequisites, ambiguous labels or
-  incorrect expected results using implementation knowledge. Record the step and what prevented
-  following it. Distinguish an instruction defect from an app defect or unavailable prerequisite.
-- In the existing acceptance record, map each journey to its criteria and record observed
-  results, environment/revision and any blocked steps. Reuse evidence only when it demonstrates
-  following those exact written actions at the current relevant state. Feature checks alone do
-  not prove the guide is usable; re-walk affected steps after guide or app changes.
-- Exercise only actions already authorized on safe records, including restoration where needed.
-  A guide is not permission for production/shared-data mutations, paid calls or destructive actions.
-  Block unsafe or unavailable steps. Non-UI criteria retain their engineering checks, not a
-  fabricated visual proxy.
-- A required journey that cannot be followed is not PASS. Report its smallest correction or
-  prerequisite. Fix the guide/app only within an explicitly authorized implementation or revision
-  workflow under the contract above, then verify affected steps. A standalone read-only assessment
-  reports the finding without editing. This pass does not add another review gate.
+- Follow the numbered actions in order from the stated starting link, tenant/role and record state
+  (not an agent's prefilled tab), using links and filters as written. Find the exact named controls
+  and compare each visible result with its expectation.
+- When navigation, prerequisites, labels or expected results are missing or wrong, record the step
+  and what blocked it rather than compensating with implementation knowledge. Classify it as an
+  instruction defect, app defect or unavailable prerequisite.
+- In the acceptance record, map each journey to its criteria with observed results,
+  environment/revision and blocked steps. Reuse evidence only if it followed these exact actions
+  at the current state; feature checks alone don't prove the guide is usable. Re-walk affected
+  steps after guide or app changes.
+- Perform only already-authorized actions on safe records, restoring where needed. The guide grants
+  no production/shared-data mutation, paid calls or destructive actions; block those steps. Non-UI
+  criteria keep their engineering checks.
+- A required journey that cannot be followed is not PASS; report its smallest correction or
+  prerequisite. Inside an authorized implementation or revision, fix the guide/app and re-verify
+  affected steps; a read-only assessment reports only.
 
-Do not force a browser, E2E test generation, or a new test suite for changes they cannot meaningfully verify. Report unavailable runtime access or missing required targeted behavioral evidence as criterion-local gaps, not passes.
+Use a browser, generated E2E test or new suite only where it meaningfully verifies the change.
+Report unavailable runtime access or missing behavioral evidence as criterion-local gaps.
 
 ## 4. Give the verdict
 
-Lead with **PASS**, **WARNING**, or **FAIL**, followed by only material findings:
+Lead with **PASS**, **WARNING** or **FAIL**, then only material findings:
 
-- **PASS:** all requirements for the stated stage have evidence, relevant checks passed, and no
-  blocking correctness, structural quality or scope issue was found. PR implementation can PASS
-  while a demonstrated repair still awaits production rollout.
+- **PASS:** every requirement for the stated stage has evidence, relevant checks passed, and no
+  blocking correctness, structural quality or scope issue was found. A demonstrated repair can PASS
+  while awaiting production rollout.
 - **WARNING:** only nonblocking concerns or optional verification gaps remain; name what is not
-  established. Required criteria must still pass the stage-appropriate project acceptance gate.
-- **FAIL:** required behavior for the stated stage is missing, a blocking correctness or structural
+  established. Required criteria still pass the stage-appropriate gate.
+- **FAIL:** required behavior for the stage is missing, a blocking correctness or structural
   quality defect exists, or required verification failed or is blocked.
 
-For each material finding, record its criterion/source, location, actual evidence, impact, kind
-(`defect`, `verification gap` or `suggestion`), blocking disposition with reason, and smallest next
-action. Include exact checks and unverified criteria. A failed evidence gate is a verification
-gap, not by itself proof of a product defect; it still prevents PASS/WARNING where required.
-FAIL completes this read-only check, not the ticket, and never authorizes fixes or publication.
+For each material finding, give its criterion/source, location, evidence, impact, kind (`defect`,
+`verification gap` or `suggestion`), blocking disposition with reason, and smallest next action.
+List exact checks run and unverified criteria. A failed evidence gate is a verification gap, not
+proof of a product defect, and still prevents PASS/WARNING where required. FAIL completes this
+read-only check, not the ticket.
