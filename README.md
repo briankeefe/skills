@@ -94,7 +94,25 @@ Acceptance oracles are locked: changing an expected outcome or required action, 
 or adding waits to pre-existing tests goes on an oracle-change list. Outcome changes need owner
 approval. Before an executed PR is marked ready, one fresh-session sanity assessment grades the
 final head. Its FAIL stands until a fresh assessment of a repaired head replaces it; the
-implementer's own recheck can't overturn it.
+implementer's own recheck can't overturn it. `skills/execute/scripts/oracle-tripwire.py --base <ref>`
+flags edited assertions, waits and mocks in pre-existing tests, deleted tests and guide/acceptance
+edits that are missing from the oracle-change list; the readiness gate requires it to be clean.
+
+### Evaluating changes to the execute skill
+
+`evals/execute/scenarios.json` holds decision scenarios taken from real failures (ENG-2657, ENG-2798).
+Before changing execute guidance, replay them on both model families and compare with the previous
+version and a no-skill baseline:
+
+```sh
+python3 evals/execute/run.py --model claude --model codex            # working tree
+python3 evals/execute/run.py --model claude --model codex --ref HEAD  # before your edit
+python3 evals/execute/run.py --model claude --model codex --no-skill  # does the skill matter?
+```
+
+Each scenario runs three times with shuffled options and passes only if all three are right. Add a
+scenario for each new incident instead of only adding prose. These are stated-choice checks, not
+proof of behavior on a live ticket. Each full run costs about 72 model calls.
 
 ## Reuse instead of rediscovering
 

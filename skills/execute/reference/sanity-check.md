@@ -21,9 +21,10 @@ The parent resolves the target and hands over sources, not a verdict:
   complete in-scope diff/code locations;
 - verification records (actions, observed results, environment/revision, known gaps), the testing
   guide, frozen acceptance baseline and repair history;
-- the oracle-change list (below) and the tests that existed at the base and changed since
-  (`git diff --stat <base>...<head>` filtered to them). The reviewer checks each against its source;
-  an oracle change without one is a finding.
+- the oracle-change list (below) and the output of
+  `python3 <execute skill dir>/scripts/oracle-tripwire.py --base <base> --oracle <guide/acceptance
+  paths> --list <oracle-change list>`. The reviewer checks each flagged path against its source;
+  an UNDECLARED path or a declared one without a source is a finding.
 
 Leave out the implementer's conclusions, proposed verdict, reassurance and narrative of why the
 fix works: a reviewer handed a hypothesis tends to confirm it. Where records mix facts and
@@ -68,7 +69,9 @@ the existing task plan, acceptance record or PR report.
   result, required action/input, removed case, or an added wait/retry in a pre-existing test) goes
   in an **oracle-change list** in the acceptance record with its source. Changes to an expected
   outcome or required action need owner approval before they count; the agent's own reading of a
-  contract is a proposal, not a source. Report the list in every handoff and PR revision.
+  contract is a proposal, not a source. Run `scripts/oracle-tripwire.py` (beside `SKILL.md`)
+  before each handoff and PR revision; it flags edited assertions, waits and mocks in pre-existing
+  tests, deleted tests and oracle-file edits missing from the list. Report the list in the handoff.
   Several pre-existing tests needing the same new wait or mock means the product likely gained an
   unwanted gate: diagnose the product first.
 - **Keep prerequisites local to the criterion.** Name the exact input, oracle, access or
