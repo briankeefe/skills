@@ -128,6 +128,18 @@ to skip the quiz waives only this checkpoint.
   A progress update, finished review or milestone does not end that ownership. Before yielding, name one of: completion, an evidence-backed no-progress stop, the exact user
   decision needed, or the external prerequisite blocking all remaining work. Continue independent
   work when only one criterion is blocked. Read-only commands complete on their verdict.
+- After a verified fix, ask once what was learned that the code and tests won't explain. Capture
+  only a non-obvious, durable, material lesson whose loss risks a repeated mistake or substantial
+  rediscovery; most tasks yield none and none is required. Prefer an existing regression test or
+  runbook update over prose. Otherwise write a short lesson where the repository already keeps
+  such knowledge (fallback `docs/lessons/<topic>.md`): constraint, evidence, failed approach when
+  relevant, working approach, and a retirement condition when applicable. Update the canonical
+  record instead of adding a duplicate, and write it with the change before final evidence binds.
+  Project knowledge stays with the project inside the task's existing change and authorization;
+  private machine/environment coordinates stay in local runbooks, and credentials and
+  patient/customer data stay out of both. This adds no per-ticket document, agent, or
+  approval/acceptance gate. Read-only commands may name a candidate lesson in their answer but
+  never write one.
 - When reporting applied changes, name where (local worktree, isolated data branch, staging or
   production) rather than saying only "applied".
 - Give decision/completion handoffs and answer status questions from observed facts, without
@@ -156,6 +168,13 @@ to skip the quiz waives only this checkpoint.
   from the repository. Reuse instructions already in context; after compaction or changed guidance,
   reload only what is missing and keep its source pointer in the task record. Authorization,
   authentication and live task state are never cached.
+- Before planning, retrieve durable lessons relevant to the affected area from where the
+  repository keeps them (regression tests, runbooks, project docs and agent guidance, any lessons
+  location such as `docs/lessons/`) and from local runbooks for machine/environment facts. A
+  lesson is a lead, not a fact: validate it against the current tree before relying on it. Fix
+  or retire a stale canonical record under the closeout rule in **Working agreement and
+  handoffs**, within authorized execution only; retrieval itself is read-only and grants no
+  write authority.
 - Missing context: exhaust repo/tool evidence, then ask one focused question. Report unavailable
   credentials or services without guessing values or exposing secrets.
 

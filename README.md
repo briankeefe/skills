@@ -69,6 +69,15 @@ handoff includes the verified interactive guide, revision/environment, actual ac
 independent-sanity status, PR link/state and next action. Canonical policy stays in execute;
 `brew-test` owns guide format and project runbooks own private helper integration.
 
+Execute retrieves relevant durable lessons before planning and validates them against the
+current tree. After a verified fix it captures only non-obvious, durable, material lessons the
+code and tests won't explain, preferring a regression test or runbook update, otherwise a short
+repo-local note (constraint, evidence, failed and working approach, retirement condition) in the
+project's existing location or `docs/lessons/`. Canonical records are updated rather than
+duplicated; private machine/environment facts stay in local runbooks. Most tickets produce no
+lesson, and this adds no document requirement, agent, approval or acceptance gate. Read-only
+commands never write lessons.
+
 After approach agreement, execution owns in-scope repairs through acceptance without repeated
 "fix and recheck" permission. The [canonical closeout contract](skills/execute/reference/sanity-check.md#bounded-assessment-and-closeout)
 replaces the default two-repair acceptance cap with evidence-backed progress/no-progress stops.

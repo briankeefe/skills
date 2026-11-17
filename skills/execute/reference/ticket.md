@@ -76,7 +76,7 @@ Replace both placeholders with the actual work identifier and spec path. `DEMO_S
 
 ## Deliver
 
-Update existing documentation when the contract requires it. Follow the publication authorization in `skill://execute`; an existing instruction to commit/push/publish needs no repeat confirmation.
+Update existing documentation when the contract requires it, and apply the durable-lesson closeout rule under **Working agreement and handoffs** in `skill://execute`; it usually yields nothing. Follow the publication authorization in `skill://execute`; an existing instruction to commit/push/publish needs no repeat confirmation.
 
 Follow `skill://execute`'s **PR descriptions** and **Testing handoffs** for initial publication,
 revisions and completion/blockers, using the same verified guide. Send the initial handoff as
