@@ -11,7 +11,8 @@ The user has authorized this workflow to:
 - make, verify, commit and push minimal in-scope fixes;
 - reply with evidence when feedback is invalid or already addressed;
 - repeat those actions for at most two completed thermo-nuclear review rounds; and
-- mark the draft ready for review after the approval gate passes.
+- automatically mark the draft ready for review as soon as the approval gate passes, unless the
+  user explicitly asked to keep it draft.
 
 Do not ask for confirmation for those actions. This authorization does not permit merging, force-pushing, changing the PR base, resolving unrelated feedback, broadening ticket scope, or ignoring repository publication rules.
 
@@ -104,9 +105,13 @@ independent acceptance verdict. An old approval, green automation run, author's 
 
 Re-read the PR head, draft state, approvals and checks immediately before transition. Apply the
 final pass in `skill://execute`'s **PR descriptions** rules to the current head. If the gate still
-holds, mark the PR ready for review using the host's supported command and verify the draft flag
-changed. Do not merge it.
+holds, automatically mark the PR ready for review using the host's supported command (on GitHub,
+`gh pr ready <PR_URL>`), then fetch fresh metadata and verify `isDraft` is false. Do not ask for
+another confirmation or stop at "reviews passed". If it is already ready, skip the mutation.
+An explicit user instruction to keep it draft overrides the automatic transition; report that
+state without claiming readiness. A failed transition or readback is a blocker, not completion.
+Do not merge it.
 
-Notify the user with the PR URL, the approval evidence from both Cursor actions, fixes or pushbacks made during the loop, verification performed, and confirmation that the PR is ready for review.
+Notify the user with the PR URL, the approval evidence from both Cursor actions, fixes or pushbacks made during the loop, verification performed, and the verified PR state or exact transition blocker.
 Include the current testing URL and actionable steps from `skill://execute`'s **Testing handoffs**
 contract, updated for the final head, so the ready-for-review notification is also usable for testing.

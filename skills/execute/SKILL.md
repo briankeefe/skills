@@ -340,3 +340,6 @@ otherwise. Reviewer identities/triggers are repository-local: report a missing o
 and proceed, without borrowing another project's configuration, and distinguish a posted trigger,
 a recorded request and a completed review. Never merge. `reference/review-loop.md` grants its exact
 review comments, fixes, pushes, replies and the draft-to-ready transition after its gate passes.
+That transition is automatic, not another permission checkpoint: finish shepherding by marking
+the PR ready for review and verifying its draft flag is false, unless the user explicitly asked
+to keep it draft. Pending or failed gates keep it draft; never merge.

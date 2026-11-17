@@ -82,5 +82,7 @@ Follow `skill://execute`'s **PR descriptions** and **Testing handoffs** for init
 revisions and completion/blockers, using the same verified guide. Send the initial handoff as
 soon as the draft is published, then continue `skill://execute/reference/review-loop.md`;
 do not stop merely because the PR exists. Follow **Wait for CI after publication** in
-`skill://execute` for the initial head and every revision. Report the final review and CI results
-or exact blocker.
+`skill://execute` for the initial head and every revision. When the review-loop gate passes,
+automatically mark the PR ready for review and verify its draft flag is false, unless the user
+explicitly asked to keep it draft. Report the verified final PR state and review/CI results or
+exact blocker.

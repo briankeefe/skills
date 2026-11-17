@@ -81,6 +81,12 @@ another request. It inspects failures, repairs authorized in-scope causes and wa
 fixes; required checks must pass before readiness. Immediate testing handoffs still happen while
 CI runs. Read-only commands, deployment monitoring and Cursor's two-round cap remain unchanged.
 
+After shepherding, execute automatically marks the PR ready for review as soon as the
+[review-loop gate](skills/execute/reference/review-loop.md#approval-gate) passes and verifies the
+draft flag is false, without another confirmation. An explicit keep-draft instruction overrides
+that transition; missing approvals, acceptance evidence or required CI still block readiness.
+This is an agent workflow instruction, not a GitHub automation or permission to merge.
+
 Regression prevention keeps the original failing action and independent expected result intact;
 changing a prompt, fixture, assertion or readiness wait needs a sourced reason, not a green result.
 Shared-state repairs check coupled consumers and preserved behavior in the existing acceptance
