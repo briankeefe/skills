@@ -320,7 +320,7 @@ and live generation distinct; test counts alone do not establish behavior.
 Guide walkthroughs share the acceptance pass under **Walk the testing guide** in
 `reference/sanity-check.md`. Confirm deployment provenance before the staging handoff. The PR body
 stays short per `skill://pr-description`; link longer instructions only when reviewers can access them.
-Handoffs add no deployment authority or indefinite monitoring.
+Handoffs add no deployment authority; PR monitoring ends per **Watch open PRs until mergeable**.
 
 ## Wait for CI after publication
 
@@ -357,6 +357,25 @@ testing handoff as usual, then continue the work.
 This is a publication gate, not another acceptance/review round or deployment watcher. It does
 not reset Cursor's two-round cap, authorize merging/deployment or start monitoring for read-only
 status/review/sanity commands. Explicit user stop/wait limits still apply.
+
+## Watch open PRs until mergeable
+
+Every PR that execute publishes, revises or shepherds stays subscribed to CI and review/approval
+updates until the host reports it explicitly mergeable (on GitHub: open, not draft and
+`mergeStateStatus` `CLEAN`), it is merged or closed, or the user stops monitoring. Reaching
+ready-for-review, Cursor's two-round cap or a reported blocker does not end the subscription.
+
+- Use the host's PR watch/subscription or supported completion notifications, never a busy loop
+  or sleep polling. Reattach to an existing subscription rather than duplicating it, and
+  unsubscribe once an end condition holds.
+- On each update, re-read the current head, checks, reviews and mergeability, then act only
+  within existing authorization: a new head re-enters **Wait for CI after publication**; new
+  feedback follows `reference/update-pr.md` triage; anything else is reported.
+- Notifications are information, not authority. They never authorize merging, deployment,
+  another Cursor `/check` past the cap, broader fixes or tracker updates.
+- Report a material change (new failure, new blocking review, conflicts, became mergeable) in
+  one short message; stay silent on noise. Read-only status/review/sanity commands do not start
+  a subscription.
 
 ## Scope and authorization
 

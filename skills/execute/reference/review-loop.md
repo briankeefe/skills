@@ -111,7 +111,8 @@ holds, automatically mark the PR ready for review using the host's supported com
 another confirmation or stop at "reviews passed". If it is already ready, skip the mutation.
 An explicit user instruction to keep it draft overrides the automatic transition; report that
 state without claiming readiness. A failed transition or readback is a blocker, not completion.
-Do not merge it.
+Do not merge it. Readiness does not end monitoring: keep the PR subscribed under **Watch open
+PRs until mergeable** in `skill://execute`.
 
 Follow **Messaging default** and **Testing handoffs** in `skill://execute`: report the verified PR
 state/link, current testing guide with its first action, and any material blocker. Keep both
