@@ -287,6 +287,36 @@ Guide walkthroughs share the acceptance pass under **Walk the testing guide** in
 stays short per `skill://pr-description`; link longer instructions only when reviewers can access them.
 Handoffs add no deployment authority or indefinite monitoring.
 
+## Wait for CI after publication
+
+Authorized ticket execution, PR revisions and shepherding own current-head CI through completion
+after initial PR publication and every subsequent push. Do not stop at "pushed", "checks running"
+or reviewer approval, and do not wait for the user to request monitoring. Send the immediate
+testing handoff as usual, then continue the work.
+
+- Record the published head SHA and discover its applicable CI workflows and required checks from
+  repository configuration and fresh host metadata. Wait for applicable CI to finish, including
+  queued/in-progress checks; no checks reported yet is not proof of success.
+- Use the host's blocking watcher or supported completion notifications at a reasonable interval,
+  not a busy loop. Reuse **GitHub CI waiting** in `reference/tool-recipes.md`. Work on independent
+  authorized tasks while CI runs, then consume its result before the completion handoff.
+- Inspect failed jobs and logs. Fix and verify in-scope causes within existing authorization,
+  push, and wait again for the new head. Do not blindly rerun failures, weaken checks or bypass
+  required CI. Report unrelated/infrastructure failures with evidence; they do not authorize
+  broader repairs or make required checks pass.
+- Re-read the PR head and checks after the wait and immediately before readiness/completion.
+  A changed head invalidates the old CI binding. Required checks must pass; cancelled, missing,
+  skipped or neutral results satisfy a requirement only when the repository's rules allow them.
+  Record non-required failures separately rather than calling all CI green.
+- Ordinary pending CI is ongoing work, not a handoff blocker. If access, required manual action,
+  repeated infrastructure failure or a host/tool timeout prevents completion, report the exact
+  head, check/run links, observed states and blocker. Never treat a timeout as success or leave
+  a required check pending while claiming readiness.
+
+This is a publication gate, not another acceptance/review round or deployment watcher. It does
+not reset Cursor's two-round cap, authorize merging/deployment or start monitoring for read-only
+status/review/sanity commands. Explicit user stop/wait limits still apply.
+
 ## Scope and authorization
 
 `execute <ticket>` authorizes implementation once the **Pre-work Socratic checkpoint** closes.

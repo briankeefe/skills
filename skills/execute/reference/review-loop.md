@@ -37,6 +37,9 @@ approval. Only completed Cursor thermo-nuclear reviews count toward the two-roun
 
 Poll the host API at a reasonable interval until both Cursor actions triggered for the recorded head have completed. Do not busy-wait. Keep running in the assigned session so the user can work elsewhere.
 
+Wait for repository CI alongside the review actions under **Wait for CI after publication** in
+`skill://execute`; neither Cursor completion nor the two-round cap makes pending CI complete.
+
 A successful check run proves only that the automation executed. Approval must come from each action's review state or explicit review conclusion. Fetch full formal reviews, review bodies, inline comments, general comments, thread state and check details using the **Collect feedback** rules in `skill://execute/reference/update-pr.md`.
 
 Before acting, verify the PR head is still the recorded SHA. If another authorized actor pushed,
@@ -86,7 +89,7 @@ Continue the cycle until all of these are true for the current head and latest `
 - the risk analysis action explicitly approves;
 - the thermo-nuclear review explicitly approves or states that no blocking changes are required;
 - no newer unresolved `CHANGES_REQUESTED` review or substantive Cursor finding remains; and
-- required repository checks are not failing because of this PR; and
+- required repository checks pass under **Wait for CI after publication** in `skill://execute`; and
 - a fresh-session assessment under **Fresh reviewer for standalone checks** in
   `skill://execute/reference/sanity-check.md` returned PASS or WARNING for the current head, with
   no unresolved independent FAIL/BLOCKED, and `scripts/oracle-tripwire.py` reports no UNDECLARED

@@ -96,6 +96,9 @@ its revision testing handoff, including the PR/test URL, changed behavior, affec
 with expected results, and connected regression checks. Do this before continuing the review loop;
 user testing does not replace the revision acceptance gate.
 
+After a code push, follow **Wait for CI after publication** in `skill://execute` even when no
+review cycle applies or Cursor's cap is reached. The immediate handoff is not completion.
+
 If the PR remains a draft and the repository supports `/check`, continue with
 `skill://execute/reference/review-loop.md` within its separate Cursor cap. At that cap or an
 evidence-backed blocker/no-progress stop, or when no review cycle applies, report the PR URL,

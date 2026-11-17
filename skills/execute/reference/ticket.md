@@ -81,4 +81,6 @@ Update existing documentation when the contract requires it. Follow the publicat
 Follow `skill://execute`'s **PR descriptions** and **Testing handoffs** for initial publication,
 revisions and completion/blockers, using the same verified guide. Send the initial handoff as
 soon as the draft is published, then continue `skill://execute/reference/review-loop.md`;
-do not stop merely because the PR exists. Report the final review result or exact blocker.
+do not stop merely because the PR exists. Follow **Wait for CI after publication** in
+`skill://execute` for the initial head and every revision. Report the final review and CI results
+or exact blocker.

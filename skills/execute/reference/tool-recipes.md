@@ -34,6 +34,26 @@ pr = json.loads(result.stdout)
 print(pr["headRefOid"])  # Inspect only the required fields; no rendered-preview parsing.
 ```
 
+## GitHub CI waiting
+
+Verified flags with GitHub CLI 2.101.0:
+
+```bash
+gh pr view "$PR_URL" --json headRefOid --jq .headRefOid
+gh pr checks "$PR_URL" --watch --interval 30
+gh pr view "$PR_URL" --json headRefOid --jq .headRefOid
+gh pr checks "$PR_URL" --json name,state,bucket,workflow,link
+gh pr checks "$PR_URL" --required
+```
+
+Record and compare the head SHAs; if changed, wait for the new head instead of carrying forward
+the old result. Watch all applicable checks, not just `--required`, and omit `--fail-fast` so one
+failure does not hide still-running jobs. Inspect failures and logs rather than treating the
+watcher's exit as the verdict. Exit 8 means pending; an empty/missing check list is not success.
+If expected checks have not registered, inspect workflow triggers, run metadata and repository
+requirements before declaring them inapplicable or blocked. Apply **Wait for CI after publication**
+in `skill://execute` for missing checks, timeouts, repairs and final readiness.
+
 ## Linear CLI 2.6.0
 
 Confirm `linear --version` is `linear 2.6.0`; reuse these forms for that version.

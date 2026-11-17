@@ -76,6 +76,11 @@ Independent reviewers remain read-only; their findings return to an already-acti
 owner, not a new permission gate. A standalone assessment doesn't resume historical implementation.
 Real access/product/spend boundaries, explicit owner limits and Cursor's review cap still apply.
 
+Execute waits for current-head CI after initial PR publication and every revision push without
+another request. It inspects failures, repairs authorized in-scope causes and waits again after
+fixes; required checks must pass before readiness. Immediate testing handoffs still happen while
+CI runs. Read-only commands, deployment monitoring and Cursor's two-round cap remain unchanged.
+
 Regression prevention keeps the original failing action and independent expected result intact;
 changing a prompt, fixture, assertion or readiness wait needs a sourced reason, not a green result.
 Shared-state repairs check coupled consumers and preserved behavior in the existing acceptance
