@@ -50,9 +50,16 @@ Record and compare the head SHAs; if changed, wait for the new head instead of c
 the old result. Watch all applicable checks, not just `--required`, and omit `--fail-fast` so one
 failure does not hide still-running jobs. Inspect failures and logs rather than treating the
 watcher's exit as the verdict. Exit 8 means pending; an empty/missing check list is not success.
-If expected checks have not registered, inspect workflow triggers, run metadata and repository
-requirements before declaring them inapplicable or blocked. Apply **Wait for CI after publication**
-in `skill://execute` for missing checks, timeouts, repairs and final readiness.
+If expected checks have not registered, wait at the normal 30-second interval and recheck the
+current head and fresh run metadata. A short registration delay is not a blocker. If checks stay
+missing, inspect workflow triggers and repository requirements before declaring them inapplicable
+or reporting an evidence-backed blocker.
+
+If the tool deadline expires, inspect fresh head/run state and resume observation; CI may still
+be running normally. Reattach to a live watcher or use a supported background wait/completion
+notification instead of repeatedly exhausting the same foreground deadline. Do not duplicate
+watchers or rerun CI jobs to resume waiting. Apply **Wait for CI after publication** in
+`skill://execute` for persistent observation failures, repairs and final readiness.
 
 ## Linear CLI 2.6.0
 

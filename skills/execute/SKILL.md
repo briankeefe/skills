@@ -297,6 +297,8 @@ testing handoff as usual, then continue the work.
 - Record the published head SHA and discover its applicable CI workflows and required checks from
   repository configuration and fresh host metadata. Wait for applicable CI to finish, including
   queued/in-progress checks; no checks reported yet is not proof of success.
+  Allow for registration delays: wait at the normal monitoring interval and recheck fresh
+  head/run metadata before diagnosing missing checks. A short registration delay is not a blocker.
 - Use the host's blocking watcher or supported completion notifications at a reasonable interval,
   not a busy loop. Reuse **GitHub CI waiting** in `reference/tool-recipes.md`. Work on independent
   authorized tasks while CI runs, then consume its result before the completion handoff.
@@ -308,10 +310,14 @@ testing handoff as usual, then continue the work.
   A changed head invalidates the old CI binding. Required checks must pass; cancelled, missing,
   skipped or neutral results satisfy a requirement only when the repository's rules allow them.
   Record non-required failures separately rather than calling all CI green.
-- Ordinary pending CI is ongoing work, not a handoff blocker. If access, required manual action,
-  repeated infrastructure failure or a host/tool timeout prevents completion, report the exact
-  head, check/run links, observed states and blocker. Never treat a timeout as success or leave
-  a required check pending while claiming readiness.
+- Ordinary pending CI is ongoing work, not a handoff blocker. A watcher/tool timeout does not
+  mean CI timed out: retrieve fresh head/run state and resume watching, using a supported
+  background wait or completion notification when needed. Reattach to a still-running watcher
+  rather than starting duplicates. Do not rerun CI jobs merely to resume observation.
+- Report a blocker only when access, required manual action, repeated infrastructure failure
+  or a persistent inability to observe CI prevents further progress after those recovery steps.
+  Include the exact head, check/run links, observed states and recovery attempts. Never treat
+  a timeout as success or leave a required check pending while claiming readiness.
 
 This is a publication gate, not another acceptance/review round or deployment watcher. It does
 not reset Cursor's two-round cap, authorize merging/deployment or start monitoring for read-only
