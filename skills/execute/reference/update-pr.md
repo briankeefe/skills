@@ -92,9 +92,10 @@ When publication is authorized:
 
 After each published revision, refresh the whole description against the current diff and evidence
 using `skill://execute`'s **PR descriptions** rules, not just the testing section. Immediately send
-its revision testing handoff, including the PR/test URL, changed behavior, affected testing steps
-with expected results, and connected regression checks. Do this before continuing the review loop;
-user testing does not replace the revision acceptance gate.
+its revision handoff under **Testing handoffs** and **Messaging default** in `skill://execute`.
+Keep changed behavior, affected testing steps with expected results and connected regression
+checks in the linked guide. Do this before continuing the review loop; user testing does not
+replace the revision acceptance gate.
 
 After a code push, follow **Wait for CI after publication** in `skill://execute` even when no
 review cycle applies or Cursor's cap is reached. The immediate handoff is not completion.

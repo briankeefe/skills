@@ -112,6 +112,24 @@ to skip the quiz waives only this checkpoint.
 
 ## Working agreement and handoffs
 
+### Messaging default
+
+Applies to every execute command, including reviews, status answers and testing handoffs:
+
+- Answer in 1–3 short lines. Lead with the result or decision; include only material risks,
+  blockers or required action, plus the relevant link when needed.
+- No preamble, progress narration, recap, repeated user request or unsolicited explanation.
+  The user will ask for more context. Send required publication/staging handoffs, not routine
+  milestone updates; keep working without narrating tool calls or waits.
+- Keep required evidence and detailed workflow outputs in the existing task record, report or
+  testing guide, not a chat checklist. A reference's required output fields are a completeness
+  contract for that artifact, not a reason to expand chat. Surface material verification gaps
+  and decisions in chat; never hide them behind a link.
+- Expand only when the user asks for detail or the requested deliverable requires it.
+  Brevity changes presentation, not scope, verification, authorization or ownership.
+
+### Task records and ownership
+
 - Put substantive explanations, plans, decisions and reports on concise local Brew pages; chat
   carries the takeaway, link and exact question or blocker. Brief acknowledgments can stay in
   chat, and an explicit request for inline content wins. Reuse the task's page. A local page grants
@@ -142,8 +160,6 @@ to skip the quiz waives only this checkpoint.
   never write one.
 - When reporting applied changes, name where (local worktree, isolated data branch, staging or
   production) rather than saying only "applied".
-- Give decision/completion handoffs and answer status questions from observed facts, without
-  progress estimates, dashboards or periodic status messages.
 
 ## Discover once, reuse
 
@@ -292,14 +308,14 @@ verification. Prepare and verify it before the first draft-PR handoff and refres
 revisions, completion/blockers and staging. Read-only commands inspect an existing guide and
 create one only on request.
 
-One concise, head-specific handoff: **revision and environment; acceptance result and evidence
-level (self-verified or independent); oracle changes, if any; PR state/link; guide link and first
-action; next action or blocker**. Tenant/role, prepared records, numbered journeys and backend-only
-limits live in the guide. Use only real URLs and confirmed deployments; a build does not prove
-deployment and an unreachable runtime is not ready. For revisions, name the changed journeys and
-reuse the still-applicable guide. Lead with the original user journey exercised and the preserved control, bound to
-revision and environment; test counts are supporting detail. Keep evidence levels distinct: source
-tests, simulated transitions, real saved results and live generation each prove only their own level.
+Follow **Messaging default**: result/environment and PR state/link; testing guide link with the
+first action; material gap or decision, if any. Put revision binding, exercised original journey
+and preserved control, acceptance result and evidence level (self-verified or independent),
+oracle changes, changed journeys and connected checks in the same guide/task record.
+Tenant/role, prepared records, numbered journeys and backend-only limits belong there too.
+Use only real URLs and confirmed deployments; a build does not prove deployment and an
+unreachable runtime is not ready. Keep source tests, simulated transitions, real saved results
+and live generation distinct; test counts alone do not establish behavior.
 
 Guide walkthroughs share the acceptance pass under **Walk the testing guide** in
 `reference/sanity-check.md`. Confirm deployment provenance before the staging handoff. The PR body

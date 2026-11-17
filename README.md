@@ -65,9 +65,12 @@ Execute keeps inspected invariants and working verification recipes in the exist
 Named examples are traced during discovery and probed before broad recomputation. Final evidence
 binds only after formatting, mutating hooks and the intended revision settle; helper command
 failures stop their batch without erasing successfully recorded product failures. The first
-handoff includes the verified interactive guide, revision/environment, actual acceptance and
-independent-sanity status, PR link/state and next action. Canonical policy stays in execute;
-`brew-test` owns guide format and project runbooks own private helper integration.
+handoff follows execute's shared messaging default: 1–3 short lines with the result, relevant
+PR/testing links and required action or material blocker. No preamble, progress narration or recap;
+the user can ask for context. Required evidence stays in the task record and verified guide,
+not repeated in chat. This applies across execute commands without reducing scope or gates.
+Canonical policy stays in execute; `brew-test` owns guide format and project runbooks own private
+helper integration.
 
 Execute retrieves relevant durable lessons before planning and validates them against the
 current tree. After a verified fix it captures only non-obvious, durable, material lessons the

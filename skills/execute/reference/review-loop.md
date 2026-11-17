@@ -80,8 +80,9 @@ hand over unresolved blockers even if further acceptance repair could otherwise 
 If an action fails without producing a substantive review, inspect the failure. Fix an in-scope cause; otherwise retrigger once. Repeated infrastructure failure, missing authentication, an unavailable reviewer action, or the same unsupported finding recurring without new evidence is a blocker: preserve the draft and notify the user with links and the exact reason.
 Two thermo-nuclear rounds are a hard cap even when the risk analysis has not approved or the second
 round caused another code change. If the approval gate does not hold after processing round two,
-leave the PR as a draft and hand it to the user with the PR URL, both review results, unresolved
-findings, fixes and pushbacks already made, current head, and verification performed.
+leave the PR as a draft. Record both review results, unresolved findings, fixes and pushbacks,
+current head and verification in the existing task record; send the PR link and exact blocker
+under **Messaging default** in `skill://execute`.
 
 ## Approval gate
 
@@ -112,6 +113,7 @@ An explicit user instruction to keep it draft overrides the automatic transition
 state without claiming readiness. A failed transition or readback is a blocker, not completion.
 Do not merge it.
 
-Notify the user with the PR URL, the approval evidence from both Cursor actions, fixes or pushbacks made during the loop, verification performed, and the verified PR state or exact transition blocker.
-Include the current testing URL and actionable steps from `skill://execute`'s **Testing handoffs**
-contract, updated for the final head, so the ready-for-review notification is also usable for testing.
+Follow **Messaging default** and **Testing handoffs** in `skill://execute`: report the verified PR
+state/link, current testing guide with its first action, and any material blocker. Keep both
+Cursor approvals, fixes/pushbacks and verification evidence in the linked task record or guide,
+updated for the final head, rather than repeating the review history in chat.
