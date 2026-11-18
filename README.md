@@ -34,6 +34,9 @@ Restart OMP or reload skills after installing or updating. Edit files in this ch
 - **square-image:** Center-crop and resize square images.
 - **standup:** Ticket-by-ticket standup briefing with Linear titles/statuses, recent outcomes, today's work, and genuine blockers. Includes a reference layout with collapsed planning-only work and engineering follow-up, plus a bundled read-only Git/GitHub/Linear collector. CI and routine review follow-up are not standup blockers.
 - **pointing:** Historically calibrated, agent-assisted ticket estimates; two-sentence summaries, independent guesses, one-at-a-time comparison and durable saved answers. Start with `/skill:pointing kubera <ticket IDs or URLs>`; Kubera's scale and examples live in local project guidance.
+- **t3-upgrade:** `/skill:t3-upgrade` stages source changes in a separate worktree, merges them into fork `main`, then builds installable artifacts from clean `main`.
+- **t3-restart:** `/skill:t3-restart` restarts the installed artifact as-is. If changes must be picked up, follow `t3-upgrade` before restarting.
+  Both use the machine-local `~/.omp/agent/t3code-runtime.md` runbook.
 
 Repository-specific accounts, environments, reviewer actions and tooling must be resolved from the target project's instructions. No credentials or private repository history are included here.
 
