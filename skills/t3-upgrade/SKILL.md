@@ -13,3 +13,15 @@ Read `~/.omp/agent/t3code-runtime.md` for the canonical checkout, runtime paths,
 2. Verify and commit the change in that worktree. Merge it into the intended fork's `main` using the authorized merge and publication path. If the merge is not authorized or is blocked, stop before building anything for installation. Feature-worktree builds are for verification only.
 3. In the canonical build checkout, confirm the branch is `main`, the source tree is clean, and its exact revision contains the merged change. If the merge happened on the remote, bring local `main` to that revision by fast-forward only. Build installable artifacts from this checkout, never from a feature branch, a dirty checkout, or a copied feature build. If rebuilding both desktop and backend, use the same revision for both. Stage outputs away from the running backend until cutover.
 4. Before replacing anything, verify artifact provenance and preserve rollback inputs. Rehearse database migrations on isolated state and prepare a verified backup if the upgrade requires a schema change. Only apply and restart the affected surfaces with authorization; see `skill://t3-restart`. After cutover, verify the revision actually loaded by each affected surface. A healthy HTTP response alone doesn't prove a desktop upgrade.
+
+## Sync upstream into Brian's fork
+
+Resolve ordinary merge conflicts and fix integration regressions in the isolated worktree. Preserve
+fork behavior and verify that the candidate contains both original tips. Build locally, run the
+affected checks, and exercise OMP against isolated state. If migrations collide, test the upgrade
+from the installed fork's ledger as well as a fresh database.
+
+For `briankeefe/t3code` upstream syncs, Blacksmith and GitHub Actions are not prerequisites.
+Don't stop integration to investigate missing runners or wait for optional CI. After local
+verification, recheck fork `main` and merge the authorized PR with both histories intact.
+Honor any actual GitHub merge protection without overrides. A failed local check is still a blocker.
