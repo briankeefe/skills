@@ -1,6 +1,6 @@
 ---
 name: t3-upgrade
-description: Upgrade or rebuild Brian's local T3 Code fork. Make changes in a separate worktree, merge into fork main, and build the installable artifacts from main only.
+description: Sync upstream into Brian's personal T3 Code fork, or build and install an explicitly requested local upgrade from fork main.
 ---
 
 # Upgrade local T3 Code
@@ -16,12 +16,15 @@ Read `~/.omp/agent/t3code-runtime.md` for the canonical checkout, runtime paths,
 
 ## Sync upstream into Brian's fork
 
-Resolve ordinary merge conflicts and fix integration regressions in the isolated worktree. Preserve
-fork behavior and verify that the candidate contains both original tips. Build locally, run the
-affected checks, and exercise OMP against isolated state. If migrations collide, test the upgrade
-from the installed fork's ledger as well as a fresh database.
+The daily sync is merge-only. Resolve conflicts in an isolated worktree, preserving fork behavior
+and both histories. Verify the candidate contains both original tips, recheck live fork `main`,
+and merge the authorized fork PR with upstream ancestry intact. Honor GitHub branch protections
+without overrides.
 
-For `briankeefe/t3code` upstream syncs, Blacksmith and GitHub Actions are not prerequisites.
-Don't stop integration to investigate missing runners or wait for optional CI. After local
-verification, recheck fork `main` and merge the authorized PR with both histories intact.
-Honor any actual GitHub merge protection without overrides. A failed local check is still a blocker.
+Do not buy, configure, or wait for Blacksmith or other CI runners. GitHub Actions, local builds,
+tests, and E2E are not merge gates for this sync. Report what was not run. Stop after verifying that
+the upstream tip is reachable from remote fork `main`; do not install or restart anything.
+
+For a separately authorized local upgrade, build from clean fork `main`, run affected checks and
+isolated OMP verification, and rehearse any migration on isolated state before installation.
+These checks gate installation, not the upstream merge.
